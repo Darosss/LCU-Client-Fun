@@ -2,6 +2,11 @@
 
 I'm making this just for fun.
 
+# Built with
+
+- react-node-gui
+- league-connect(later change)
+
 # Usage
 
 It's working only on localhost as riot api says
