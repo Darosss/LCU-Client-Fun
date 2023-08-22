@@ -7,6 +7,7 @@ import {
 } from "league-connect";
 import {
   ChampionData,
+  ChampSelectActionBody,
   ChampSelectSessionDataRequired,
   CurrentSummonerData,
   EligibileLobby,
@@ -85,19 +86,24 @@ export class LCUClientHandler {
     return availableChamps;
   }
 
-  async pickChampion(championId: number, cellId: number) {
-    const response = await createHttp1Request(
+  async champSelectAction(
+    championId: number,
+    actionId: number,
+    completed = false
+  ) {
+    const body: ChampSelectActionBody = { championId: championId };
+    if (completed) body.completed = completed;
+
+    await createHttp1Request(
       {
         method: "PATCH",
-        url: `/lol-champ-select/v1/session/actions/${cellId.toString().trim()}`,
-        body: {
-          championId: championId,
-        },
+        url: `/lol-champ-select/v1/session/actions/${actionId
+          .toString()
+          .trim()}`,
+        body: body,
       },
       this.credentials!
     );
-
-    console.log(response.json(), "pick champ response");
   }
 
   public async wsOnChampionSelectPhase(
