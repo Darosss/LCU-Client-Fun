@@ -47,3 +47,45 @@ export interface CurrentSummonerData {
   xpSinceLastLevel: number;
   xpUntilNextLevel: number;
 }
+
+export interface LobbyGameDataResponse {
+  canStartActivity: boolean;
+  gameConfig: LobbyGameConfig;
+  //TODO: change any in needed / required data
+  invitations: any;
+  localMember: any;
+  members: any;
+  mucJwtDto: any;
+  multiUserChatId: any;
+  multiUserChatPassword: any;
+  partyId: any;
+  partyType: any;
+  restrictions: any;
+  scarcePositions: any;
+  warnings: any;
+}
+
+export interface LobbyGameConfig {
+  allowablePremadeSizes: number[];
+  customLobbyName: string;
+  customMutatorName: string;
+  customRewardsDisabledReasons: [];
+  customSpectatorPolicy: string;
+  customSpectators: [];
+  customTeam100: [];
+  customTeam200: [];
+  gameMode: string;
+  isCustom: boolean;
+  isLobbyFull: boolean;
+  isTeamBuilderManaged: boolean;
+  mapId: number;
+  maxHumanPlayers: number;
+  maxLobbySize: number;
+  maxTeamSize: number;
+  pickType: string;
+  premadeSizeAllowed: boolean;
+  queueId: number;
+  shouldForceScarcePositionSelection: boolean;
+  showPositionSelector: boolean;
+  showQuickPlaySlotSelection: boolean;
+}
