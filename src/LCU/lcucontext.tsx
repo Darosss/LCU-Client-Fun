@@ -29,7 +29,7 @@ export const initialLCUContextValue: LCUContext = {
     autoAccept: false,
   },
   changeOptions: () => {},
-  currentPhase: "ChampSelect",
+  currentPhase: "None",
   setCurrentSummoner: () => {},
   setCurrentPhase: () => {},
   changeCurrentLobbyConfig: () => {},
