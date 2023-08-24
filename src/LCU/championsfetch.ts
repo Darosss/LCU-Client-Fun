@@ -1,13 +1,15 @@
 import * as path from "path";
 import { getData } from "../helpers/fetchdata";
 import {
-  DataDragonChampionDataRequired,
   DataDragonChampionDataResponse,
+  DataDragonChampionsJsonFileData,
 } from "./types";
-import { readData, writeData } from "../helpers/fsdata";
+import { dataFileExists, readData, writeData } from "../helpers/fsdata";
+import {
+  CURRENT_LOL_VERSION,
+  ddragonLeagueOfLegendsBaseLink,
+} from "../globals";
 
-//TODO: from .env / api dunno
-const CURRENT_LOL_VERSION = "13.16.1";
 const championsFilePath = path.join(
   __dirname,
   `champions${CURRENT_LOL_VERSION.trim()}.json`
@@ -15,18 +17,35 @@ const championsFilePath = path.join(
 
 export async function getDataDragonChampions(): Promise<DataDragonChampionDataResponse> {
   const championsResponse = await getData(
-    `http://ddragon.leagueoflegends.com/cdn/${CURRENT_LOL_VERSION.trim()}/data/en_US/champion.json`
+    ddragonLeagueOfLegendsBaseLink("champion.json")
   );
 
   return championsResponse as DataDragonChampionDataResponse;
 }
 
 export function writeDragonChampionsData(
-  value: DataDragonChampionDataRequired
+  value: DataDragonChampionsJsonFileData[]
 ) {
-  writeData<DataDragonChampionDataRequired>(championsFilePath, value);
+  writeData<DataDragonChampionsJsonFileData[]>(championsFilePath, value);
 }
 
-export function readDragonChampionsData() {
-  return readData<DataDragonChampionDataRequired>(championsFilePath);
+async function ifDataDragonChampsDoesNotExist() {
+  if (!dataFileExists(championsFilePath)) {
+    const dragonChampsData: DataDragonChampionsJsonFileData[] = [];
+    const { data: responseData } = await getDataDragonChampions();
+    for (const [, value] of Object.entries(responseData)) {
+      dragonChampsData.push({
+        name: value.name,
+        id: parseInt(value.key, 10),
+      });
+    }
+
+    writeDragonChampionsData(dragonChampsData);
+  }
+}
+
+export async function readDragonChampionsData() {
+  await ifDataDragonChampsDoesNotExist();
+
+  return readData<DataDragonChampionsJsonFileData[]>(championsFilePath);
 }
