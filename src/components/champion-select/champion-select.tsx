@@ -15,7 +15,7 @@ export function ChampSelect() {
     null
   );
 
-  const [currentSummonerCellId, setCurrentSummonerCellId] = useState(0); //TODO -1
+  const [currentSummonerCellId, setCurrentSummonerCellId] = useState(-1);
 
   React.useEffect(() => {
     for (const personInSelect of champSelectSessionData.myTeam) {
