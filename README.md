@@ -39,6 +39,11 @@ if (options.body !== void 0) {
 # Roadmap
 
 - [] champ select
+  - [] choose ward skin (text only)
+  - [] choose champ skin (text only)
+  - [] choose emotes (text only)
+  - [] chat
+  - [] quit button if custom match
 - [] custom lobbys(from now it's static version of pracitce tool with available 9 bots)
 - [] add better styles
 - [] fix reloging
@@ -47,7 +52,10 @@ if (options.body !== void 0) {
 - [] swaps in drafts
 - [] swaps cells in drafts
 - some automation functions:
+
   - [x] auto accept
   - [] runes from opgg
   - these with optional options if afk
     (if mouse was not touched in some seconds in case when you know you will not come back from toilet too fast Kappa) - [] auto pick champ depends on choosen priority - [] auto bans (draft, rankeds)
+
+- [] global chat
