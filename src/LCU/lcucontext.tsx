@@ -3,6 +3,7 @@ import {
   ClientOptions,
   CurrentSummonerData,
   GameFlowPhaseData,
+  LobbyGameConfig,
 } from "./types/";
 import { lcuClientHandlerObj } from "./LCUClientHandler";
 import {
@@ -19,6 +20,8 @@ interface LCUContext {
     React.SetStateAction<CurrentSummonerData | undefined>
   >;
   setCurrentPhase: React.Dispatch<React.SetStateAction<GameFlowPhaseData>>;
+  currentLobbyConfig?: LobbyGameConfig;
+  changeCurrentLobbyConfig: (value: LobbyGameConfig) => void;
 }
 
 export const initialLCUContextValue: LCUContext = {
@@ -26,9 +29,10 @@ export const initialLCUContextValue: LCUContext = {
     autoAccept: false,
   },
   changeOptions: () => {},
-  currentPhase: "None",
+  currentPhase: "ChampSelect",
   setCurrentSummoner: () => {},
   setCurrentPhase: () => {},
+  changeCurrentLobbyConfig: () => {},
 };
 
 export const LCUContext = React.createContext<LCUContext>(
@@ -47,10 +51,16 @@ export function LCUContextProvider({
   const [options, setOptions] = useState<ClientOptions>({
     autoAccept: false,
   });
+  const [currentLobbyConfig, setCurrentLobbyConfig] =
+    useState<LobbyGameConfig>();
 
   function changeOptions(value: ClientOptions) {
     setOptions((prevOpts) => ({ ...prevOpts, ...value }));
     writeLocalStorageData(value);
+  }
+
+  function changeCurrentLobbyConfig(value: LobbyGameConfig) {
+    setCurrentLobbyConfig((prevOpts) => ({ ...prevOpts, ...value }));
   }
 
   React.useEffect(() => {
@@ -82,6 +92,8 @@ export function LCUContextProvider({
         setCurrentPhase,
         setCurrentSummoner,
         currentSummoner,
+        currentLobbyConfig,
+        changeCurrentLobbyConfig,
       }}
     >
       {children}
