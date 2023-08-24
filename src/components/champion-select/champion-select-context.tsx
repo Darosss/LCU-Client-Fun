@@ -60,9 +60,7 @@ export function ChampionSelectContextProvider({
     );
 
   function findSummonerSpellById(spellId: number) {
-    return (
-      dataDragonSpells.find(({ id }) => id === spellId)?.name || String(spellId)
-    );
+    return dataDragonSpells.find(({ id }) => id === spellId)?.name || "";
   }
   function findChampionById(championId: number) {
     return (
