@@ -3,7 +3,7 @@ import { getData } from "../helpers/fetchdata";
 import {
   DataDragonChampionDataResponse,
   DataDragonChampionsJsonFileData,
-} from "./types";
+} from "../LCU/types";
 import { dataFileExists, readData, writeData } from "../helpers/fsdata";
 import {
   CURRENT_LOL_VERSION,
