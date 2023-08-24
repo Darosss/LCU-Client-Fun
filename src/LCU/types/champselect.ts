@@ -1,9 +1,22 @@
 export interface ChampSelectSessionDataRequired {
-  myTeam: MyTeamChampSelectSessionData[];
+  myTeam: TeamChampSelectSessionData[];
+  theirTeam: TeamChampSelectSessionData[];
   actions: ActionsChampSelectSessionData[][];
+  bans: ChampSelectSessionDataBans;
 }
 
-export interface MyTeamChampSelectSessionData {
+interface ChampSelectSessionDataBans {
+  myTeamBans: number[];
+  theirTeamBans: number[];
+  numBans: number;
+}
+
+export interface ChampSelectSessionDataRequiredWithActionsFlat
+  extends Omit<ChampSelectSessionDataRequired, "actions"> {
+  actions: ActionsChampSelectSessionData[];
+}
+
+export interface TeamChampSelectSessionData {
   assignedPosition: string | null;
   cellId: number;
   championId: number;
@@ -35,4 +48,9 @@ export interface ActionsChampSelectSessionData {
 export interface ChampSelectActionBody {
   championId: number;
   completed?: boolean;
+}
+
+export interface ChangeSummonersSpellsBody {
+  spell1Id?: number;
+  spell2Id?: number;
 }
