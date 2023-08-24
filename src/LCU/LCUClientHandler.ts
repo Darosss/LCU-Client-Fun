@@ -10,6 +10,7 @@ import {
   ChampSelectActionBody,
   ChampSelectSessionDataRequired,
   ChampSelectSessionDataRequiredWithActionsFlat,
+  ChangeSummonersSpellsBody,
   CurrentSummonerData,
   EligibileLobby,
   GameFlowPhaseData,
@@ -129,6 +130,25 @@ export class LCUClientHandler {
 
   /* Champions */
 
+  public async changeSummonerSpells({
+    spell1Id,
+    spell2Id,
+  }: ChangeSummonersSpellsBody) {
+    const body: ChangeSummonersSpellsBody = {};
+
+    if (spell1Id) body.spell1Id = spell1Id;
+    if (spell2Id) body.spell2Id = spell2Id;
+
+    const response = await createHttp1Request(
+      {
+        method: "PATCH",
+        url: "/lol-champ-select/v1/session/my-selection",
+        body: body,
+      },
+      this.credentials!
+    );
+    return response;
+  }
   public async createLobby(queueId: number) {
     const lobbyData = await createHttp1Request(
       {
