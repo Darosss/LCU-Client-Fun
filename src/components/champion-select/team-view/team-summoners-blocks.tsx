@@ -10,13 +10,11 @@ import {
 } from "./styles";
 
 interface TeamSummonersBlocksProps {
-  key: number;
   summoner: TeamChampSelectSessionData;
   currentSummonerCellId?: number;
 }
 
 export function TeamSummonersBlocks({
-  key,
   summoner,
   currentSummonerCellId,
 }: TeamSummonersBlocksProps) {
@@ -40,10 +38,13 @@ export function TeamSummonersBlocks({
   );
 
   return (
-    <View key={key}>
+    <View>
       <View style={roleAndChampionStyle}>
         <Text>{summoner.assignedPosition || ""}</Text>
-        <Text>{findChampionById(summoner.championPickIntent)}</Text>
+        <Text>
+          {findChampionById(summoner.championId) ||
+            findChampionById(summoner.championPickIntent)}
+        </Text>
       </View>
       <View style={summonerSpellsStyle}>
         {currentSummonerCellId === summoner.cellId ? (
