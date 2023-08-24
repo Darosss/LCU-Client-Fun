@@ -28,3 +28,21 @@ export interface ChampionData {
   stingerSfxPath: string;
   title: string;
 }
+
+//Need only some things
+export interface DataDragonChampionDataResponse {
+  data: DataDragonChampionResponseKeyValue;
+}
+export interface DataDragonChampionDataRequired {
+  key: string;
+  name: string;
+}
+
+export interface DataDragonChampionResponseKeyValue {
+  [key: string]: DataDragonChampionDataRequired;
+}
+
+export interface DataDragonChampionsJsonFileData {
+  id: number;
+  name: string;
+}

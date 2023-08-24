@@ -7,10 +7,14 @@ import {
 } from "league-connect";
 import {
   ChampionData,
+  ChampSelectActionBody,
   ChampSelectSessionDataRequired,
+  ChampSelectSessionDataRequiredWithActionsFlat,
+  ChangeSummonersSpellsBody,
   CurrentSummonerData,
   EligibileLobby,
   GameFlowPhaseData,
+  LobbyGameDataResponse,
 } from "./types/";
 interface LCUClientHandlerOpts {}
 
@@ -85,29 +89,40 @@ export class LCUClientHandler {
     return availableChamps;
   }
 
-  async pickChampion(championId: number, cellId: number) {
-    const response = await createHttp1Request(
+  async champSelectAction(
+    championId: number,
+    actionId: number,
+    completed = false
+  ) {
+    const body: ChampSelectActionBody = { championId: championId };
+    if (completed) body.completed = completed;
+
+    await createHttp1Request(
       {
         method: "PATCH",
-        url: `/lol-champ-select/v1/session/actions/${cellId.toString().trim()}`,
-        body: {
-          championId: championId,
-        },
+        url: `/lol-champ-select/v1/session/actions/${actionId
+          .toString()
+          .trim()}`,
+        body: body,
       },
       this.credentials!
     );
-
-    console.log(response.json(), "pick champ response");
   }
 
   public async wsOnChampionSelectPhase(
-    cb: (dataSession: ChampSelectSessionDataRequired) => void
+    cb: (dataSession: ChampSelectSessionDataRequiredWithActionsFlat) => void
   ) {
     this.leagueWS?.subscribe(
       "/lol-champ-select/v1/session",
       async (data, event) => {
-        const requiredDataSession = data as ChampSelectSessionDataRequired;
-
+        const requiredData = data as ChampSelectSessionDataRequired;
+        const requiredDataSession: ChampSelectSessionDataRequiredWithActionsFlat =
+          {
+            myTeam: requiredData.myTeam,
+            actions: requiredData.actions.flat(),
+            theirTeam: requiredData.theirTeam,
+            bans: requiredData.bans,
+          };
         cb(requiredDataSession);
       }
     );
@@ -115,8 +130,27 @@ export class LCUClientHandler {
 
   /* Champions */
 
+  public async changeSummonerSpells({
+    spell1Id,
+    spell2Id,
+  }: ChangeSummonersSpellsBody) {
+    const body: ChangeSummonersSpellsBody = {};
+
+    if (spell1Id) body.spell1Id = spell1Id;
+    if (spell2Id) body.spell2Id = spell2Id;
+
+    const response = await createHttp1Request(
+      {
+        method: "PATCH",
+        url: "/lol-champ-select/v1/session/my-selection",
+        body: body,
+      },
+      this.credentials!
+    );
+    return response;
+  }
   public async createLobby(queueId: number) {
-    await createHttp1Request(
+    const lobbyData = await createHttp1Request(
       {
         method: "POST",
         url: "/lol-lobby/v2/lobby",
@@ -124,10 +158,14 @@ export class LCUClientHandler {
       },
       this.credentials!
     );
+
+    const lobbyGameDataResponse = lobbyData.json() as LobbyGameDataResponse;
+    return lobbyGameDataResponse.gameConfig;
   }
 
   public async createCustomLobby() {
-    await createHttp1Request(
+    //I'd ratheer want to keep it separate to normal queues and custom
+    const lobbyData = await createHttp1Request(
       {
         method: "POST",
         url: "/lol-lobby/v2/lobby",
@@ -150,6 +188,9 @@ export class LCUClientHandler {
       },
       this.credentials!
     );
+
+    const lobbyGameDataResponse = lobbyData.json() as LobbyGameDataResponse;
+    return lobbyGameDataResponse.gameConfig;
   }
 
   public async leaveLobby() {
