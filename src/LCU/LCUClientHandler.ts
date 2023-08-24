@@ -9,9 +9,11 @@ import {
   ChampionData,
   ChampSelectActionBody,
   ChampSelectSessionDataRequired,
+  ChampSelectSessionDataRequiredWithActionsFlat,
   CurrentSummonerData,
   EligibileLobby,
   GameFlowPhaseData,
+  LobbyGameDataResponse,
 } from "./types/";
 interface LCUClientHandlerOpts {}
 
@@ -107,13 +109,19 @@ export class LCUClientHandler {
   }
 
   public async wsOnChampionSelectPhase(
-    cb: (dataSession: ChampSelectSessionDataRequired) => void
+    cb: (dataSession: ChampSelectSessionDataRequiredWithActionsFlat) => void
   ) {
     this.leagueWS?.subscribe(
       "/lol-champ-select/v1/session",
       async (data, event) => {
-        const requiredDataSession = data as ChampSelectSessionDataRequired;
-
+        const requiredData = data as ChampSelectSessionDataRequired;
+        const requiredDataSession: ChampSelectSessionDataRequiredWithActionsFlat =
+          {
+            myTeam: requiredData.myTeam,
+            actions: requiredData.actions.flat(),
+            theirTeam: requiredData.theirTeam,
+            bans: requiredData.bans,
+          };
         cb(requiredDataSession);
       }
     );
@@ -122,7 +130,7 @@ export class LCUClientHandler {
   /* Champions */
 
   public async createLobby(queueId: number) {
-    await createHttp1Request(
+    const lobbyData = await createHttp1Request(
       {
         method: "POST",
         url: "/lol-lobby/v2/lobby",
@@ -130,10 +138,14 @@ export class LCUClientHandler {
       },
       this.credentials!
     );
+
+    const lobbyGameDataResponse = lobbyData.json() as LobbyGameDataResponse;
+    return lobbyGameDataResponse.gameConfig;
   }
 
   public async createCustomLobby() {
-    await createHttp1Request(
+    //I'd ratheer want to keep it separate to normal queues and custom
+    const lobbyData = await createHttp1Request(
       {
         method: "POST",
         url: "/lol-lobby/v2/lobby",
@@ -156,6 +168,9 @@ export class LCUClientHandler {
       },
       this.credentials!
     );
+
+    const lobbyGameDataResponse = lobbyData.json() as LobbyGameDataResponse;
+    return lobbyGameDataResponse.gameConfig;
   }
 
   public async leaveLobby() {
