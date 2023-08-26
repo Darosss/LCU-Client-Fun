@@ -44,6 +44,7 @@ if (options.body !== void 0) {
   - [] choose emotes (text only)
   - [] chat
   - [] quit button if custom match
+  - [] refactor champions to available endpoints / banned champions / available / disabled
 - [] custom lobbys(from now it's static version of pracitce tool with available 9 bots)
 - [] add better styles
 - [] fix reloging
