@@ -56,7 +56,7 @@ export function LobbysList({ textOnShow = "Show lobbys" }: ShowLobbysProps) {
             />
           </View>
           <View id="lobbys-list">
-            <CustomModeLobby />
+            <StaticCustomModeLobbys />
             {lobbys
               .filter(({ description, map }) => {
                 if (!lobbysFilter) return true;
@@ -93,6 +93,64 @@ export function LobbysList({ textOnShow = "Show lobbys" }: ShowLobbysProps) {
           </View>
         </>
       ) : null}
+    </>
+  );
+}
+
+//TODO: later add possibility for user to change options.
+function StaticCustomModeLobbys() {
+  return (
+    <>
+      <CustomModeLobby
+        lobbyName="Practice tool, 10bots - blind"
+        customLobbyOpts={{
+          gameMode: "PRACTICETOOL",
+          mapId: 11,
+          mutators: { id: 1 },
+          teamSize: 5,
+          specatatorPolicy: "AllAllowed",
+        }}
+      />
+      <CustomModeLobby
+        lobbyName="Practice tool, 10bots - draft"
+        customLobbyOpts={{
+          gameMode: "PRACTICETOOL",
+          mapId: 11,
+          mutators: { id: 2 },
+          teamSize: 5,
+          specatatorPolicy: "AllAllowed",
+        }}
+      />
+      <CustomModeLobby
+        lobbyName="Custom - blind"
+        customLobbyOpts={{
+          gameMode: "CLASSIC",
+          mapId: 11,
+          mutators: { id: 1 },
+          teamSize: 5,
+          specatatorPolicy: "AllAllowed",
+        }}
+      />
+      <CustomModeLobby
+        lobbyName="Custom - draft"
+        customLobbyOpts={{
+          gameMode: "CLASSIC",
+          mapId: 11,
+          mutators: { id: 2 },
+          teamSize: 5,
+          specatatorPolicy: "AllAllowed",
+        }}
+      />
+      <CustomModeLobby
+        lobbyName="Howling abys custom"
+        customLobbyOpts={{
+          gameMode: "CLASSIC",
+          mapId: 12,
+          mutators: { id: 1 },
+          teamSize: 5,
+          specatatorPolicy: "AllAllowed",
+        }}
+      />
     </>
   );
 }
