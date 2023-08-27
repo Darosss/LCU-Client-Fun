@@ -3,7 +3,7 @@ import {
   ClientOptions,
   CurrentSummonerData,
   GameFlowPhaseData,
-  LobbyGameConfig,
+  LobbyGameDataResponse,
 } from "./types/";
 import { lcuClientHandlerObj } from "./LCUClientHandler";
 import {
@@ -20,8 +20,7 @@ interface LCUContext {
     React.SetStateAction<CurrentSummonerData | undefined>
   >;
   setCurrentPhase: React.Dispatch<React.SetStateAction<GameFlowPhaseData>>;
-  currentLobbyConfig?: LobbyGameConfig;
-  changeCurrentLobbyConfig: (value: LobbyGameConfig) => void;
+  lobbyData: LobbyGameDataResponse | null;
 }
 
 export const initialLCUContextValue: LCUContext = {
@@ -32,7 +31,7 @@ export const initialLCUContextValue: LCUContext = {
   currentPhase: "None",
   setCurrentSummoner: () => {},
   setCurrentPhase: () => {},
-  changeCurrentLobbyConfig: () => {},
+  lobbyData: null,
 };
 
 export const LCUContext = React.createContext<LCUContext>(
@@ -51,16 +50,14 @@ export function LCUContextProvider({
   const [options, setOptions] = useState<ClientOptions>({
     autoAccept: false,
   });
-  const [currentLobbyConfig, setCurrentLobbyConfig] =
-    useState<LobbyGameConfig>();
+
+  const [lobbyData, setLobbyData] = useState<LobbyGameDataResponse | null>(
+    null
+  );
 
   function changeOptions(value: ClientOptions) {
     setOptions((prevOpts) => ({ ...prevOpts, ...value }));
     writeLocalStorageData(value);
-  }
-
-  function changeCurrentLobbyConfig(value: LobbyGameConfig) {
-    setCurrentLobbyConfig((prevOpts) => ({ ...prevOpts, ...value }));
   }
 
   React.useEffect(() => {
@@ -79,6 +76,14 @@ export function LCUContextProvider({
         lcuClientHandlerObj.wsOnGameflowPhaseChange((state) => {
           setCurrentPhase(state);
         });
+
+        lcuClientHandlerObj
+          .wsOnLobbyGet((lobbyData) => {
+            setLobbyData(lobbyData);
+          })
+          .catch((err) =>
+            console.log(`Error occured while get lobby with ws`, err)
+          );
       });
     });
   }, []);
@@ -92,8 +97,7 @@ export function LCUContextProvider({
         setCurrentPhase,
         setCurrentSummoner,
         currentSummoner,
-        currentLobbyConfig,
-        changeCurrentLobbyConfig,
+        lobbyData,
       }}
     >
       {children}

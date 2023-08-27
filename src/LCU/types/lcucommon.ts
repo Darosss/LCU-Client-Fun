@@ -4,6 +4,9 @@ export interface EligibileLobby {
   restrictions: any;
 }
 
+export type EligibileLobbyAndQueueData = Partial<EligibileLobby> &
+  Partial<QueueData>;
+
 export interface QueueData {
   queueId: number;
   map: string;
@@ -53,7 +56,7 @@ export interface LobbyGameDataResponse {
   gameConfig: LobbyGameConfig;
   //TODO: change any in needed / required data
   invitations: any;
-  localMember: any;
+  localMember: LobbyMember;
   members: any;
   mucJwtDto: any;
   multiUserChatId: any;
@@ -72,8 +75,8 @@ export interface LobbyGameConfig {
   customRewardsDisabledReasons: [];
   customSpectatorPolicy: string;
   customSpectators: [];
-  customTeam100: [];
-  customTeam200: [];
+  customTeam100: LobbyMember[];
+  customTeam200: LobbyMember[];
   gameMode: string;
   isCustom: boolean;
   isLobbyFull: boolean;
@@ -88,4 +91,34 @@ export interface LobbyGameConfig {
   shouldForceScarcePositionSelection: boolean;
   showPositionSelector: boolean;
   showQuickPlaySlotSelection: boolean;
+}
+
+export interface LobbyMember {
+  allowedChangeActivity: boolean;
+  allowedInviteOthers: boolean;
+  allowedKickOthers: boolean;
+  allowedStartActivity: boolean;
+  allowedToggleInvite: boolean;
+  autoFillEligible: boolean;
+  autoFillProtectedForPromos: boolean;
+  autoFillProtectedForSoloing: boolean;
+  autoFillProtectedForStreaking: boolean;
+  botChampionId: number;
+  botDifficulty: string;
+  botId: string;
+  firstPositionPreference: string;
+  isBot: boolean;
+  isLeader: boolean;
+  isSpectator: boolean;
+  playerSlots: [];
+  puuid: string;
+  ready: true;
+  secondPositionPreference: string;
+  showGhostedBanner: boolean;
+  summonerIconId: number;
+  summonerId: number;
+  summonerInternalName: string;
+  summonerLevel: number;
+  summonerName: string;
+  teamId: number;
 }
