@@ -17,8 +17,6 @@ export function MenuClient() {
         ) : (
           <Text style={defaultTextStyle}>Not logged in. Refresh </Text>
         )}
-      </View>
-      <View>
         <Lobbys />
       </View>
     </View>
