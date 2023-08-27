@@ -1,23 +1,34 @@
-import { Button, useEventHandler } from "@nodegui/react-nodegui";
+import { Button } from "@nodegui/react-nodegui";
 import React from "react";
 import { lcuClientHandlerObj } from "../../LCU/LCUClientHandler";
-import { eligibleLobbysBtn } from "./styles";
+import { CreateCustomLobbyOpts } from "../../LCU/types/custom-mode";
 
-export function CustomModeLobby() {
+interface CustomModeLobbyProps {
+  lobbyName: string;
+  customLobbyOpts: CreateCustomLobbyOpts;
+}
+
+export function CustomModeLobby({
+  lobbyName,
+  customLobbyOpts,
+}: CustomModeLobbyProps) {
   return (
-    <Button
-      on={{
-        clicked: () => {
-          lcuClientHandlerObj
-            .createCustomLobby()
-            .then((lobbyData) => {})
-            .catch((err) =>
-              console.log("Error occured while trying to search the match", err)
-            );
-        },
-      }}
-    >
-      Custom lobby
-    </Button>
+    <>
+      <Button
+        text={lobbyName}
+        on={{
+          clicked: () => {
+            lcuClientHandlerObj
+              .createCustomLobby(customLobbyOpts)
+              .catch((err) =>
+                console.log(
+                  "Error occured while trying to search the match",
+                  err
+                )
+              );
+          },
+        }}
+      ></Button>
+    </>
   );
 }
