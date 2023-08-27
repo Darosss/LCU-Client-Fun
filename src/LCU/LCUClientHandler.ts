@@ -16,6 +16,13 @@ import {
   GameFlowPhaseData,
   LobbyGameDataResponse,
 } from "./types/";
+import {
+  AddBotToLobbyBody,
+  ChampionBotsData,
+  ManageBotInCustomLobbyOpts,
+  ManagePlayerInLobbyOpts,
+  SwitchTeamParam,
+} from "./types/custom-mode";
 interface LCUClientHandlerOpts {}
 
 export class LCUClientHandler {
@@ -149,6 +156,16 @@ export class LCUClientHandler {
     );
     return response;
   }
+
+  public async wsOnLobbyGet(cb: (lobbyData: LobbyGameDataResponse) => void) {
+    {
+      this.leagueWS?.subscribe("/lol-lobby/v2/lobby", async (data) => {
+        const lobbyData = data as LobbyGameDataResponse;
+        cb(lobbyData);
+      });
+    }
+  }
+
   public async createLobby(queueId: number) {
     const lobbyData = await createHttp1Request(
       {
@@ -163,6 +180,7 @@ export class LCUClientHandler {
     return lobbyGameDataResponse.gameConfig;
   }
 
+  /* CUSTOM LOBBY */
   public async createCustomLobby() {
     //I'd ratheer want to keep it separate to normal queues and custom
     const lobbyData = await createHttp1Request(
@@ -192,6 +210,99 @@ export class LCUClientHandler {
     const lobbyGameDataResponse = lobbyData.json() as LobbyGameDataResponse;
     return lobbyGameDataResponse.gameConfig;
   }
+
+  public async startCustomChampSelect() {
+    const xd = await createHttp1Request(
+      {
+        method: "POST",
+        url: "/lol-lobby/v1/lobby/custom/start-champ-select",
+      },
+      this.credentials!
+    );
+  }
+  public async cancelCustomChampSelect() {
+    await createHttp1Request(
+      {
+        method: "POST",
+        url: "/lol-lobby/v1/lobby/custom/cancel-champ-select",
+      },
+      this.credentials!
+    );
+  }
+  public async addBotsToCustomLobby(body: AddBotToLobbyBody) {
+    await createHttp1Request(
+      {
+        method: "POST",
+        url: "/lol-lobby/v1/lobby/custom/bots",
+        body: body,
+      },
+      this.credentials!
+    );
+  }
+
+  public async editExistingBotInCustomLobby(
+    { botName, teamId }: ManageBotInCustomLobbyOpts,
+    body: AddBotToLobbyBody
+  ) {
+    await createHttp1Request(
+      {
+        method: "POST",
+        url: `/lol-lobby/v1/lobby/custom/bots/bot_${botName}_${teamId}`,
+        body: body,
+      },
+      this.credentials!
+    );
+  }
+
+  public async removeExistingBotFromCustomLobby({
+    botName,
+    teamId,
+  }: ManageBotInCustomLobbyOpts) {
+    await createHttp1Request(
+      {
+        method: "DELETE",
+        url: `/lol-lobby/v1/lobby/custom/bots/bot_${botName}_${teamId}`,
+      },
+      this.credentials!
+    );
+  }
+
+  public async getAvailableChampionsBots() {
+    const championBots = await createHttp1Request(
+      {
+        method: "GET",
+        url: "/lol-lobby/v2/lobby/custom/available-bots",
+      },
+      this.credentials!
+    );
+    const championBotsJson = championBots.json() as ChampionBotsData[];
+    return championBotsJson;
+  }
+
+  public async switchTeamsInLobby(switchTeamParam: SwitchTeamParam) {
+    await createHttp1Request(
+      {
+        method: "POST",
+        url: `lol-lobby/v1/lobby/custom/switch-teams?team=${switchTeamParam}`,
+      },
+      this.credentials!
+    );
+  }
+
+  public async managePlayerInLobby({
+    managePlayerId,
+    action,
+  }: ManagePlayerInLobbyOpts) {
+    await createHttp1Request(
+      {
+        method: "POST",
+        url: `/lol-lobby/v2/lobby/members/${managePlayerId}/${action}`,
+      },
+      this.credentials!
+    );
+  }
+
+  /* CUSTOM LOBBY */
 
   public async leaveLobby() {
     await createHttp1Request(
