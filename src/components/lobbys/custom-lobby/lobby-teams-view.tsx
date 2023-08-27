@@ -47,19 +47,21 @@ export function LobbyTeamsView() {
 
   return (
     <View id="custom-lobby-teams-view">
-      <View>
-        <Text>Difficulty</Text>
-        <Button
-          text={`${currentBotDifficulty}`}
-          on={{
-            clicked: () => {
-              if (currentBotDifficulty === BotDifficulty.EASY)
-                return setCurrentBotDifficulty(BotDifficulty.MEDIUM);
-              return setCurrentBotDifficulty(BotDifficulty.EASY);
-            },
-          }}
-        />
-      </View>
+      {lobbyData?.localMember.isLeader ? (
+        <View>
+          <Text>Difficulty</Text>
+          <Button
+            text={`${currentBotDifficulty}`}
+            on={{
+              clicked: () => {
+                if (currentBotDifficulty === BotDifficulty.EASY)
+                  return setCurrentBotDifficulty(BotDifficulty.MEDIUM);
+                return setCurrentBotDifficulty(BotDifficulty.EASY);
+              },
+            }}
+          />
+        </View>
+      ) : null}
       <View id="custom-lobby-teams-view-team">
         <FillLobbyByBotsBtn
           teamId={TeamsIds.first}
