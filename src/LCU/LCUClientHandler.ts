@@ -19,6 +19,7 @@ import {
 import {
   AddBotToLobbyBody,
   ChampionBotsData,
+  CreateCustomLobbyOpts,
   ManageBotInCustomLobbyOpts,
   ManagePlayerInLobbyOpts,
   SwitchTeamParam,
@@ -181,7 +182,15 @@ export class LCUClientHandler {
   }
 
   /* CUSTOM LOBBY */
-  public async createCustomLobby() {
+  public async createCustomLobby({
+    gameMode,
+    mapId,
+    mutators,
+    teamSize,
+    specatatorPolicy,
+    password = null,
+    name = "Custom lobby",
+  }: CreateCustomLobbyOpts) {
     //I'd ratheer want to keep it separate to normal queues and custom
     const lobbyData = await createHttp1Request(
       {
@@ -190,16 +199,16 @@ export class LCUClientHandler {
         body: {
           customGameLobby: {
             configuration: {
-              gameMode: "PRACTICETOOL",
+              gameMode: gameMode,
               gameMutator: "",
               gameServerRegion: "",
-              mapId: 11,
-              mutators: { id: 1 },
-              spectatorPolicy: "AllAllowed",
-              teamSize: 5,
+              mapId: mapId,
+              mutators: mutators,
+              spectatorPolicy: specatatorPolicy,
+              teamSize: teamSize,
             },
-            lobbyName: "Name",
-            lobbyPassword: null,
+            lobbyName: name,
+            lobbyPassword: password,
           },
           isCustom: true,
         },
