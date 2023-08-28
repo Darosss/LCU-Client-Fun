@@ -10,6 +10,7 @@ import {
   changeSummonerSpellViewStyle,
   changeSummonerSpellBtnStyle,
 } from "./styles";
+import { findSummonerSpellById } from "../../../helpers/data-dragon-helpers";
 
 interface ChangeSummonerSpellsButtonsProps {
   spell1Id: number;
@@ -22,11 +23,12 @@ export function ChangeSummonerSpellsButtons({
   spell1Id,
   spell2Id,
 }: ChangeSummonerSpellsButtonsProps) {
-  const { currentLobbyConfig } = useContext(LCUContext);
+  const {
+    lobbyData,
+    lolDataDragon: { dataDragonSpells },
+  } = useContext(LCUContext);
 
-  const { dataDragonSpells, findSummonerSpellById } = useContext(
-    ChampionSelectContext
-  );
+  const {} = useContext(ChampionSelectContext);
 
   const [showSpellsChangeMenu, setShowSpellsChangeMenu] =
     useState<ShowSpellsChangeMenu>("none");
@@ -73,7 +75,7 @@ export function ChangeSummonerSpellsButtons({
               ? activeChangeSummonerSpellBtnStyle
               : ""
           }`}
-          text={findSummonerSpellById(spell1Id)}
+          text={findSummonerSpellById(dataDragonSpells, spell1Id)}
           on={{
             clicked: () => {
               toggleShowSpellsChangeMenu("spell1Id");
@@ -86,7 +88,7 @@ export function ChangeSummonerSpellsButtons({
               ? activeChangeSummonerSpellBtnStyle
               : ""
           }`}
-          text={findSummonerSpellById(spell2Id)}
+          text={findSummonerSpellById(dataDragonSpells, spell2Id)}
           on={{
             clicked: () => {
               toggleShowSpellsChangeMenu("spell2Id");
@@ -100,8 +102,8 @@ export function ChangeSummonerSpellsButtons({
           {dataDragonSpells
             .filter(
               ({ modes }) =>
-                currentLobbyConfig &&
-                modes.includes(currentLobbyConfig.gameMode)
+                lobbyData?.gameConfig &&
+                modes.includes(lobbyData.gameConfig.gameMode)
             )
             .map((spell, idx) => (
               <Button

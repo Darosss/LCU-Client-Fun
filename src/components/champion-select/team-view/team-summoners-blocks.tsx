@@ -8,6 +8,11 @@ import {
   summonerSpellsStyle,
   currentActionStyle,
 } from "./styles";
+import {
+  findChampionById,
+  findSummonerSpellById,
+} from "../../../helpers/data-dragon-helpers";
+import { LCUContext } from "../../../LCU/lcucontext";
 
 interface TeamSummonersBlocksProps {
   summoner: TeamChampSelectSessionData;
@@ -18,8 +23,10 @@ export function TeamSummonersBlocks({
   summoner,
   currentSummonerCellId,
 }: TeamSummonersBlocksProps) {
-  const { findChampionById, findSummonerSpellById, champSelectSessionData } =
-    useContext(ChampionSelectContext);
+  const { champSelectSessionData } = useContext(ChampionSelectContext);
+  const {
+    lolDataDragon: { dataDragonChampions, dataDragonSpells },
+  } = useContext(LCUContext);
 
   const filterNotCompletedAction = useCallback(
     (summonerCellId: number) => {
@@ -42,8 +49,8 @@ export function TeamSummonersBlocks({
       <View style={roleAndChampionStyle}>
         <Text>{summoner.assignedPosition || ""}</Text>
         <Text>
-          {findChampionById(summoner.championId) ||
-            findChampionById(summoner.championPickIntent)}
+          {findChampionById(dataDragonChampions, summoner.championId) ||
+            findChampionById(dataDragonChampions, summoner.championPickIntent)}
         </Text>
       </View>
       <View style={summonerSpellsStyle}>
@@ -54,8 +61,12 @@ export function TeamSummonersBlocks({
           />
         ) : (
           <>
-            <Text>{findSummonerSpellById(summoner.spell1Id)}</Text>
-            <Text>{findSummonerSpellById(summoner.spell2Id)}</Text>
+            <Text>
+              {findSummonerSpellById(dataDragonSpells, summoner.spell1Id)}
+            </Text>
+            <Text>
+              {findSummonerSpellById(dataDragonSpells, summoner.spell2Id)}
+            </Text>
           </>
         )}
       </View>

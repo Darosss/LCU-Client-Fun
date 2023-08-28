@@ -20,10 +20,13 @@ export function AvailableChamps({
   currentActionId,
   onChangeChampion,
 }: AvailableChampsProps) {
-  const { currentSummoner } = useContext(LCUContext);
+  const {
+    currentSummoner,
+    lolDataDragon: { dataDragonChampions },
+  } = useContext(LCUContext);
+
   const [availableChamps, setAvailableChamps] = useState<ChampionData[]>([]);
   const {
-    dataDragonChampions,
     champSelectSessionData: { myTeam, bans, theirTeam },
   } = useContext(ChampionSelectContext);
   const [champFilter, setChampFilter] = useState<string | null>(null);
