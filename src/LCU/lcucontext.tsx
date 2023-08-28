@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  AllRequiredDataDragon,
   ClientOptions,
   CurrentSummonerData,
   GameFlowPhaseData,
@@ -10,6 +11,7 @@ import {
   readLocalStorageData,
   writeLocalStorageData,
 } from "./pseudoLocalStorage";
+import { readDragonChampionsData, readDragonSpellsData } from "../helpers";
 
 interface LCUContext {
   options: ClientOptions;
@@ -21,6 +23,7 @@ interface LCUContext {
   >;
   setCurrentPhase: React.Dispatch<React.SetStateAction<GameFlowPhaseData>>;
   lobbyData: LobbyGameDataResponse | null;
+  lolDataDragon: AllRequiredDataDragon;
 }
 
 export const initialLCUContextValue: LCUContext = {
@@ -32,6 +35,7 @@ export const initialLCUContextValue: LCUContext = {
   setCurrentSummoner: () => {},
   setCurrentPhase: () => {},
   lobbyData: null,
+  lolDataDragon: { dataDragonChampions: [], dataDragonSpells: [] },
 };
 
 export const LCUContext = React.createContext<LCUContext>(
@@ -53,6 +57,10 @@ export function LCUContextProvider({
 
   const [lobbyData, setLobbyData] = useState<LobbyGameDataResponse | null>(
     null
+  );
+
+  const [lolDataDragon, setLolDataDragon] = useState<AllRequiredDataDragon>(
+    initialLCUContextValue.lolDataDragon
   );
 
   function changeOptions(value: ClientOptions) {
@@ -85,6 +93,20 @@ export function LCUContextProvider({
             console.log(`Error occured while get lobby with ws`, err)
           );
       });
+
+      readDragonChampionsData().then((championsData) => {
+        setLolDataDragon((prevState) => ({
+          ...prevState,
+          dataDragonChampions: championsData,
+        }));
+      });
+
+      readDragonSpellsData().then((spellsData) =>
+        setLolDataDragon((prevState) => ({
+          ...prevState,
+          dataDragonSpells: spellsData,
+        }))
+      );
     });
   }, []);
 
@@ -98,6 +120,7 @@ export function LCUContextProvider({
         setCurrentSummoner,
         currentSummoner,
         lobbyData,
+        lolDataDragon,
       }}
     >
       {children}
