@@ -50,7 +50,6 @@ export function ReadyCheck() {
     []
   );
 
-  console.log(readyCheckState, "dziwka jestem");
   function ReadyCheckActions() {
     switch (readyCheckState) {
       case "Accepted":

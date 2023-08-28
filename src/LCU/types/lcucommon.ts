@@ -19,6 +19,10 @@ export type GameFlowPhaseData =
   | "ChampSelect"
   | "InProgress"
   | "Matchmaking"
+  | "GameStart"
+  | "Reconnect"
+  | "WaitingForStats"
+  | "TerminatedInError"
   | "Lobby"
   | "None";
 

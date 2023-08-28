@@ -78,6 +78,26 @@ export class LCUClientHandler {
     return summoner;
   }
 
+  public async reconnectToCurrentMatch() {
+    await createHttp1Request(
+      {
+        method: "POST",
+        url: `/lol-gameflow/v1/reconnect`,
+      },
+      this.credentials!
+    );
+  }
+
+  public async dismissStatsAfterMatch() {
+    await createHttp1Request(
+      {
+        method: "POST",
+        url: `/lol-end-of-game/v1/state/dismiss-stats`,
+      },
+      this.credentials!
+    );
+  }
+
   /* Champions */
   async getAvailableChamps(summonerId: number) {
     const response = await createHttp1Request(
