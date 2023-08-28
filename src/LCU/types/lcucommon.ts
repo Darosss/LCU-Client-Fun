@@ -1,3 +1,6 @@
+import { DataDragonChampionsJsonFileData } from "./champions";
+import { DataDragonSpellsJsonFileData } from "./spells";
+
 export interface EligibileLobby {
   eligible: boolean;
   queueId: number;
@@ -125,4 +128,9 @@ export interface LobbyMember {
   summonerLevel: number;
   summonerName: string;
   teamId: number;
+}
+
+export interface AllRequiredDataDragon {
+  dataDragonChampions: DataDragonChampionsJsonFileData[];
+  dataDragonSpells: DataDragonSpellsJsonFileData[];
 }
