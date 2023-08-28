@@ -5,6 +5,12 @@ import { LCUContext } from "../../LCU/lcucontext";
 import { MenuClient } from "../menuclient";
 import { ChampSelect } from "../champion-select";
 import { ChampionSelectContextProvider } from "../champion-select";
+import { Matchmaking } from "./matchmaking";
+import { WaitingForStats } from "./waiting-for-stats";
+import { Reconnect } from "./reconnect";
+import { GameStart } from "./game-start";
+import { InProgress } from "./in-progress";
+import { phaseViewStylesheet } from "./stylesheet";
 
 interface PhaseViewProps {}
 export function PhaseView({}: PhaseViewProps) {
@@ -18,21 +24,37 @@ export function PhaseView({}: PhaseViewProps) {
             <ChampSelect />
           </ChampionSelectContextProvider>
         );
+
       case "InProgress":
-        break;
+        return <InProgress />;
+
       case "ReadyCheck":
-        return (
-          <>
-            <MenuClient />
-            <ReadyCheck />
-          </>
-        );
+        return <ReadyCheck />;
+
       case "Matchmaking":
-      case "Lobby":
+        return <Matchmaking />;
+
+      case "GameStart":
+        return <GameStart />;
+
+      case "Reconnect":
+        return <Reconnect />;
+
+      case "WaitingForStats":
+        return <WaitingForStats />;
+
       case "None":
-        return <MenuClient />;
+      case "TerminatedInError":
+        return <></>;
     }
   }
 
-  return <View>{renderDependsOnPhase()}</View>;
+  return (
+    <View>
+      <MenuClient />
+      <View id="phases-wrapper" styleSheet={phaseViewStylesheet}>
+        {renderDependsOnPhase()}
+      </View>
+    </View>
+  );
 }
