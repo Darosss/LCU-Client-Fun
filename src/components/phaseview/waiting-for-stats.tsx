@@ -1,10 +1,10 @@
-import { Button, Text } from "@nodegui/react-nodegui";
+import { Button, Text, View } from "@nodegui/react-nodegui";
 import React from "react";
 import { lcuClientHandlerObj } from "../../LCU/LCUClientHandler";
 
 export function WaitingForStats() {
   return (
-    <>
+    <View id="waiting-for-stats-wrapper">
       <Text> Waiting for stats</Text>
       <Button
         text="Skip waiting"
@@ -20,6 +20,6 @@ export function WaitingForStats() {
               ),
         }}
       />
-    </>
+    </View>
   );
 }

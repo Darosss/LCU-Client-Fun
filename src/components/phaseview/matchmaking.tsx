@@ -1,4 +1,4 @@
-import { Text } from "@nodegui/react-nodegui";
+import { Text, View } from "@nodegui/react-nodegui";
 import React, { useEffect, useState } from "react";
 import { secondsToHMS } from "../../helpers/time-helpers";
 
@@ -13,5 +13,9 @@ export function Matchmaking() {
       clearInterval(timer);
     };
   }, []);
-  return <Text>Match making {secondsToHMS(searchingMatchTime)} </Text>;
+  return (
+    <View id="matchmaking-wrapper">
+      <Text>Match making {secondsToHMS(searchingMatchTime)} </Text>
+    </View>
+  );
 }

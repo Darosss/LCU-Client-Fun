@@ -1,7 +1,11 @@
-import { Text } from "@nodegui/react-nodegui";
+import { Text, View } from "@nodegui/react-nodegui";
 
 import React from "react";
 
 export function InProgress() {
-  return <Text> Game in progress...</Text>;
+  return (
+    <View id="in-progress-wrapper">
+      <Text> Game in progress...</Text>
+    </View>
+  );
 }
