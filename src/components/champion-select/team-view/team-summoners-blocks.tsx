@@ -12,13 +12,14 @@ import { LCUContext } from "../../../LCU/lcucontext";
 interface TeamSummonersBlocksProps {
   summoner: TeamChampSelectSessionData;
 }
-
+//TODO: add show nicnames if visible fe. aram, flex, normal, normal draft etc. Exluding solo / duo ?
 export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
   const { champSelectSessionData, currentSummonerCellId } = useContext(
     ChampionSelectContext
   );
   const {
     lolDataDragon: { dataDragonChampions, dataDragonSpells },
+    currentSummoner,
   } = useContext(LCUContext);
 
   const filterNotCompletedAction = useCallback(
@@ -49,7 +50,11 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
       <View id="summoner-role-champion-wrapper">
         <Text>{summoner.assignedPosition || ""}</Text>
         <Text>
-          {`${currentSummonerCellId === summoner.cellId}${findChampionById(
+          {`${
+            currentSummonerCellId === summoner.cellId
+              ? currentSummoner?.displayName
+              : ""
+          }${findChampionById(
             dataDragonChampions,
             summoner.championPickIntent
           )}`}
