@@ -12,9 +12,7 @@ import { getPercentFromValue } from "../../helpers/node-gui-responsive-helpers";
 export function ChampSelect() {
   const {
     currentSummoner,
-    options: {
-      minSize: { height },
-    },
+    options: { minSize },
   } = useContext(LCUContext);
   const { champSelectSessionData } = useContext(ChampionSelectContext);
   const [selectedChamp, setSelectedChamp] = useState<SelectedChamp | null>(
@@ -38,15 +36,22 @@ export function ChampSelect() {
     );
   }, [champSelectSessionData]);
 
-  const { maxHeightChampsList } = useMemo<{
+  const { maxHeightChampsList, championSelectActionsWidth } = useMemo<{
     maxHeightChampsList: number;
+    championSelectActionsWidth: number;
   }>(() => {
-    const maxHeightChampsList = getPercentFromValue(height, 70);
-    return { maxHeightChampsList };
-  }, [height]);
+    const maxHeightChampsList = getPercentFromValue(minSize.height, 70);
+    const championSelectActionsWidth = getPercentFromValue(minSize.width, 17);
+    return { maxHeightChampsList, championSelectActionsWidth };
+  }, [minSize]);
 
   return (
-    <View styleSheet={champselectStyleSheet(maxHeightChampsList)}>
+    <View
+      styleSheet={champselectStyleSheet(
+        maxHeightChampsList,
+        championSelectActionsWidth
+      )}
+    >
       <View id="champ-select-title-wrapper">
         <Text>
           Champ select
