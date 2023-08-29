@@ -48,7 +48,7 @@ export function LobbyTeamsView() {
   return (
     <View id="custom-lobby-teams-view">
       {lobbyData?.localMember.isLeader ? (
-        <View>
+        <View id="custom-lobby-teams-options">
           <Text>Difficulty</Text>
           <Button
             text={`${currentBotDifficulty}`}
@@ -81,8 +81,6 @@ export function LobbyTeamsView() {
             changeToTeam="one"
           />
         ) : null}
-      </View>
-      <View id="custom-lobby-teams-view-team">
         <FillLobbyByBotsBtn
           teamId={TeamsIds.second}
           currentBotDifficulty={currentBotDifficulty}

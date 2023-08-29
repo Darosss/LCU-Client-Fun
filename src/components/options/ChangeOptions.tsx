@@ -1,12 +1,18 @@
 import React, { useContext, useState } from "react";
-import { Button, View } from "@nodegui/react-nodegui";
+import { Button, LineEdit, Text, View } from "@nodegui/react-nodegui";
 import { backgroundLinearGradient, defaultButton } from "../styles";
 import { LCUContext } from "../../LCU/lcucontext";
 
 export function ChangeOptions() {
-  const { options, changeOptions } = useContext(LCUContext);
+  const {
+    options: { autoAccept, minSize },
+    changeOptions,
+  } = useContext(LCUContext);
   const [showed, setShowed] = useState(false);
-
+  const [localSizesWindow, setLocalSizesWindow] = useState<{
+    width: number;
+    height: number;
+  }>({ width: minSize.width, height: minSize.height });
   return (
     <View>
       <Button
@@ -22,14 +28,48 @@ export function ChangeOptions() {
         } ${optionsMenuStyle}`}
       >
         <Button
-          style={`${
-            options.autoAccept ? `background:'green'` : `background:'red';`
-          }`}
-          text={`Auto accept:  ${options.autoAccept}`}
+          style={`${autoAccept ? `background:'green'` : `background:'red';`}`}
+          text={`Auto accept:  ${autoAccept}`}
           on={{
-            clicked: () => changeOptions({ autoAccept: !options.autoAccept }),
+            clicked: () => changeOptions({ autoAccept: !autoAccept }),
           }}
         ></Button>
+        <View>
+          <Text>Client width:</Text>
+          <LineEdit
+            text={`${localSizesWindow.width}`}
+            on={{
+              textChanged: (value) => {
+                if (isNaN(Number(value))) return;
+                setLocalSizesWindow((prevState) => ({
+                  ...prevState,
+                  width: Number(value),
+                }));
+              },
+            }}
+          />
+          <Text>Client height:</Text>
+          <LineEdit
+            text={`${localSizesWindow.height}`}
+            on={{
+              textChanged: (value) => {
+                if (isNaN(Number(value))) return;
+                setLocalSizesWindow((prevState) => ({
+                  ...prevState,
+                  height: Number(value),
+                }));
+              },
+            }}
+          />
+          <Button
+            on={{
+              clicked: () => {
+                changeOptions({ minSize: localSizesWindow });
+              },
+            }}
+            text="Apply"
+          />
+        </View>
       </View>
     </View>
   );

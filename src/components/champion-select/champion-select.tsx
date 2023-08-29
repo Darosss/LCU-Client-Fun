@@ -7,9 +7,15 @@ import { AvailableChamps } from "./available-champs";
 import { ChampionSelectContext } from "./champion-select-context";
 import { champselectStyleSheet } from "./stylesheet";
 import { TeamView } from "./team-view";
+import { getPercentFromValue } from "../../helpers/node-gui-responsive-helpers";
 
 export function ChampSelect() {
-  const { currentSummoner } = useContext(LCUContext);
+  const {
+    currentSummoner,
+    options: {
+      minSize: { height },
+    },
+  } = useContext(LCUContext);
   const { champSelectSessionData } = useContext(ChampionSelectContext);
   const [selectedChamp, setSelectedChamp] = useState<SelectedChamp | null>(
     null
@@ -32,8 +38,15 @@ export function ChampSelect() {
     );
   }, [champSelectSessionData]);
 
+  const { maxHeightChampsList } = useMemo<{
+    maxHeightChampsList: number;
+  }>(() => {
+    const maxHeightChampsList = getPercentFromValue(height, 70);
+    return { maxHeightChampsList };
+  }, [height]);
+
   return (
-    <View styleSheet={champselectStyleSheet}>
+    <View styleSheet={champselectStyleSheet(maxHeightChampsList)}>
       <View id="champ-select-title-wrapper">
         <Text>
           Champ select
