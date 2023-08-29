@@ -11,37 +11,34 @@ import { LCUContext } from "../../../LCU/lcucontext";
 
 interface TeamSummonersBlocksProps {
   summoner: TeamChampSelectSessionData;
-  currentSummonerCellId?: number;
 }
 
-export function TeamSummonersBlocks({
-  summoner,
-  currentSummonerCellId,
-}: TeamSummonersBlocksProps) {
-  const { champSelectSessionData } = useContext(ChampionSelectContext);
+export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
+  const { champSelectSessionData, currentSummonerCellId } = useContext(
+    ChampionSelectContext
+  );
   const {
     lolDataDragon: { dataDragonChampions, dataDragonSpells },
   } = useContext(LCUContext);
 
   const filterNotCompletedAction = useCallback(
     (summonerCellId: number) => {
-      const action = champSelectSessionData.actions?.find(
-        ({ actorCellId, completed }) =>
-          actorCellId === summonerCellId && !completed
-      );
+      const action = champSelectSessionData.actions
+        ?.reverse()
+        .find(({ actorCellId }) => actorCellId === summonerCellId);
 
-      if (action?.type === "pick")
-        return `Picking ${findChampionById(
-          dataDragonChampions,
-          action.championId
-        )}`;
-      else if (action?.type === "ban")
-        return `Banning ${findChampionById(
-          dataDragonChampions,
-          action.championId
-        )}`;
-      else {
-        return "Locked in!";
+      const foundChamp = findChampionById(
+        dataDragonChampions,
+        action?.championId || 0
+      );
+      if (action?.isInProgress) {
+        return action?.type === "pick"
+          ? `Picking ${foundChamp}`
+          : `Banning ${foundChamp}`;
+      } else if (action?.completed) {
+        return `Locked in! ${foundChamp}`;
+      } else {
+        return "Unknown";
       }
     },
     [champSelectSessionData]
@@ -52,8 +49,10 @@ export function TeamSummonersBlocks({
       <View id="summoner-role-champion-wrapper">
         <Text>{summoner.assignedPosition || ""}</Text>
         <Text>
-          {findChampionById(dataDragonChampions, summoner.championId) ||
-            findChampionById(dataDragonChampions, summoner.championPickIntent)}
+          {`${currentSummonerCellId === summoner.cellId}${findChampionById(
+            dataDragonChampions,
+            summoner.championPickIntent
+          )}`}
         </Text>
       </View>
       <View id="summoner-spells-wrapper">
