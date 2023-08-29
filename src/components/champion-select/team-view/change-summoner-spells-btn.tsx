@@ -3,13 +3,6 @@ import React, { useContext, useState } from "react";
 import { lcuClientHandlerObj } from "../../../LCU/LCUClientHandler";
 import { LCUContext } from "../../../LCU/lcucontext";
 import { ChampionSelectContext } from "../champion-select-context";
-import {
-  currentSummonerSpellsBtnWrapper,
-  summonerSpellBtnStyle,
-  activeChangeSummonerSpellBtnStyle,
-  changeSummonerSpellViewStyle,
-  changeSummonerSpellBtnStyle,
-} from "./styles";
 import { findSummonerSpellById } from "../../../helpers/data-dragon-helpers";
 
 interface ChangeSummonerSpellsButtonsProps {
@@ -68,12 +61,10 @@ export function ChangeSummonerSpellsButtons({
 
   return (
     <View>
-      <View style={currentSummonerSpellsBtnWrapper}>
+      <View id="current-summoner-spells-btn-wrapper">
         <Button
-          style={`${summonerSpellBtnStyle} ${
-            showSpellsChangeMenu === "spell1Id"
-              ? activeChangeSummonerSpellBtnStyle
-              : ""
+          style={`${
+            showSpellsChangeMenu === "spell1Id" ? "color:yellow;" : ""
           }`}
           text={findSummonerSpellById(dataDragonSpells, spell1Id)}
           on={{
@@ -81,12 +72,10 @@ export function ChangeSummonerSpellsButtons({
               toggleShowSpellsChangeMenu("spell1Id");
             },
           }}
-        ></Button>
+        />
         <Button
-          style={`${summonerSpellBtnStyle} ${
-            showSpellsChangeMenu === "spell2Id"
-              ? activeChangeSummonerSpellBtnStyle
-              : ""
+          style={`${
+            showSpellsChangeMenu === "spell2Id" ? "color:yellow;" : ""
           }`}
           text={findSummonerSpellById(dataDragonSpells, spell2Id)}
           on={{
@@ -94,11 +83,11 @@ export function ChangeSummonerSpellsButtons({
               toggleShowSpellsChangeMenu("spell2Id");
             },
           }}
-        ></Button>
+        />
       </View>
 
       {showSpellsChangeMenu !== "none" ? (
-        <View style={changeSummonerSpellViewStyle}>
+        <View id="change-summoner-spell-view">
           {dataDragonSpells
             .filter(
               ({ modes }) =>
@@ -108,7 +97,7 @@ export function ChangeSummonerSpellsButtons({
             .map((spell, idx) => (
               <Button
                 key={idx}
-                style={changeSummonerSpellBtnStyle}
+                id="change-summoner-spell-btn"
                 on={{
                   clicked: () => handleOnChangeSummonerSpellBtn(spell.id),
                 }}
