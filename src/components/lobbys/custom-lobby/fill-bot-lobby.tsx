@@ -2,13 +2,12 @@ import React from "react";
 import { useContext } from "react";
 import { lcuClientHandlerObj } from "../../../LCU/LCUClientHandler";
 import { LCUContext } from "../../../LCU/lcucontext";
-import { BotDifficulty, TeamsIds } from "../../../LCU/types/custom-mode";
+import { TeamsIds } from "../../../LCU/types/custom-mode";
 import { Button } from "@nodegui/react-nodegui";
 import { CustomLobbyContext } from "./custom-lobby-context";
 
 interface FillLobbyByBotsBtnProps {
   teamId: TeamsIds;
-  currentBotDifficulty: BotDifficulty;
 }
 
 export function FillLobbyByBotsBtn({ teamId }: FillLobbyByBotsBtnProps) {
