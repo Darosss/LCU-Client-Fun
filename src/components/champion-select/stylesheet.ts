@@ -1,6 +1,9 @@
 import { backgroundLinearGradient } from "../styles";
 
-export function champselectStyleSheet(maxHeightChampsList: number) {
+export function champselectStyleSheet(
+  maxHeightChampsList: number,
+  championSelectActionsWidth: number
+) {
   return `
     #champ-select-title-wrapper{
         display:flex;
@@ -30,7 +33,6 @@ export function champselectStyleSheet(maxHeightChampsList: number) {
         justify-content:'center';
         align-items:'center';
         flex-direction:'row';
-
     }
 
     #available-champs-search > QLineEdit{
@@ -66,6 +68,11 @@ export function champselectStyleSheet(maxHeightChampsList: number) {
         ${backgroundLinearGradient(`rgba(2,0,36,0.4)`, `rgba(20,20,29,0.5)`)}
     }
 
+    #available-champs #disabled-champion-btn {
+        color:red;
+        ${backgroundLinearGradient(`rgba(12,31,44,1)`, `rgba(12,123,12,0.7)`)} 
+    }
+
     #teams-champions-wrapper {
         display:'flex';
         flex-direction:'row';
@@ -75,7 +82,8 @@ export function champselectStyleSheet(maxHeightChampsList: number) {
 
     #teams-champions-wrapper > QWidget {
         flex: 0 0 10%;
-        margin-left:200px; margin-right:200px;
+        margin-left:${championSelectActionsWidth * 2}px; 
+        margin-right:${championSelectActionsWidth * 2}px;
         
     }
 
@@ -99,15 +107,55 @@ export function champselectStyleSheet(maxHeightChampsList: number) {
         display:'flex';
         flex-direction:'row';
         padding-vertical:4px;
-        justify-content:'center';
-        
-
+        min-width:${championSelectActionsWidth}px;
+        max-width:${championSelectActionsWidth}px;
     }
 
     #team-view > QWidget > QWidget > QLabel{
         margin-left:5px;
-        min-width:70px;
-        max-width:70px;
+    }
+
+    #team-summoners-blocks-wrapper > QWidget {
+        border:1px solid yellow;
+    }
+
+    #summoner-role-champion-wrapper{
+        ${backgroundLinearGradient(
+          `rgba(90,254,99,1)`,
+          `rgba(225,250,12,0.7)`
+        )} 
+    }
+
+    #summoner-spells-wrapper {
+        ${backgroundLinearGradient(`rgba(45,123,99,1)`, `rgba(12,123,12,0.7)`)} 
+    }
+
+    #summoner-current-action {
+        ${backgroundLinearGradient(`rgba(12,31,44,1)`, `rgba(12,123,12,0.7)`)} 
+    }
+
+
+    #current-summoner-spells-btn-wrapper {
+        display:'flex';
+        flex-direction:'row';
+        margin-bottom:5px;
+    }  
+
+    #current-summoner-spells-btn-wrapper > QPushButton {
+        ${backgroundLinearGradient(`rgba(120,240,240,1)`, `rgba(90,90,12,0.7)`)}
+        border:1px solid yellow;
+        padding:6px;
+    }
+
+    #change-summoner-spell-view {
+        display:'flex';
+        flex-wrap:'wrap';
+        flex-direction:'row';
+        max-width:${championSelectActionsWidth}px;
+    }
+
+    #change-summoner-spell-btn {
+        ${backgroundLinearGradient(`rgba(90,90,12,0.7)`, `rgba(120,240,240,1)`)}
     }
 `;
 }
