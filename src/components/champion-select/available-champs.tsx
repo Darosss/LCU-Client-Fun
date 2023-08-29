@@ -7,7 +7,6 @@ import { LCUContext } from "../../LCU/lcucontext";
 import { ChampionData } from "../../LCU/types";
 import { SelectedChamp } from "./types";
 import { ChampionSelectContext } from "./champion-select-context";
-import { disabledChampionBtn } from "./styles";
 
 interface AvailableChampsProps {
   banPhase: boolean;
@@ -53,7 +52,7 @@ export function AvailableChamps({
       <Button
         key={key}
         text={champName}
-        style={`${disabled ? disabledChampionBtn : ""}`}
+        id={`${disabled ? "disabled-champion-btn" : ""}`}
         on={{
           clicked: () => {
             //Not your action = return
