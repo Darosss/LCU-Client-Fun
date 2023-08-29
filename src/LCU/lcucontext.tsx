@@ -15,7 +15,7 @@ import { readDragonChampionsData, readDragonSpellsData } from "../helpers";
 
 interface LCUContext {
   options: ClientOptions;
-  changeOptions: (value: ClientOptions) => void;
+  changeOptions: (value: Partial<ClientOptions>) => void;
   currentSummoner?: CurrentSummonerData;
   currentPhase: GameFlowPhaseData;
   setCurrentSummoner: React.Dispatch<
@@ -27,9 +27,7 @@ interface LCUContext {
 }
 
 export const initialLCUContextValue: LCUContext = {
-  options: {
-    autoAccept: false,
-  },
+  options: readLocalStorageData(),
   changeOptions: () => {},
   currentPhase: "None",
   setCurrentSummoner: () => {},
@@ -51,27 +49,24 @@ export function LCUContextProvider({
   const [currentPhase, setCurrentPhase] = useState<GameFlowPhaseData>(
     initialLCUContextValue.currentPhase
   );
-  const [options, setOptions] = useState<ClientOptions>({
-    autoAccept: false,
-  });
+  const [options, setOptions] = useState<ClientOptions>(
+    initialLCUContextValue.options
+  );
 
   const [lobbyData, setLobbyData] = useState<LobbyGameDataResponse | null>(
     null
   );
-
   const [lolDataDragon, setLolDataDragon] = useState<AllRequiredDataDragon>(
     initialLCUContextValue.lolDataDragon
   );
 
-  function changeOptions(value: ClientOptions) {
+  function changeOptions(value: Partial<ClientOptions>) {
     setOptions((prevOpts) => ({ ...prevOpts, ...value }));
-    writeLocalStorageData(value);
+
+    writeLocalStorageData({ ...options, ...value });
   }
 
   React.useEffect(() => {
-    const data = readLocalStorageData();
-    setOptions(data);
-
     lcuClientHandlerObj.init().then(() => {
       lcuClientHandlerObj
         .getCurrentSummoner()
