@@ -17,6 +17,17 @@ const commonQWidgetPhaseView = `
 `;
 
 export const phaseViewStylesheet = `
+    #phases-wrapper {
+        display:'flex';
+        flex-direction:'row';
+        flex-wrap:'wrap';
+        justify-content:'space-between';
+    }
+
+    #phases-wrapper > QWidget {
+        flex-grow:1;
+    }
+
     #matchmaking-wrapper {
         ${commonLayoutPhaseView}
     }

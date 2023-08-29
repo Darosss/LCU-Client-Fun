@@ -9,18 +9,23 @@ export const headLobbyStyleSheet = `
     }
 
     #head-lobby > #head-lobby-header{
-        font-size:18px;
+        
     }
 
 
 `;
 
-export const lobbysStylesheet = `
+export function lobbysStylesheet(
+  minWidthTeam: number,
+  minMaxWidthOpts: number
+) {
+  return `
     #eligible-lobbys-wrapper {
+        position:'relative';
         display:'flex';
-         flex-direction:'column';
-         justify-content:'center';
-         align-items:'center';
+        flex-direction:'column';
+        justify-content:'center';
+        align-items:'center';
     }
 
     #eligible-lobbys-wrapper > QWidget {
@@ -60,41 +65,42 @@ export const lobbysStylesheet = `
         flex-direction:'row';
         border:1px solid yellow;
         min-height:200px;
-        padding:2px;
-        min-width:500px;
-        align-items:'stretch';
-        justify-content:'space-around';
+        padding:1px;
+        flex-wrap:'wrap';
     }
 
+    #custom-lobby-teams-options{
+        min-width:${minMaxWidthOpts};
+        max-width:${minMaxWidthOpts};
+    }
+
+
     #custom-lobby-teams-view-team {
+        min-width:${minWidthTeam};
         display:'flex';
         justify-content:'space-between';
         border-left:1px solid yellow;
-        padding:4px;
+        padding:2px;
     }
 
 
-    #custom-lobby-teams-view QWidget {
-        font-size:15px;
-
+    #custom-lobby-teams-view QPushButton {
+        padding:5px;
     }
 
     #list-of-team-members {
         display:'flex';
-        margin:2px;
-        max-width:250px;
-        min-width:250px;
     }
 
     #list-of-team-members > QWidget{
         display:'flex';
         flex-direction:'row';
-        margin-left:3px;
+        flex-wrap:'wrap';
     }
 
-    #list-of-team-members QPushButton {
-        min-width:60px;
-        font-size:10px;   
+    #list-of-team-members > QWidget > QWidget{
+        display:'flex';
+        flex-direction:'row';
     }
 
     #summoner-in-lobby-wrapper {
@@ -106,8 +112,6 @@ export const lobbysStylesheet = `
         display:'flex';
         flex-direction:'row';
         flex-wrap:'wrap';
-        justify-content:'space-between';
-        
     }
 
     #leader-bot-actions-change-bot {
@@ -129,7 +133,7 @@ export const lobbysStylesheet = `
 
     #hide-show-lobbys-list-btn {
         ${backgroundLinearGradient(`rgba(100,166,25,1)`, `rgba(44,18,36,1)`)}
-        font-size:20px;
+        
         color:white;
     }
 
@@ -155,7 +159,6 @@ export const lobbysStylesheet = `
     #lobbys-list > QWidget {
         ${backgroundLinearGradient(`rgba(2,0,36,0.7)`, `rgba(87,20,29,0.5)`)}
         flex: 0 0 20%;
-        min-width:100px;
         flex-grow:1;
         color:white;
     }
@@ -167,3 +170,4 @@ export const lobbysStylesheet = `
 
 
 `;
+}

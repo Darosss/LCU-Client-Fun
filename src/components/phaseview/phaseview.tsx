@@ -1,5 +1,5 @@
-import { View } from "@nodegui/react-nodegui";
-import React, { useContext } from "react";
+import { Text, View } from "@nodegui/react-nodegui";
+import React, { useContext, useMemo } from "react";
 import { ReadyCheck } from "./readycheck";
 import { LCUContext } from "../../LCU/lcucontext";
 import { MenuClient } from "../menuclient";
@@ -11,10 +11,16 @@ import { Reconnect } from "./reconnect";
 import { GameStart } from "./game-start";
 import { InProgress } from "./in-progress";
 import { phaseViewStylesheet } from "./stylesheet";
+import { getPercentFromValue } from "../../helpers/node-gui-responsive-helpers";
 
 interface PhaseViewProps {}
 export function PhaseView({}: PhaseViewProps) {
-  const { currentPhase } = useContext(LCUContext);
+  const {
+    currentPhase,
+    options: {
+      minSize: { width },
+    },
+  } = useContext(LCUContext);
   console.log(new Date(), "PHASEVIEW => ", currentPhase);
   function renderDependsOnPhase() {
     switch (currentPhase) {
@@ -49,11 +55,39 @@ export function PhaseView({}: PhaseViewProps) {
     }
   }
 
+  const { contentWidth, sidebarWidth } = useMemo<{
+    contentWidth: number;
+    sidebarWidth: number;
+  }>(() => {
+    const contentWidth = getPercentFromValue(width, 70);
+    const sidebarWidth = getPercentFromValue(width, 25);
+    return { contentWidth, sidebarWidth };
+  }, [width]);
+
   return (
     <View>
-      <MenuClient />
-      <View id="phases-wrapper" styleSheet={phaseViewStylesheet}>
-        {renderDependsOnPhase()}
+      <View
+        id="phases-wrapper"
+        styleSheet={
+          phaseViewStylesheet +
+          `#phases-wrapper QWidget {
+                font-size:${~~(contentWidth / 70)}px;
+          }`
+        }
+      >
+        <View
+          id="content-wrapper"
+          style={`min-width:${contentWidth}px; max-width:${contentWidth};`}
+        >
+          <MenuClient />
+          {renderDependsOnPhase()}
+        </View>
+        <View
+          id="sidebar-wrapper"
+          style={`min-width:${sidebarWidth}px; max-width:${sidebarWidth};`}
+        >
+          <Text> Sidebar </Text>
+        </View>
       </View>
     </View>
   );

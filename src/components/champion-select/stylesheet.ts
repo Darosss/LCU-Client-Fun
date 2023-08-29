@@ -1,6 +1,7 @@
 import { backgroundLinearGradient } from "../styles";
 
-export const champselectStyleSheet = `
+export function champselectStyleSheet(maxHeightChampsList: number) {
+  return `
     #champ-select-title-wrapper{
         display:flex;
         justify-content:'center';
@@ -8,13 +9,11 @@ export const champselectStyleSheet = `
     }
 
     #champ-select-title-wrapper > QWidget {
-        font-size:20px;
         display: 'flex'; 
         justify-content: 'center'
     }
 
     #pick-ban-button {
-        font-size:32px;
         color:white;
         ${backgroundLinearGradient(`rgba(165,166,25,1)`, `rgba(0,18,36,1)`)}
     }
@@ -22,6 +21,8 @@ export const champselectStyleSheet = `
     #available-champs-wrapper {
         display:'flex'; 
         flex-direction:'column';
+        max-height:${maxHeightChampsList}px;
+        overflow:'hidden';
     }
 
     #available-champs-search {
@@ -35,12 +36,10 @@ export const champselectStyleSheet = `
     #available-champs-search > QLineEdit{
         ${backgroundLinearGradient(`rgba(100,166,25,1)`, `rgba(44,18,36,1)`)}
         color:white;
-        font-size:20px;
     }
     #available-champs-search > QLabel{
         ${backgroundLinearGradient(`rgba(100,166,25,1)`, `rgba(44,18,36,1)`)}
         color:white;
-        font-size:20px;
         border:1px solid white;
     }
 
@@ -56,11 +55,11 @@ export const champselectStyleSheet = `
     #available-champs > QPushButton {
         ${backgroundLinearGradient(`rgba(2,0,36,0.7)`, `rgba(87,20,29,0.5)`)}
         border:1px solid blue;
-        font-size:14px;
         font-weight:700;
         padding:2px;
         flex-shrink:1;
-        width:100px
+        width:100px;
+        color:yellow;
     }
     #available-champs > QPushButton:hover {
         color:red;
@@ -111,3 +110,4 @@ export const champselectStyleSheet = `
         max-width:70px;
     }
 `;
+}
