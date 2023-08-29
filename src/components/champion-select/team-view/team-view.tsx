@@ -5,28 +5,19 @@ import { TeamSummonersBlocks } from "./team-summoners-blocks";
 
 interface TeamViewProps {
   team?: "ally" | "enemy";
-  currentSummonerCellId?: number;
 }
 
-export function TeamView({ team, currentSummonerCellId }: TeamViewProps) {
+export function TeamView({ team }: TeamViewProps) {
   const { champSelectSessionData } = useContext(ChampionSelectContext);
 
   return (
     <View id="team-view">
       {team === "ally"
         ? champSelectSessionData.myTeam?.map((summoner, idx) => (
-            <TeamSummonersBlocks
-              key={idx}
-              summoner={summoner}
-              currentSummonerCellId={currentSummonerCellId}
-            />
+            <TeamSummonersBlocks key={idx} summoner={summoner} />
           ))
         : champSelectSessionData.theirTeam?.map((summoner, idx) => (
-            <TeamSummonersBlocks
-              key={idx}
-              summoner={summoner}
-              currentSummonerCellId={currentSummonerCellId}
-            />
+            <TeamSummonersBlocks key={idx} summoner={summoner} />
           ))}
     </View>
   );
