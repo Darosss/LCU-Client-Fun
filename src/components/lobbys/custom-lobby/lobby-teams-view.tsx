@@ -19,7 +19,22 @@ export function LobbyTeamsView() {
     useContext(CustomLobbyContext);
 
   function addBotButton(team: TeamsIds) {
-    if (!lobbyData?.localMember.isLeader) return null;
+    let canAddBot = true;
+    if (customLobbyProperties) {
+      switch (team) {
+        case TeamsIds.first:
+          canAddBot =
+            customLobbyProperties.customTeam100.length <
+            customLobbyProperties.maxTeamSize;
+          break;
+        case TeamsIds.second:
+          canAddBot =
+            customLobbyProperties.customTeam200.length <
+            customLobbyProperties.maxTeamSize;
+          break;
+      }
+    }
+    if (!lobbyData?.localMember.isLeader || !canAddBot) return null;
     return (
       <Button
         on={{
@@ -63,10 +78,7 @@ export function LobbyTeamsView() {
         </View>
       ) : null}
       <View id="custom-lobby-teams-view-team">
-        <FillLobbyByBotsBtn
-          teamId={TeamsIds.first}
-          currentBotDifficulty={currentBotDifficulty}
-        />
+        <FillLobbyByBotsBtn teamId={TeamsIds.first} />
         <Text>Team 1</Text>
         {addBotButton(TeamsIds.first)}
         <ListOfTeamMembers
@@ -81,10 +93,7 @@ export function LobbyTeamsView() {
             changeToTeam="one"
           />
         ) : null}
-        <FillLobbyByBotsBtn
-          teamId={TeamsIds.second}
-          currentBotDifficulty={currentBotDifficulty}
-        />
+        <FillLobbyByBotsBtn teamId={TeamsIds.second} />
         <Text>Team 2</Text>
         {addBotButton(TeamsIds.second)}
         <ListOfTeamMembers
