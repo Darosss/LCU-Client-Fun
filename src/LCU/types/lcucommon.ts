@@ -31,6 +31,7 @@ export type GameFlowPhaseData =
 
 export interface ClientOptions {
   autoAccept: boolean;
+  minSize: { width: number; height: number };
 }
 
 export interface CurrentSummonerData {
