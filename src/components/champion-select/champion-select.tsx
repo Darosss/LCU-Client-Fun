@@ -14,27 +14,30 @@ export function ChampSelect() {
     currentSummoner,
     options: { minSize },
   } = useContext(LCUContext);
-  const { champSelectSessionData } = useContext(ChampionSelectContext);
+  const {
+    champSelectSessionData,
+    currentSummonerCellId,
+    changeCurrentSummonerCellId,
+  } = useContext(ChampionSelectContext);
   const [selectedChamp, setSelectedChamp] = useState<SelectedChamp | null>(
     null
   );
 
-  const [currentSummonerCellId, setCurrentSummonerCellId] = useState(-1);
-
   React.useEffect(() => {
     for (const personInSelect of champSelectSessionData.myTeam) {
       if (personInSelect.summonerId === currentSummoner?.summonerId) {
-        setCurrentSummonerCellId(personInSelect.cellId);
+        changeCurrentSummonerCellId(personInSelect.cellId);
       }
     }
   }, [champSelectSessionData]);
 
   const userAction = useMemo(() => {
-    return champSelectSessionData.actions?.find(
-      (action) =>
-        action?.actorCellId === currentSummonerCellId && action?.isInProgress
-    );
-  }, [champSelectSessionData]);
+    if (currentSummonerCellId !== -1 && champSelectSessionData.actions)
+      return champSelectSessionData.actions.find(
+        (action) =>
+          action?.actorCellId === currentSummonerCellId && action?.isInProgress
+      );
+  }, [champSelectSessionData, currentSummonerCellId]);
 
   const { maxHeightChampsList, championSelectActionsWidth } = useMemo<{
     maxHeightChampsList: number;
@@ -79,7 +82,7 @@ export function ChampSelect() {
       ) : null}
 
       <View id="teams-champions-wrapper">
-        <TeamView team="ally" currentSummonerCellId={currentSummonerCellId} />
+        <TeamView team="ally" />
         <AvailableChamps
           banPhase={userAction?.type === "ban"}
           currentActionId={userAction?.id}

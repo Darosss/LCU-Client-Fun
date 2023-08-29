@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { ChampSelectSessionDataRequiredWithActionsFlat } from "../../LCU/types";
 import { lcuClientHandlerObj } from "../../LCU/LCUClientHandler";
 
-//TODO: move data dragon to lcu context
 interface ChampionSelectContext {
   champSelectSessionData: ChampSelectSessionDataRequiredWithActionsFlat;
+  currentSummonerCellId: number;
+  changeCurrentSummonerCellId: (value: number) => void;
 }
 
 export const initialChampionSelectContextValue: ChampionSelectContext = {
@@ -18,6 +19,8 @@ export const initialChampionSelectContextValue: ChampionSelectContext = {
       theirTeamBans: [],
     },
   },
+  currentSummonerCellId: -1,
+  changeCurrentSummonerCellId: () => {},
 };
 
 export const ChampionSelectContext = React.createContext<ChampionSelectContext>(
@@ -33,6 +36,7 @@ export function ChampionSelectContextProvider({
     useState<ChampSelectSessionDataRequiredWithActionsFlat>(
       initialChampionSelectContextValue.champSelectSessionData
     );
+  const [currentSummonerCellId, setCurrentSummonerCellId] = useState(-1);
 
   React.useEffect(() => {
     lcuClientHandlerObj
@@ -44,10 +48,16 @@ export function ChampionSelectContextProvider({
       );
   }, []);
 
+  function changeCurrentSummonerCellId(value: number) {
+    setCurrentSummonerCellId(value);
+  }
+
   return (
     <ChampionSelectContext.Provider
       value={{
         champSelectSessionData,
+        currentSummonerCellId,
+        changeCurrentSummonerCellId,
       }}
     >
       {children}
