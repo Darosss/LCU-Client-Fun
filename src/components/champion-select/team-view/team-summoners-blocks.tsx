@@ -4,11 +4,6 @@ import { TeamChampSelectSessionData } from "../../../LCU/types";
 import { ChampionSelectContext } from "../champion-select-context";
 import { ChangeSummonerSpellsButtons } from "./change-summoner-spells-btn";
 import {
-  roleAndChampionStyle,
-  summonerSpellsStyle,
-  currentActionStyle,
-} from "./styles";
-import {
   findChampionById,
   findSummonerSpellById,
 } from "../../../helpers/data-dragon-helpers";
@@ -35,8 +30,16 @@ export function TeamSummonersBlocks({
           actorCellId === summonerCellId && !completed
       );
 
-      if (action?.type === "pick") return "Picking";
-      else if (action?.type === "ban") return "Banning";
+      if (action?.type === "pick")
+        return `Picking ${findChampionById(
+          dataDragonChampions,
+          action.championId
+        )}`;
+      else if (action?.type === "ban")
+        return `Banning ${findChampionById(
+          dataDragonChampions,
+          action.championId
+        )}`;
       else {
         return "Locked in!";
       }
@@ -45,15 +48,15 @@ export function TeamSummonersBlocks({
   );
 
   return (
-    <View>
-      <View style={roleAndChampionStyle}>
+    <View id="team-summoners-blocks-wrapper">
+      <View id="summoner-role-champion-wrapper">
         <Text>{summoner.assignedPosition || ""}</Text>
         <Text>
           {findChampionById(dataDragonChampions, summoner.championId) ||
             findChampionById(dataDragonChampions, summoner.championPickIntent)}
         </Text>
       </View>
-      <View style={summonerSpellsStyle}>
+      <View id="summoner-spells-wrapper">
         {currentSummonerCellId === summoner.cellId ? (
           <ChangeSummonerSpellsButtons
             spell1Id={summoner.spell1Id}
@@ -70,7 +73,7 @@ export function TeamSummonersBlocks({
           </>
         )}
       </View>
-      <View style={currentActionStyle}>
+      <View id="summoner-current-action">
         <Text>{filterNotCompletedAction(summoner.cellId)}</Text>
       </View>
     </View>
