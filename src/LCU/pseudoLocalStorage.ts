@@ -7,6 +7,7 @@ const dataFilePath = path.join(__dirname, "localstorage.json");
 if (!dataFileExists(dataFilePath)) {
   const defaultData: ClientOptions = {
     autoAccept: true,
+    minSize: { width: 1024, height: 768 },
   };
   writeData<ClientOptions>(dataFilePath, defaultData);
 }
