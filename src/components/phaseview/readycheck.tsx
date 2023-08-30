@@ -75,14 +75,10 @@ export function ReadyCheck() {
     lcuClientHandlerObj
       .acceptMatch()
       .then(() => {
-        return <Text style={defaultTextStyle}> Auto accepted </Text>;
+        setReadyCheckState("Accepted");
       })
       .catch(() => {
-        return (
-          <View>
-            <ReadyCheckActions />
-          </View>
-        );
+        setReadyCheckState("None");
       });
   }
   return (
