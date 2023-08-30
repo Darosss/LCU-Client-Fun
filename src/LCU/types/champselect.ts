@@ -3,6 +3,7 @@ export interface ChampSelectSessionDataRequired {
   theirTeam: TeamChampSelectSessionData[];
   actions: ActionsChampSelectSessionData[][];
   bans: ChampSelectSessionDataBans;
+  localPlayerCellId: number;
 }
 
 interface ChampSelectSessionDataBans {
