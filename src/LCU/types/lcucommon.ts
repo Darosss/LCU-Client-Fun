@@ -36,6 +36,7 @@ export interface ClientOptions {
   autoPickChamps: {
     [position in AssignedPosition]: DataDragonChampionsJsonFileData[];
   };
+  autoPickChamp: boolean;
 }
 
 export interface CurrentSummonerData {
