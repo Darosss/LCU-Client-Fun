@@ -14,5 +14,5 @@ export function findChampionById(
   data: DataDragonChampionsJsonFileData[],
   championId: number
 ) {
-  return data.find(({ id }) => id === championId)?.name || String(championId);
+  return data.find(({ id }) => id === championId);
 }
