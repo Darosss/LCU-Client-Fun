@@ -15,6 +15,7 @@ import {
   EligibileLobby,
   GameFlowPhaseData,
   LobbyGameDataResponse,
+  ChampSelectSessionTimerResponse,
 } from "./types/";
 import {
   AddBotToLobbyBody,
@@ -238,6 +239,18 @@ export class LCUClientHandler {
 
     const lobbyGameDataResponse = lobbyData.json() as LobbyGameDataResponse;
     return lobbyGameDataResponse.gameConfig;
+  }
+
+  public async getChampSelectSessionTimer() {
+    const sessionChampSelectTimer = await createHttp1Request(
+      {
+        method: "GET",
+        url: "/lol-champ-select/v1/session/timer",
+      },
+      this.credentials!
+    );
+
+    return sessionChampSelectTimer.json() as ChampSelectSessionTimerResponse;
   }
 
   public async startCustomChampSelect() {
