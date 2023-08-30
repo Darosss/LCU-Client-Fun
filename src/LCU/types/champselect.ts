@@ -63,3 +63,10 @@ export interface ChampSelectSessionTimerResponse {
   phase: string;
   totalTimeInPhase: number;
 }
+
+export type AssignedPosition =
+  | "utility"
+  | "middle"
+  | "top"
+  | "bottom"
+  | "jungle";

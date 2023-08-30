@@ -5,7 +5,6 @@ import nodeguiIcon from "../assets/nodegui.jpg";
 import { backgroundLinearGradient } from "./components/styles";
 import { LCUContext, LCUContextProvider } from "./LCU/lcucontext";
 import { PhaseView } from "./components/phaseview";
-import { ChangeOptions } from "./components/options";
 
 const winIcon = new QIcon(nodeguiIcon);
 
@@ -21,7 +20,6 @@ function App() {
         maxSize={options.minSize}
       >
         <View id="main-app" style={containerStyle}>
-          <ChangeOptions />
           <PhaseView />
         </View>
       </Window>
