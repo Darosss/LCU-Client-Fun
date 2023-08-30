@@ -9,6 +9,7 @@ import { champselectStyleSheet } from "./stylesheet";
 import { TeamView } from "./team-view";
 import { getPercentFromValue } from "../../helpers/node-gui-responsive-helpers";
 import { TimeLeftInPhase } from "./time-left-in-phase";
+import { PhaseBans } from "./phase-bans";
 
 export function ChampSelect() {
   const {
@@ -53,6 +54,8 @@ export function ChampSelect() {
           {userAction ? ` - Your time to ${userAction.type}!` : ""}
         </Text>
         <TimeLeftInPhase />
+        <Text> Bans </Text>
+        <PhaseBans />
       </View>
       {userAction ? (
         <View>
