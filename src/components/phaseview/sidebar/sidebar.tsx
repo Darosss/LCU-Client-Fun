@@ -7,11 +7,11 @@ import { sidebarStylsheet } from "./stylesheet";
 export function Sidebar() {
   const {
     options: {
-      minSize: { height },
+      minSize: { height, width },
     },
   } = useContext(LCUContext);
   return (
-    <Tabs styleSheet={sidebarStylsheet(height)} id="sidebar">
+    <Tabs styleSheet={sidebarStylsheet(width, height)} id="sidebar">
       <TabItem title="friends">
         <Text> Friends</Text>
       </TabItem>
