@@ -37,6 +37,7 @@ async function ifDataDragonChampsDoesNotExist() {
       dragonChampsData.push({
         name: value.name,
         id: parseInt(value.key, 10),
+        idName: value.id,
       });
     }
 
