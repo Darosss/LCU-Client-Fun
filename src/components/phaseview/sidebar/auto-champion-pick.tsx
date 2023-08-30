@@ -15,9 +15,11 @@ const assignedPositions: AssignedPosition[] = [
 
 export function AutoChampionPick() {
   const {
+    changeOptions,
     options: {
       autoPickChamps,
       minSize: { height },
+      autoPickChamp,
     },
   } = useContext(LCUContext);
   const [showMoreAssignedChampions, setShowMoreAssignedChampions] =
@@ -70,7 +72,13 @@ export function AutoChampionPick() {
   return (
     <>
       <View>
-        <Text id="button-default"> Auto champion pick </Text>
+        <Button
+          text={`Auto champion pick: ${autoPickChamp}`}
+          id={autoPickChamp ? `button-enabled` : `button-disabled`}
+          on={{
+            clicked: () => changeOptions({ autoPickChamp: !autoPickChamp }),
+          }}
+        />
         <Button
           text={`${showMoreAssignedChampions ? "Show less" : "Show more"}`}
           id="button-default"
