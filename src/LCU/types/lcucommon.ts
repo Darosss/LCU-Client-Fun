@@ -1,4 +1,5 @@
 import { DataDragonChampionsJsonFileData } from "./champions";
+import { AssignedPosition } from "./champselect";
 import { DataDragonSpellsJsonFileData } from "./spells";
 
 export interface EligibileLobby {
@@ -32,6 +33,9 @@ export type GameFlowPhaseData =
 export interface ClientOptions {
   autoAccept: boolean;
   minSize: { width: number; height: number };
+  autoPickChamps: {
+    [position in AssignedPosition]: DataDragonChampionsJsonFileData[];
+  };
 }
 
 export interface CurrentSummonerData {
