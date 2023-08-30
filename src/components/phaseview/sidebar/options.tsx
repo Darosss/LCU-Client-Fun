@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Button, LineEdit, Text, View } from "@nodegui/react-nodegui";
 import { LCUContext } from "../../../LCU/lcucontext";
 
-export function ChangeOptions() {
+export function Options() {
   const {
     options: { autoAccept, minSize },
     changeOptions,

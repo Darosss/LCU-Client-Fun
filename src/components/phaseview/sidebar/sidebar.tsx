@@ -1,6 +1,6 @@
 import { TabItem, Tabs, Text } from "@nodegui/react-nodegui";
 import React, { useContext } from "react";
-import { ChangeOptions } from "./options";
+import { Options } from "./options";
 import { LCUContext } from "../../../LCU/lcucontext";
 import { sidebarStylsheet } from "./stylesheet";
 
@@ -16,7 +16,7 @@ export function Sidebar() {
         <Text> Friends</Text>
       </TabItem>
       <TabItem title="options">
-        <ChangeOptions />
+        <Options />
       </TabItem>
     </Tabs>
   );
