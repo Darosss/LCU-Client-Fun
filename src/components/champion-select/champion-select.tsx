@@ -12,33 +12,24 @@ import { TimeLeftInPhase } from "./time-left-in-phase";
 
 export function ChampSelect() {
   const {
-    currentSummoner,
     options: { minSize },
   } = useContext(LCUContext);
-  const {
-    champSelectSessionData,
-    currentSummonerCellId,
-    changeCurrentSummonerCellId,
-  } = useContext(ChampionSelectContext);
+  const { champSelectSessionData } = useContext(ChampionSelectContext);
   const [selectedChamp, setSelectedChamp] = useState<SelectedChamp | null>(
     null
   );
 
-  React.useEffect(() => {
-    for (const personInSelect of champSelectSessionData.myTeam) {
-      if (personInSelect.summonerId === currentSummoner?.summonerId) {
-        changeCurrentSummonerCellId(personInSelect.cellId);
-      }
-    }
-  }, [champSelectSessionData]);
-
   const userAction = useMemo(() => {
-    if (currentSummonerCellId !== -1 && champSelectSessionData.actions)
+    if (
+      champSelectSessionData.localPlayerCellId !== -1 &&
+      champSelectSessionData.actions
+    )
       return champSelectSessionData.actions.find(
         (action) =>
-          action?.actorCellId === currentSummonerCellId && action?.isInProgress
+          action?.actorCellId === champSelectSessionData.localPlayerCellId &&
+          action?.isInProgress
       );
-  }, [champSelectSessionData, currentSummonerCellId]);
+  }, [champSelectSessionData, champSelectSessionData.localPlayerCellId]);
 
   const { maxHeightChampsList, championSelectActionsWidth } = useMemo<{
     maxHeightChampsList: number;
