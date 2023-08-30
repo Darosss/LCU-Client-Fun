@@ -36,6 +36,7 @@ export interface DataDragonChampionDataResponse {
 export interface DataDragonChampionDataRequired {
   key: string;
   name: string;
+  id: string;
 }
 
 export interface DataDragonChampionResponseKeyValue {
@@ -45,4 +46,5 @@ export interface DataDragonChampionResponseKeyValue {
 export interface DataDragonChampionsJsonFileData {
   id: number;
   name: string;
+  idName: string;
 }
