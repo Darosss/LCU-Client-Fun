@@ -13,12 +13,16 @@ export function PhaseBans() {
     <View id="bans-in-phase-wrapper">
       <View id="bans-in-phase-ally">
         {champSelectSessionData.bans.myTeamBans.map((ban, idx) => (
-          <Text key={idx}>{findChampionById(dataDragonChampions, ban)}</Text>
+          <Text key={idx}>
+            {findChampionById(dataDragonChampions, ban)?.name}
+          </Text>
         ))}
       </View>
       <View id="bans-in-phase-enemy">
         {champSelectSessionData.bans.theirTeamBans.map((ban, idx) => (
-          <Text key={idx}>{findChampionById(dataDragonChampions, ban)}</Text>
+          <Text key={idx}>
+            {findChampionById(dataDragonChampions, ban)?.name}
+          </Text>
         ))}
       </View>
     </View>

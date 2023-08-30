@@ -55,10 +55,9 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
   }, [getInProgressAction, getLastAction]);
 
   const currentOrLastAction = useMemo(() => {
-    const foundChamp = findChampionById(
-      dataDragonChampions,
-      summonerAction?.championId || 0
-    );
+    const foundChamp =
+      findChampionById(dataDragonChampions, summonerAction?.championId || 0)
+        ?.name || "";
 
     if (!summonerAction) return "Unknown";
     else if (summonerAction.isInProgress) {
@@ -83,10 +82,10 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
             champSelectSessionData.localPlayerCellId === summoner.cellId
               ? currentSummoner?.displayName
               : ""
-          }${findChampionById(
-            dataDragonChampions,
-            summoner.championPickIntent
-          )}`}
+          }${
+            findChampionById(dataDragonChampions, summoner.championPickIntent)
+              ?.name || ""
+          }`}
         </Text>
       </View>
       <View id="summoner-spells-wrapper">
