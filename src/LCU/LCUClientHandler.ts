@@ -151,7 +151,9 @@ export class LCUClientHandler {
             actions: requiredData.actions.flat(),
             theirTeam: requiredData.theirTeam,
             bans: requiredData.bans,
+            localPlayerCellId: requiredData.localPlayerCellId,
           };
+
         cb(requiredDataSession);
       }
     );
