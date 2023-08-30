@@ -11,15 +11,14 @@ export function PhaseBans() {
   const { champSelectSessionData } = useContext(ChampionSelectContext);
   return (
     <View id="bans-in-phase-wrapper">
-      <Text id="bans-in-phase-header"> Bans </Text>
       <View id="bans-in-phase-ally">
-        {champSelectSessionData.bans.myTeamBans.map((ban) => (
-          <Text>{findChampionById(dataDragonChampions, ban)}</Text>
+        {champSelectSessionData.bans.myTeamBans.map((ban, idx) => (
+          <Text key={idx}>{findChampionById(dataDragonChampions, ban)}</Text>
         ))}
       </View>
       <View id="bans-in-phase-enemy">
-        {champSelectSessionData.bans.theirTeamBans.map((ban) => (
-          <Text>{findChampionById(dataDragonChampions, ban)}</Text>
+        {champSelectSessionData.bans.theirTeamBans.map((ban, idx) => (
+          <Text key={idx}>{findChampionById(dataDragonChampions, ban)}</Text>
         ))}
       </View>
     </View>
