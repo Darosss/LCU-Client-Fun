@@ -23,12 +23,10 @@ export function sidebarStylsheet(width: number, height: number) {
 
       #button-enabled {
         ${backgroundLinearGradient("rgba(110,254,5,1)", "rgba(225,250,12,0.9)")}
-        color:white;
       }
   
       #button-disabled {
         ${backgroundLinearGradient("rgba(254,130,5,1)", "rgba(196,42,42,0.9)")}
-        color:black;
       }
       
       #button-default {
