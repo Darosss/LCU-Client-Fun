@@ -15,6 +15,7 @@ if (!dataFileExists(dataFilePath)) {
       bottom: [],
       jungle: [],
     },
+    autoPickChamp: false,
   };
   writeData<ClientOptions>(dataFilePath, defaultData);
 }
