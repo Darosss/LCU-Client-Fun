@@ -54,3 +54,11 @@ export interface ChangeSummonersSpellsBody {
   spell1Id?: number;
   spell2Id?: number;
 }
+
+export interface ChampSelectSessionTimerResponse {
+  adjustedTimeLeftInPhase: number;
+  internalNowInEpochMs: number;
+  isInfinite: boolean;
+  phase: string;
+  totalTimeInPhase: number;
+}
