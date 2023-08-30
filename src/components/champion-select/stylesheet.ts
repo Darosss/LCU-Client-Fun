@@ -8,12 +8,20 @@ export function champselectStyleSheet(
     #champ-select-title-wrapper{
         display:flex;
         justify-content:'center';
-        align-items:'center'
+        align-items:'center';
+        ${backgroundLinearGradient(`rgba(90,166,25,1)`, `rgba(0,18,36,1)`)}
+
     }
 
     #champ-select-title-wrapper > QWidget {
         display: 'flex'; 
-        justify-content: 'center'
+        justify-content: 'center';
+        align-items:'center';
+        color:white;
+    }
+
+    #champ-select-title-wrapper > #time-left-text {
+        font-size: 20px;
     }
 
     #pick-ban-button {
