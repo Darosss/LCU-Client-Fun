@@ -8,6 +8,8 @@ import {
   BotDifficulty,
 } from "../../LCU/types/custom-mode";
 import { CustomLobbyContext } from "./custom-lobby/custom-lobby-context";
+import { findChampionById } from "../../helpers/data-dragon-helpers";
+import { LCUContext } from "../../LCU/lcucontext";
 
 interface LeaderBotActionsProps {
   championData?: ChampionBotsData;
@@ -22,6 +24,9 @@ export function LeaderBotsActions({
 }: LeaderBotActionsProps) {
   const teamIdAsEnum =
     String(member.teamId) === TeamsIds.first ? TeamsIds.first : TeamsIds.second;
+  const {
+    lolDataDragon: { dataDragonChampions },
+  } = useContext(LCUContext);
   const { championBots } = useContext(CustomLobbyContext);
   const [botChampFilter, setBotChampFilter] = useState("");
   const [showChampionsList, setShowChampionsList] = useState(false);
@@ -42,10 +47,15 @@ export function LeaderBotsActions({
   }
 
   function handleOnChangeExistingBotBtn(newChampionId: number) {
-    if (!championData) return;
+    const champIdName = findChampionById(
+      dataDragonChampions,
+      championData?.id || -1
+    )?.idName;
+    if (!champIdName) return;
+
     lcuClientHandlerObj
       .editExistingBotInCustomLobby(
-        { teamId: teamIdAsEnum, botName: championData.name },
+        { teamId: teamIdAsEnum, botName: champIdName },
         {
           championId: newChampionId,
           teamId: teamIdAsEnum,
@@ -83,7 +93,11 @@ export function LeaderBotsActions({
         text={member.botDifficulty}
         on={{
           clicked: () => {
-            if (!championData) return;
+            const champIdName = findChampionById(
+              dataDragonChampions,
+              championData?.id || -1
+            )?.idName;
+            if (!champIdName) return;
 
             const changedBotDifficulty =
               member.botDifficulty === BotDifficulty.EASY
@@ -91,7 +105,7 @@ export function LeaderBotsActions({
                 : BotDifficulty.EASY;
 
             onChangeExistingBotDifficulty(
-              championData.name,
+              champIdName,
               teamIdAsEnum,
               member.botChampionId,
               changedBotDifficulty
