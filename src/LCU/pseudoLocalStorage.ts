@@ -8,6 +8,13 @@ if (!dataFileExists(dataFilePath)) {
   const defaultData: ClientOptions = {
     autoAccept: true,
     minSize: { width: 1024, height: 768 },
+    autoPickChamps: {
+      utility: [],
+      middle: [],
+      top: [],
+      bottom: [],
+      jungle: [],
+    },
   };
   writeData<ClientOptions>(dataFilePath, defaultData);
 }
