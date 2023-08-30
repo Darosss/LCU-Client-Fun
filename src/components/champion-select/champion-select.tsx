@@ -8,6 +8,7 @@ import { ChampionSelectContext } from "./champion-select-context";
 import { champselectStyleSheet } from "./stylesheet";
 import { TeamView } from "./team-view";
 import { getPercentFromValue } from "../../helpers/node-gui-responsive-helpers";
+import { TimeLeftInPhase } from "./time-left-in-phase";
 
 export function ChampSelect() {
   const {
@@ -60,8 +61,8 @@ export function ChampSelect() {
           Champ select
           {userAction ? ` - Your time to ${userAction.type}!` : ""}
         </Text>
+        <TimeLeftInPhase />
       </View>
-      {/* <DoneActionsChampSelect actions={actionsChampSelect} myTeam={myTeam} /> */}
       {userAction ? (
         <View>
           <Button
