@@ -1,4 +1,4 @@
-import { Text, View } from "@nodegui/react-nodegui";
+import { View } from "@nodegui/react-nodegui";
 import React, { useContext, useMemo } from "react";
 import { ReadyCheck } from "./readycheck";
 import { LCUContext } from "../../LCU/lcucontext";
@@ -12,6 +12,7 @@ import { GameStart } from "./game-start";
 import { InProgress } from "./in-progress";
 import { phaseViewStylesheet } from "./stylesheet";
 import { getPercentFromValue } from "../../helpers/node-gui-responsive-helpers";
+import { Sidebar } from "./sidebar";
 
 interface PhaseViewProps {}
 export function PhaseView({}: PhaseViewProps) {
@@ -86,7 +87,7 @@ export function PhaseView({}: PhaseViewProps) {
           id="sidebar-wrapper"
           style={`min-width:${sidebarWidth}px; max-width:${sidebarWidth};`}
         >
-          <Text> Sidebar </Text>
+          <Sidebar />
         </View>
       </View>
     </View>
