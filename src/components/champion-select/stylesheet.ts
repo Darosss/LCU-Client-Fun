@@ -14,15 +14,45 @@ export function champselectStyleSheet(
     }
 
     #champ-select-title-wrapper > QWidget {
+        color:white;
         display: 'flex'; 
+        flex-direction:'row';
         justify-content: 'center';
         align-items:'center';
-        color:white;
     }
 
     #champ-select-title-wrapper > #time-left-text {
         font-size: 20px;
     }
+
+    #champ-select-title-wrapper > #bans-in-phase-wrapper{
+        display:'flex';
+        flex-direction:'row';
+        justify-content:'space-between';
+    }
+
+    #bans-in-phase-wrapper > QWidget {
+        background:red;
+        display:'flex';
+        flex-direction:'row';
+        justify-content:'space-between';
+        margin-horizontal: ${~~championSelectActionsWidth / 2}px;
+        width:${championSelectActionsWidth}px;
+        ${backgroundLinearGradient(`rgba(90,166,25,1)`, `rgba(0,18,36,1)`)}
+        padding:5px;
+    }
+
+    #bans-in-phase-wrapper > #bans-in-phase-ally QLabel{
+        color:yellow;
+        border:1px solid yellow;
+    }
+
+    #bans-in-phase-wrapper > #bans-in-phase-enemy QLabel {
+        color:red;
+        border:1px solid red;
+    }
+
+ 
 
     #pick-ban-button {
         color:white;
