@@ -7,8 +7,6 @@ import { lcuClientHandlerObj } from "../../LCU/LCUClientHandler";
 
 interface ChampionSelectContext {
   champSelectSessionData: ChampSelectSessionDataRequiredWithActionsFlat;
-  currentSummonerCellId: number;
-  changeCurrentSummonerCellId: (value: number) => void;
   champSelectSessionTimer: ChampSelectSessionTimerResponse | null;
 }
 
@@ -22,9 +20,8 @@ export const initialChampionSelectContextValue: ChampionSelectContext = {
       numBans: 0,
       theirTeamBans: [],
     },
+    localPlayerCellId: -1,
   },
-  currentSummonerCellId: -1,
-  changeCurrentSummonerCellId: () => {},
   champSelectSessionTimer: null,
 };
 
@@ -41,7 +38,6 @@ export function ChampionSelectContextProvider({
     useState<ChampSelectSessionDataRequiredWithActionsFlat>(
       initialChampionSelectContextValue.champSelectSessionData
     );
-  const [currentSummonerCellId, setCurrentSummonerCellId] = useState(-1);
 
   const [champSelectSessionTimer, setChampSelectSessionTimer] =
     useState<ChampSelectSessionTimerResponse | null>(null);
@@ -58,7 +54,6 @@ export function ChampionSelectContextProvider({
 
   React.useEffect(() => {
     if (champSelectSessionData.actions.length <= 0) return;
-
     lcuClientHandlerObj
       .getChampSelectSessionTimer()
       .then((timerSessionData) => {
@@ -75,16 +70,10 @@ export function ChampionSelectContextProvider({
       );
   }, [champSelectSessionData]);
 
-  function changeCurrentSummonerCellId(value: number) {
-    setCurrentSummonerCellId(value);
-  }
-
   return (
     <ChampionSelectContext.Provider
       value={{
         champSelectSessionData,
-        currentSummonerCellId,
-        changeCurrentSummonerCellId,
         champSelectSessionTimer,
       }}
     >
