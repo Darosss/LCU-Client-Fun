@@ -1,6 +1,9 @@
 import { View, Text } from "@nodegui/react-nodegui";
-import React, { useContext, useCallback } from "react";
-import { TeamChampSelectSessionData } from "../../../LCU/types";
+import React, { useContext, useMemo } from "react";
+import {
+  ActionsChampSelectSessionData,
+  TeamChampSelectSessionData,
+} from "../../../LCU/types";
 import { ChampionSelectContext } from "../champion-select-context";
 import { ChangeSummonerSpellsButtons } from "./change-summoner-spells-btn";
 import {
@@ -14,36 +17,62 @@ interface TeamSummonersBlocksProps {
 }
 //TODO: add show nicnames if visible fe. aram, flex, normal, normal draft etc. Exluding solo / duo ?
 export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
-  const { champSelectSessionData, currentSummonerCellId } = useContext(
-    ChampionSelectContext
-  );
+  const { champSelectSessionData } = useContext(ChampionSelectContext);
   const {
     lolDataDragon: { dataDragonChampions, dataDragonSpells },
     currentSummoner,
   } = useContext(LCUContext);
 
-  const filterNotCompletedAction = useCallback(
-    (summonerCellId: number) => {
-      const action = champSelectSessionData.actions
-        ?.reverse()
-        .find(({ actorCellId }) => actorCellId === summonerCellId);
-
-      const foundChamp = findChampionById(
-        dataDragonChampions,
-        action?.championId || 0
-      );
-      if (action?.isInProgress) {
-        return action?.type === "pick"
-          ? `Picking ${foundChamp}`
-          : `Banning ${foundChamp}`;
-      } else if (action?.completed) {
-        return `Locked in! ${foundChamp}`;
-      } else {
-        return "Unknown";
+  const getInProgressAction = useMemo(() => {
+    const inProgressAction = champSelectSessionData.actions?.find(
+      ({ actorCellId, isInProgress }) => {
+        return actorCellId === summoner.cellId && isInProgress;
       }
-    },
-    [champSelectSessionData]
-  );
+    );
+
+    return inProgressAction;
+  }, [summoner]);
+
+  const getLastAction = useMemo(() => {
+    const lastAction = champSelectSessionData.actions
+      ?.reverse()
+      .find(({ actorCellId }) => {
+        return actorCellId === summoner.cellId;
+      });
+
+    return lastAction;
+  }, [summoner]);
+
+  const summonerAction = useMemo(() => {
+    let gowno: ActionsChampSelectSessionData | null;
+    if (getInProgressAction) {
+      gowno = getInProgressAction || null;
+    } else {
+      gowno = getLastAction || null;
+    }
+
+    return gowno;
+  }, [getInProgressAction, getLastAction]);
+
+  const currentOrLastAction = useMemo(() => {
+    const foundChamp = findChampionById(
+      dataDragonChampions,
+      summonerAction?.championId || 0
+    );
+
+    if (!summonerAction) return "Unknown";
+    else if (summonerAction.isInProgress) {
+      return summonerAction.type === "pick"
+        ? `Picking ${foundChamp}`
+        : `Banning ${foundChamp}`;
+    } else if (summonerAction.completed) {
+      return summonerAction.type === "pick"
+        ? `Locked in ${foundChamp}`
+        : `Banned ${foundChamp}`;
+    } else {
+      return "Not yet picked";
+    }
+  }, [champSelectSessionData]);
 
   return (
     <View id="team-summoners-blocks-wrapper">
@@ -51,7 +80,7 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
         <Text>{summoner.assignedPosition || ""}</Text>
         <Text>
           {`${
-            currentSummonerCellId === summoner.cellId
+            champSelectSessionData.localPlayerCellId === summoner.cellId
               ? currentSummoner?.displayName
               : ""
           }${findChampionById(
@@ -61,7 +90,7 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
         </Text>
       </View>
       <View id="summoner-spells-wrapper">
-        {currentSummonerCellId === summoner.cellId ? (
+        {champSelectSessionData.localPlayerCellId === summoner.cellId ? (
           <ChangeSummonerSpellsButtons
             spell1Id={summoner.spell1Id}
             spell2Id={summoner.spell2Id}
@@ -78,7 +107,7 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
         )}
       </View>
       <View id="summoner-current-action">
-        <Text>{filterNotCompletedAction(summoner.cellId)}</Text>
+        <Text>{currentOrLastAction}</Text>
       </View>
     </View>
   );
