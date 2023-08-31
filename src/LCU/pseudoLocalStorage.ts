@@ -14,6 +14,7 @@ if (!dataFileExists(dataFilePath)) {
       top: [],
       bottom: [],
       jungle: [],
+      other: [],
     },
     autoPickChamp: false,
   };
