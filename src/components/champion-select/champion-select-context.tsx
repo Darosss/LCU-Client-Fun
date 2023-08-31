@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import {
   ChampSelectSessionDataRequiredWithActionsFlat,
   ChampSelectSessionTimerResponse,
+  ChampionData,
 } from "../../LCU/types";
 import { lcuClientHandlerObj } from "../../LCU/LCUClientHandler";
 
 interface ChampionSelectContext {
   champSelectSessionData: ChampSelectSessionDataRequiredWithActionsFlat;
   champSelectSessionTimer: ChampSelectSessionTimerResponse | null;
+  availableChamps: ChampionData[];
+  setAvailableChamps: React.Dispatch<React.SetStateAction<ChampionData[]>>;
 }
 
 export const initialChampionSelectContextValue: ChampionSelectContext = {
@@ -23,6 +26,8 @@ export const initialChampionSelectContextValue: ChampionSelectContext = {
     localPlayerCellId: -1,
   },
   champSelectSessionTimer: null,
+  availableChamps: [],
+  setAvailableChamps: () => {},
 };
 
 export const ChampionSelectContext = React.createContext<ChampionSelectContext>(
@@ -41,6 +46,8 @@ export function ChampionSelectContextProvider({
 
   const [champSelectSessionTimer, setChampSelectSessionTimer] =
     useState<ChampSelectSessionTimerResponse | null>(null);
+
+  const [availableChamps, setAvailableChamps] = useState<ChampionData[]>([]);
 
   React.useEffect(() => {
     lcuClientHandlerObj
@@ -73,6 +80,8 @@ export function ChampionSelectContextProvider({
   return (
     <ChampionSelectContext.Provider
       value={{
+        availableChamps,
+        setAvailableChamps,
         champSelectSessionData,
         champSelectSessionTimer,
       }}
