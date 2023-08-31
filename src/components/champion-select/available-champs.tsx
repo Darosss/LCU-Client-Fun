@@ -7,6 +7,7 @@ import { LCUContext } from "../../LCU/lcucontext";
 import { ChampionData } from "../../LCU/types";
 import { SelectedChamp } from "./types";
 import { ChampionSelectContext } from "./champion-select-context";
+import { isBannedOrPickedChamp } from "../../helpers/champions-helpers";
 
 interface AvailableChampsProps {
   banPhase: boolean;
@@ -24,9 +25,10 @@ export function AvailableChamps({
     lolDataDragon: { dataDragonChampions },
   } = useContext(LCUContext);
 
-  const [availableChamps, setAvailableChamps] = useState<ChampionData[]>([]);
   const {
     champSelectSessionData: { myTeam, bans, theirTeam },
+    availableChamps,
+    setAvailableChamps,
   } = useContext(ChampionSelectContext);
   const [champFilter, setChampFilter] = useState<string | null>(null);
 
@@ -75,15 +77,11 @@ export function AvailableChamps({
     );
   }
 
-  function isBannedOrPickedChampById(championId: number) {
-    const isAlreadyPicked = Object.assign(myTeam, theirTeam).some(
-      (team) => team.championId === championId
-    );
-    const isAlreadyBanned = [...bans.myTeamBans, ...bans.theirTeamBans].some(
-      (id) => id === championId
-    );
-
-    return isAlreadyBanned || isAlreadyPicked;
+  function isBannedOrPickedChampByIdWrapped(championId: number) {
+    return isBannedOrPickedChamp(championId, Object.assign(myTeam, theirTeam), [
+      ...bans.myTeamBans,
+      ...bans.theirTeamBans,
+    ]);
   }
 
   function sortChampionsAlphabeticaly(name1: string, name2: string) {
@@ -117,7 +115,7 @@ export function AvailableChamps({
                   champ.name,
                   champ.id,
                   idx,
-                  isBannedOrPickedChampById(champ.id)
+                  isBannedOrPickedChampByIdWrapped(champ.id)
                 )
               )
           : dataDragonChampions
@@ -132,7 +130,7 @@ export function AvailableChamps({
                   champ.name,
                   champ.id,
                   idx,
-                  isBannedOrPickedChampById(champ.id)
+                  isBannedOrPickedChampByIdWrapped(champ.id)
                 )
               )}
       </View>
