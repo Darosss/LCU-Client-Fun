@@ -2,7 +2,11 @@ import { Text } from "@nodegui/react-nodegui";
 import React, { useContext, useState } from "react";
 import { ChampionSelectContext } from "./champion-select-context";
 
-export function TimeLeftInPhase() {
+interface TimeLeftInPhaseProps {
+  onEndingTimeLeft: () => void;
+}
+
+export function TimeLeftInPhase({ onEndingTimeLeft }: TimeLeftInPhaseProps) {
   const { champSelectSessionTimer } = useContext(ChampionSelectContext);
   const [timeLeftInPhase, setTimeLeftInPhase] = useState(0);
 
@@ -14,7 +18,10 @@ export function TimeLeftInPhase() {
     setTimeLeftInPhase(secondsLeftInPhase);
 
     const timer = setInterval(() => {
-      setTimeLeftInPhase((prevTime) => --prevTime);
+      setTimeLeftInPhase((prevTime) => {
+        if (prevTime === 5) onEndingTimeLeft();
+        return --prevTime;
+      });
     }, 1000);
 
     return () => {

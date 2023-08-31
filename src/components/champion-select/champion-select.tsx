@@ -10,27 +10,33 @@ import { TeamView } from "./team-view";
 import { getPercentFromValue } from "../../helpers/node-gui-responsive-helpers";
 import { TimeLeftInPhase } from "./time-left-in-phase";
 import { PhaseBans } from "./phase-bans";
+import { findAvailableChampionForAutoPick } from "../../helpers/champions-helpers";
 
 export function ChampSelect() {
   const {
-    options: { minSize },
+    options: { minSize, autoPickChamp, autoPickChamps },
   } = useContext(LCUContext);
-  const { champSelectSessionData } = useContext(ChampionSelectContext);
+  const {
+    champSelectSessionData: {
+      actions,
+      localPlayerCellId,
+      myTeam,
+      theirTeam,
+      bans,
+    },
+    availableChamps,
+  } = useContext(ChampionSelectContext);
   const [selectedChamp, setSelectedChamp] = useState<SelectedChamp | null>(
     null
   );
 
   const userAction = useMemo(() => {
-    if (
-      champSelectSessionData.localPlayerCellId !== -1 &&
-      champSelectSessionData.actions
-    )
-      return champSelectSessionData.actions.find(
+    if (localPlayerCellId !== -1 && actions)
+      return actions.find(
         (action) =>
-          action?.actorCellId === champSelectSessionData.localPlayerCellId &&
-          action?.isInProgress
+          action?.actorCellId === localPlayerCellId && action?.isInProgress
       );
-  }, [champSelectSessionData, champSelectSessionData.localPlayerCellId]);
+  }, [actions, localPlayerCellId]);
 
   const { maxHeightChampsList, championSelectActionsWidth } = useMemo<{
     maxHeightChampsList: number;
@@ -40,6 +46,45 @@ export function ChampSelect() {
     const championSelectActionsWidth = getPercentFromValue(minSize.width, 17);
     return { maxHeightChampsList, championSelectActionsWidth };
   }, [minSize]);
+
+  function autoPickChampion() {
+    if (!userAction) return;
+
+    const localPlayer = myTeam.find(
+      ({ cellId }) => cellId === localPlayerCellId
+    );
+
+    if (!localPlayer) return;
+
+    if (autoPickChamp) {
+      const localPlayerRole = localPlayer.assignedPosition || "other";
+
+      const availableChampsToPick = autoPickChamps[localPlayerRole];
+
+      let foundChampionId: number | null = findAvailableChampionForAutoPick(
+        availableChampsToPick,
+        Object.assign(myTeam, theirTeam),
+        [...bans.myTeamBans, ...bans.theirTeamBans],
+        availableChamps
+      );
+
+      if (foundChampionId)
+        completeActionChampion(foundChampionId, userAction.id, true);
+    } else {
+      // TODO: add info about not picked auto pick champ
+    }
+  }
+
+  function completeActionChampion(
+    championId: number,
+    userActionId: number,
+    complete = false
+  ) {
+    // No selected champ return // add info to select champ?
+    lcuClientHandlerObj
+      .champSelectAction(championId, userActionId, complete)
+      .then(() => setSelectedChamp(null));
+  }
 
   return (
     <View
@@ -53,7 +98,7 @@ export function ChampSelect() {
           Champ select
           {userAction ? ` - Your time to ${userAction.type}!` : ""}
         </Text>
-        <TimeLeftInPhase />
+        <TimeLeftInPhase onEndingTimeLeft={() => autoPickChampion()} />
         <Text> Bans </Text>
         <PhaseBans />
       </View>
@@ -64,12 +109,8 @@ export function ChampSelect() {
             text={userAction.type || "Action"}
             on={{
               clicked: () => {
-                // No selected champ return // add info to select champ?
                 if (!selectedChamp) return;
-
-                lcuClientHandlerObj
-                  .champSelectAction(selectedChamp.id, userAction.id, true)
-                  .then(() => setSelectedChamp(null));
+                completeActionChampion(selectedChamp.id, userAction.id, true);
               },
             }}
           ></Button>

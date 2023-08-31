@@ -11,6 +11,7 @@ const assignedPositions: AssignedPosition[] = [
   "top",
   "bottom",
   "jungle",
+  "other",
 ];
 
 export function AutoChampionPick() {

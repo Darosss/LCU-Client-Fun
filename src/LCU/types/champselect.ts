@@ -6,7 +6,7 @@ export interface ChampSelectSessionDataRequired {
   localPlayerCellId: number;
 }
 
-interface ChampSelectSessionDataBans {
+export interface ChampSelectSessionDataBans {
   myTeamBans: number[];
   theirTeamBans: number[];
   numBans: number;
@@ -18,7 +18,7 @@ export interface ChampSelectSessionDataRequiredWithActionsFlat
 }
 
 export interface TeamChampSelectSessionData {
-  assignedPosition: string | null;
+  assignedPosition: AssignedPosition | null;
   cellId: number;
   championId: number;
   championPickIntent: number;
@@ -69,4 +69,5 @@ export type AssignedPosition =
   | "middle"
   | "top"
   | "bottom"
-  | "jungle";
+  | "jungle"
+  | "other";
