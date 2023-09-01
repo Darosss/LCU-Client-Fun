@@ -1,6 +1,6 @@
 import { Button } from "@nodegui/react-nodegui";
 import React from "react";
-import { lcuClientHandlerObj } from "../../../LCU/LCUClientHandler";
+import { lcuClientHandlerObj } from "../../LCU/LCUClientHandler";
 
 interface LeaderPlayersActionsProps {
   summonerId: number;
