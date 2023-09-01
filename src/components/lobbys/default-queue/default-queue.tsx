@@ -1,26 +1,9 @@
-import { Button } from "@nodegui/react-nodegui";
-import { playBtn } from "../styles";
-import React from "react";
-import { lcuClientHandlerObj } from "../../../LCU/LCUClientHandler";
+import React, { useContext } from "react";
+import { LCUContext } from "../../../LCU/lcucontext";
+import { SearchMatchBtn } from "./search-match-btn";
 
 export function DefaultQueue() {
-  function searchMatch() {
-    lcuClientHandlerObj
-      .searchMatch()
-      .then(() => {})
-      .catch((err) =>
-        console.log("Error occured while trying to search the match", err)
-      );
-  }
+  const { lobbyData } = useContext(LCUContext);
 
-  return (
-    <Button
-      style={playBtn}
-      on={{
-        clicked: () => searchMatch(),
-      }}
-    >
-      Search
-    </Button>
-  );
+  return lobbyData?.localMember.isLeader ? <SearchMatchBtn /> : null;
 }
