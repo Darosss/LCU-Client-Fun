@@ -2,7 +2,7 @@ import { View, Button } from "@nodegui/react-nodegui";
 import React, { useContext } from "react";
 import { LCUContext } from "../../../LCU/lcucontext";
 import { LobbyMember } from "../../../LCU/types";
-import { LeaderPlayersActions } from "./leader-players-actions";
+import { LeaderPlayersActions } from "../leader-players-actions";
 
 interface SummonerInLobbyProps {
   summoner: LobbyMember;

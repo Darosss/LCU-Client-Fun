@@ -70,7 +70,7 @@ export interface LobbyGameDataResponse {
   //TODO: change any in needed / required data
   invitations: any;
   localMember: LobbyMember;
-  members: any;
+  members: LobbyMember[];
   mucJwtDto: any;
   multiUserChatId: any;
   multiUserChatPassword: any;
@@ -119,14 +119,14 @@ export interface LobbyMember {
   botChampionId: number;
   botDifficulty: string;
   botId: string;
-  firstPositionPreference: string;
+  firstPositionPreference: PositionsPreferences;
   isBot: boolean;
   isLeader: boolean;
   isSpectator: boolean;
   playerSlots: [];
   puuid: string;
   ready: true;
-  secondPositionPreference: string;
+  secondPositionPreference: PositionsPreferences;
   showGhostedBanner: boolean;
   summonerIconId: number;
   summonerId: number;
@@ -139,4 +139,19 @@ export interface LobbyMember {
 export interface AllRequiredDataDragon {
   dataDragonChampions: DataDragonChampionsJsonFileData[];
   dataDragonSpells: DataDragonSpellsJsonFileData[];
+}
+
+export enum PositionsPreferences {
+  TOP = "TOP",
+  JUNGLE = "JUNGLE",
+  MIDDLE = "MIDDLE",
+  BOTTOM = "BOTTOM",
+  UTILITY = "UTILITY",
+  FILL = "FILL",
+  UNSELECTED = "UNSELECTED",
+}
+
+export interface ChangePositionPreferenceBody {
+  firstPreference: PositionsPreferences;
+  secondPreference: PositionsPreferences;
 }

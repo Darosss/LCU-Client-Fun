@@ -1,26 +1,23 @@
-import { Button, useEventHandler } from "@nodegui/react-nodegui";
-import { playBtn } from "../styles";
-import { QPushButtonSignals } from "@nodegui/nodegui";
-import React from "react";
-import { lcuClientHandlerObj } from "../../../LCU/LCUClientHandler";
+import React, { useContext } from "react";
+import { LCUContext } from "../../../LCU/lcucontext";
+import { SearchMatchBtn } from "./search-match-btn";
+import { View } from "@nodegui/react-nodegui";
+import { PositionSelector } from "./position-selector";
+import { LobbyMembers } from "./lobby-members";
 
 export function DefaultQueue() {
-  const searchMatchBtnHandler = useEventHandler<QPushButtonSignals>(
-    {
-      clicked: () => {
-        lcuClientHandlerObj
-          .searchMatch()
-          .then(() => {})
-          .catch((err) =>
-            console.log("Error occured while trying to search the match", err)
-          );
-      },
-    },
-    []
-  );
+  const { lobbyData } = useContext(LCUContext);
+  if (!lobbyData) return null;
   return (
-    <Button style={playBtn} on={searchMatchBtnHandler}>
-      Search
-    </Button>
+    <View
+      id="default-queue-wrapper"
+      //FIXME: i don't know styles from stylesheet with display didnt work there
+      // so i put inline style here
+      style="display:'flex';flex-direction:'column';"
+    >
+      {lobbyData.gameConfig.showPositionSelector ? <PositionSelector /> : null}
+      {lobbyData.localMember.isLeader ? <SearchMatchBtn /> : null}
+      <LobbyMembers />
+    </View>
   );
 }

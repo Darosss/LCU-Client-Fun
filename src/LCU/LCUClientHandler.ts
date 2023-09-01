@@ -16,6 +16,7 @@ import {
   GameFlowPhaseData,
   LobbyGameDataResponse,
   ChampSelectSessionTimerResponse,
+  ChangePositionPreferenceBody,
 } from "./types/";
 import {
   AddBotToLobbyBody,
@@ -348,6 +349,16 @@ export class LCUClientHandler {
 
   /* CUSTOM LOBBY */
 
+  public async changePositionPreferences(body: ChangePositionPreferenceBody) {
+    await createHttp1Request(
+      {
+        method: "PUT",
+        url: "/lol-lobby/v1/lobby/members/localMember/position-preferences",
+        body: body,
+      },
+      this.credentials!
+    );
+  }
   public async leaveLobby() {
     await createHttp1Request(
       {
@@ -358,10 +369,10 @@ export class LCUClientHandler {
     );
   }
 
-  public async searchMatch() {
+  public async searchMatch(cancel = false) {
     await createHttp1Request(
       {
-        method: "POST",
+        method: cancel ? "DELETE" : "POST",
         url: "lol-lobby/v2/lobby/matchmaking/search",
       },
       this.credentials!

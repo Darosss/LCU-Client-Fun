@@ -25,17 +25,21 @@ export function LobbyActions() {
 
   return showLobbyActions ? (
     <View id="lobby-actions">
-      <Button
-        text="Hide lobby"
-        on={{ clicked: () => setShowLobbyActions(false) }}
-      />
-      {currentLobbyNameText()}
-      {lobbyData.gameConfig.isCustom ? <CustomLobby /> : <DefaultQueue />}
-      <LeaveLobbyBtn />
+      <View id="lobby-actions-manage">
+        <Button
+          text="Hide lobby"
+          on={{ clicked: () => setShowLobbyActions(false) }}
+        />
+        {currentLobbyNameText()}
+        <LeaveLobbyBtn />
 
-      {lobbyData.localMember.isLeader ? (
-        <LobbysList textOnShow="Change mode" />
-      ) : null}
+        {lobbyData.localMember.isLeader ? (
+          <LobbysList textOnShow="Change mode" />
+        ) : null}
+      </View>
+      <View id="lobby-actions-members">
+        {lobbyData.gameConfig.isCustom ? <CustomLobby /> : <DefaultQueue />}
+      </View>
     </View>
   ) : (
     <View id="lobby-hidden">
