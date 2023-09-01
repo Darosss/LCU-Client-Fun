@@ -369,10 +369,10 @@ export class LCUClientHandler {
     );
   }
 
-  public async searchMatch() {
+  public async searchMatch(cancel = false) {
     await createHttp1Request(
       {
-        method: "POST",
+        method: cancel ? "DELETE" : "POST",
         url: "lol-lobby/v2/lobby/matchmaking/search",
       },
       this.credentials!
