@@ -31,7 +31,8 @@ export type SwitchTeamParam = "one" | "two";
 export type ManagePlayerInLobbyActions =
   | "kick"
   | "revoke-invite"
-  | "grant-invite";
+  | "grant-invite"
+  | "promote";
 
 export interface ManagePlayerInLobbyOpts {
   managePlayerId: number;
