@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Window, hot, View } from "@nodegui/react-nodegui";
 import { QIcon } from "@nodegui/nodegui";
 import nodeguiIcon from "@assets/nodegui.jpg";
-import { LCUContext, LCUContextProvider } from "./LCU/lcucontext";
+import { LCUContext, LCUContextProvider } from "@lcu";
 import { backgroundLinearGradient } from "./components/styles";
 import { PhaseView } from "@components";
 
