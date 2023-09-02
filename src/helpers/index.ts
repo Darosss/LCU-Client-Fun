@@ -2,3 +2,8 @@ export * from "./fetchdata";
 export * from "./fsdata";
 export * from "./spellsfetch";
 export * from "./championsfetch";
+export * from "./array-helpers";
+export * from "./champions-helpers";
+export * from "./data-dragon-helpers";
+export * from "./node-gui-responsive-helpers";
+export * from "./time-helpers";

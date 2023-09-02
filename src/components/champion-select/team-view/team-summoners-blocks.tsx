@@ -1,16 +1,14 @@
-import { View, Text } from "@nodegui/react-nodegui";
 import React, { useContext, useMemo } from "react";
+import { View, Text } from "@nodegui/react-nodegui";
 import {
   ActionsChampSelectSessionData,
   TeamChampSelectSessionData,
-} from "../../../LCU/types";
+  LCUContext,
+} from "@lcu";
+import { findChampionById, findSummonerSpellById } from "@helpers";
+
 import { ChampionSelectContext } from "../champion-select-context";
 import { ChangeSummonerSpellsButtons } from "./change-summoner-spells-btn";
-import {
-  findChampionById,
-  findSummonerSpellById,
-} from "../../../helpers/data-dragon-helpers";
-import { LCUContext } from "../../../LCU/lcucontext";
 
 interface TeamSummonersBlocksProps {
   summoner: TeamChampSelectSessionData;

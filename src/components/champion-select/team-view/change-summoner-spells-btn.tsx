@@ -1,9 +1,8 @@
-import { View, Button } from "@nodegui/react-nodegui";
 import React, { useContext, useState } from "react";
-import { lcuClientHandlerObj } from "../../../LCU/LCUClientHandler";
-import { LCUContext } from "../../../LCU/lcucontext";
+import { View, Button } from "@nodegui/react-nodegui";
+import { lcuClientHandlerObj, LCUContext } from "@lcu";
 import { ChampionSelectContext } from "../champion-select-context";
-import { findSummonerSpellById } from "../../../helpers/data-dragon-helpers";
+import { findSummonerSpellById } from "@helpers";
 
 interface ChangeSummonerSpellsButtonsProps {
   spell1Id: number;

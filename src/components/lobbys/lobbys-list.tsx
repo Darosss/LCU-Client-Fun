@@ -1,9 +1,7 @@
-import { Button, LineEdit, Text, View } from "@nodegui/react-nodegui";
 import React, { useState } from "react";
-import { lcuClientHandlerObj } from "../../LCU/LCUClientHandler";
-import { queues } from "../../LCU/queues";
+import { Button, LineEdit, Text, View } from "@nodegui/react-nodegui";
+import { lcuClientHandlerObj, queues, EligibileLobbyAndQueueData } from "@lcu";
 import { CustomModeLobby } from "./custom-mode-lobby";
-import { EligibileLobbyAndQueueData } from "../../LCU/types";
 
 interface ShowLobbysProps {
   textOnShow?: string;

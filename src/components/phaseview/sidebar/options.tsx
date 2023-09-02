@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from "@nodegui/react-nodegui";
-import { LCUContext } from "../../../LCU/lcucontext";
+import { LCUContext } from "@lcu";
 import { AutoChampionPick } from "./auto-champion-pick";
 
 export function Options() {

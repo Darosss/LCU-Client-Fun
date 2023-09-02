@@ -1,8 +1,6 @@
-import React from "react";
 import { useContext } from "react";
-import { lcuClientHandlerObj } from "../../../LCU/LCUClientHandler";
-import { LCUContext } from "../../../LCU/lcucontext";
-import { TeamsIds } from "../../../LCU/types/custom-mode";
+import React from "react";
+import { TeamsIds, LCUContext, lcuClientHandlerObj } from "@lcu";
 import { Button } from "@nodegui/react-nodegui";
 import { CustomLobbyContext } from "./custom-lobby-context";
 

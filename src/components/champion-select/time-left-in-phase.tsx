@@ -1,5 +1,5 @@
-import { Text } from "@nodegui/react-nodegui";
 import React, { useContext, useState } from "react";
+import { Text } from "@nodegui/react-nodegui";
 import { ChampionSelectContext } from "./champion-select-context";
 
 interface TimeLeftInPhaseProps {

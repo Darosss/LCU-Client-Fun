@@ -1,7 +1,6 @@
-import { Button, Text, View } from "@nodegui/react-nodegui";
+import { Button, View } from "@nodegui/react-nodegui";
 import React from "react";
-import { LobbyMember } from "../../../LCU/types";
-import { lcuClientHandlerObj } from "../../../LCU/LCUClientHandler";
+import { LobbyMember, lcuClientHandlerObj } from "@lcu";
 import { LeaderPlayersActions } from "../leader-players-actions";
 
 interface LeaderMemberManageActionsProps {

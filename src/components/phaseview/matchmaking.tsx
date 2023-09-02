@@ -1,6 +1,6 @@
-import { Text, View } from "@nodegui/react-nodegui";
 import React, { useEffect, useState } from "react";
-import { secondsToHMS } from "../../helpers/time-helpers";
+import { Text, View } from "@nodegui/react-nodegui";
+import { secondsToHMS } from "@helpers";
 
 export function Matchmaking() {
   const [searchingMatchTime, setSearchingMatchTime] = useState(0);

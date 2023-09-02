@@ -2,7 +2,7 @@ import {
   ChampionData,
   DataDragonChampionsJsonFileData,
   TeamChampSelectSessionData,
-} from "../LCU/types";
+} from "@lcu";
 
 export function isBannedOrPickedChamp(
   championId: number,

@@ -3,8 +3,8 @@ import {
   ChampSelectSessionDataRequiredWithActionsFlat,
   ChampSelectSessionTimerResponse,
   ChampionData,
-} from "../../LCU/types";
-import { lcuClientHandlerObj } from "../../LCU/LCUClientHandler";
+  lcuClientHandlerObj,
+} from "@lcu";
 
 interface ChampionSelectContext {
   champSelectSessionData: ChampSelectSessionDataRequiredWithActionsFlat;

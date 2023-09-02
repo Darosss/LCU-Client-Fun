@@ -1,16 +1,17 @@
 import React, { useContext, useMemo, useState } from "react";
 import { Button, Text, View } from "@nodegui/react-nodegui";
-import { lcuClientHandlerObj } from "../../LCU/LCUClientHandler";
-import { LCUContext } from "../../LCU/lcucontext";
+import { lcuClientHandlerObj, LCUContext } from "@lcu";
+import {
+  getPercentFromValue,
+  findAvailableChampionForAutoPick,
+} from "@helpers";
 import { SelectedChamp } from "./types";
 import { AvailableChamps } from "./available-champs";
 import { ChampionSelectContext } from "./champion-select-context";
 import { champselectStyleSheet } from "./stylesheet";
 import { TeamView } from "./team-view";
-import { getPercentFromValue } from "../../helpers/node-gui-responsive-helpers";
 import { TimeLeftInPhase } from "./time-left-in-phase";
 import { PhaseBans } from "./phase-bans";
-import { findAvailableChampionForAutoPick } from "../../helpers/champions-helpers";
 
 export function ChampSelect() {
   const {

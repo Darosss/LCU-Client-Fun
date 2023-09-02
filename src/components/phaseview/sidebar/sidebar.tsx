@@ -1,7 +1,7 @@
-import { TabItem, Tabs, Text } from "@nodegui/react-nodegui";
 import React, { useContext } from "react";
+import { TabItem, Tabs, Text } from "@nodegui/react-nodegui";
 import { Options } from "./options";
-import { LCUContext } from "../../../LCU/lcucontext";
+import { LCUContext } from "@lcu";
 import { sidebarStylsheet } from "./stylesheet";
 
 export function Sidebar() {

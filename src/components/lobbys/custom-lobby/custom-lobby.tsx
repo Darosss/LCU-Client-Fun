@@ -2,8 +2,7 @@ import React, { useContext } from "react";
 import { Button, View } from "@nodegui/react-nodegui";
 import { CustomLobbyContextProvider } from "./custom-lobby-context";
 import { LobbyTeamsView } from "./lobby-teams-view";
-import { lcuClientHandlerObj } from "../../../LCU/LCUClientHandler";
-import { LCUContext } from "../../../LCU/lcucontext";
+import { LCUContext, lcuClientHandlerObj } from "@lcu";
 
 export function CustomLobby() {
   const { lobbyData } = useContext(LCUContext);

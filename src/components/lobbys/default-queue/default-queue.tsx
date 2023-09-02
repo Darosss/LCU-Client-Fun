@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { LCUContext } from "../../../LCU/lcucontext";
-import { SearchMatchBtn } from "./search-match-btn";
 import { View } from "@nodegui/react-nodegui";
+import { LCUContext } from "@lcu";
+import { SearchMatchBtn } from "./search-match-btn";
 import { PositionSelector } from "./position-selector";
 import { LobbyMembers } from "./lobby-members";
 

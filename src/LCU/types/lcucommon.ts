@@ -1,6 +1,8 @@
-import { DataDragonChampionsJsonFileData } from "./champions";
-import { AssignedPosition } from "./champselect";
-import { DataDragonSpellsJsonFileData } from "./spells";
+import {
+  DataDragonChampionsJsonFileData,
+  AssignedPosition,
+  DataDragonSpellsJsonFileData,
+} from "./";
 
 export interface EligibileLobby {
   eligible: boolean;

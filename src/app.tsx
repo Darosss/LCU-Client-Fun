@@ -1,10 +1,10 @@
-import { Window, hot, View } from "@nodegui/react-nodegui";
 import React, { useContext } from "react";
+import { Window, hot, View } from "@nodegui/react-nodegui";
 import { QIcon } from "@nodegui/nodegui";
-import nodeguiIcon from "../assets/nodegui.jpg";
-import { backgroundLinearGradient } from "./components/styles";
+import nodeguiIcon from "@assets/nodegui.jpg";
 import { LCUContext, LCUContextProvider } from "./LCU/lcucontext";
-import { PhaseView } from "./components/phaseview";
+import { backgroundLinearGradient } from "./components/styles";
+import { PhaseView } from "@components";
 
 const winIcon = new QIcon(nodeguiIcon);
 

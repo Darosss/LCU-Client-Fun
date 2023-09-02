@@ -1,4 +1,4 @@
-import { getPercentFromValue } from "../../helpers/node-gui-responsive-helpers";
+import { getPercentFromValue } from "@helpers";
 import { backgroundLinearGradient } from "../styles";
 
 export function lobbysStylesheet(width: number, height: number) {

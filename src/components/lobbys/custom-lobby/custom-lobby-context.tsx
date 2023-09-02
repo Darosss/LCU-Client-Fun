@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import {
-  BotDifficulty,
-  ChampionBotsData,
-} from "../../../LCU/types/custom-mode";
-import { lcuClientHandlerObj } from "../../../LCU/LCUClientHandler";
+import { BotDifficulty, ChampionBotsData, lcuClientHandlerObj } from "@lcu";
 
 interface CustomLobbyContext {
   championBots: ChampionBotsData[];

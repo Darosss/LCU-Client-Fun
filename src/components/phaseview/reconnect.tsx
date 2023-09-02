@@ -1,6 +1,6 @@
-import { Button, Text, View } from "@nodegui/react-nodegui";
 import React from "react";
-import { lcuClientHandlerObj } from "../../LCU/LCUClientHandler";
+import { Button, Text, View } from "@nodegui/react-nodegui";
+import { lcuClientHandlerObj } from "@lcu";
 
 export function Reconnect() {
   return (

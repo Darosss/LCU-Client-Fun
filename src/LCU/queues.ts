@@ -1,4 +1,4 @@
-import { QueueData } from "./types/";
+import type { QueueData } from "./";
 
 export const queues: QueueData[] = [
   {

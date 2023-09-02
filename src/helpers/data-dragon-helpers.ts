@@ -1,7 +1,7 @@
-import {
+import type {
   DataDragonChampionsJsonFileData,
   DataDragonSpellsJsonFileData,
-} from "../LCU/types";
+} from "@lcu";
 
 export function findSummonerSpellById(
   data: DataDragonSpellsJsonFileData[],

@@ -1,7 +1,6 @@
-import { Button } from "@nodegui/react-nodegui";
 import React from "react";
-import { lcuClientHandlerObj } from "../../LCU/LCUClientHandler";
-import { CreateCustomLobbyOpts } from "../../LCU/types/custom-mode";
+import { Button } from "@nodegui/react-nodegui";
+import { CreateCustomLobbyOpts, lcuClientHandlerObj } from "@lcu";
 
 interface CustomModeLobbyProps {
   lobbyName: string;
@@ -22,6 +21,7 @@ export function CustomModeLobby({
               .createCustomLobby(customLobbyOpts)
               .catch((err) =>
                 console.log(
+                  //FIXME: add proper console log
                   "Error occured while trying to search the match",
                   err
                 )

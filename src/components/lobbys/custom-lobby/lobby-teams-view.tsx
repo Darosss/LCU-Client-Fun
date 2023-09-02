@@ -1,13 +1,13 @@
-import { Button, View, Text } from "@nodegui/react-nodegui";
 import React, { useContext } from "react";
-import { lcuClientHandlerObj } from "../../../LCU/LCUClientHandler";
-import { LCUContext } from "../../../LCU/lcucontext";
+import { Button, View, Text } from "@nodegui/react-nodegui";
 import {
   TeamsIds,
   BotDifficulty,
   CustomTeamIds,
-} from "../../../LCU/types/custom-mode";
-import { randomElement } from "../../../helpers/array-helpers";
+  LCUContext,
+  lcuClientHandlerObj,
+} from "@lcu";
+import { randomElement } from "@helpers";
 import { CustomLobbyContext } from "./custom-lobby-context";
 import { FillLobbyByBotsBtn } from "./fill-bot-lobby";
 import { ListOfTeamMembers } from "./list-of-team-members";

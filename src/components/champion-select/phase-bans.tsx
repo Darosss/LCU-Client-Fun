@@ -1,8 +1,8 @@
-import { View, Text } from "@nodegui/react-nodegui";
 import React, { useContext } from "react";
+import { View, Text } from "@nodegui/react-nodegui";
 import { ChampionSelectContext } from "./champion-select-context";
-import { findChampionById } from "../../helpers/data-dragon-helpers";
-import { LCUContext } from "../../LCU/lcucontext";
+import { findChampionById } from "@helpers";
+import { LCUContext } from "@lcu";
 
 export function PhaseBans() {
   const {

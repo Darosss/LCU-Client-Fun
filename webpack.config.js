@@ -3,6 +3,7 @@ const webpack = require("webpack");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
+
 module.exports = (env, argv) => {
   const config = {
     mode: "production",
@@ -45,6 +46,13 @@ module.exports = (env, argv) => {
     plugins: [new CleanWebpackPlugin()],
     resolve: {
       extensions: [".tsx", ".ts", ".js", ".jsx", ".json"],
+      alias: {
+        "@components": path.resolve(__dirname, "src/components"),
+        "@helpers": path.resolve(__dirname, "src/helpers"),
+        "@lcu": path.resolve(__dirname, "src/LCU"),
+        "@assets": path.resolve(__dirname, "assets"),
+        "@globals": path.resolve(__dirname, "src/globals"),
+      },
     },
   };
 

@@ -1,7 +1,6 @@
-import { Button } from "@nodegui/react-nodegui";
 import React from "react";
-import { lcuClientHandlerObj } from "../../../LCU/LCUClientHandler";
-import { SwitchTeamParam } from "../../../LCU/types/custom-mode";
+import { Button } from "@nodegui/react-nodegui";
+import { lcuClientHandlerObj, SwitchTeamParam } from "@lcu";
 
 interface JoinTeamButtonProps {
   lengthLobbyMembers: number;

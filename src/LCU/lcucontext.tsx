@@ -5,13 +5,11 @@ import {
   CurrentSummonerData,
   GameFlowPhaseData,
   LobbyGameDataResponse,
-} from "./types/";
-import { lcuClientHandlerObj } from "./LCUClientHandler";
-import {
+  lcuClientHandlerObj,
   readLocalStorageData,
   writeLocalStorageData,
-} from "./pseudoLocalStorage";
-import { readDragonChampionsData, readDragonSpellsData } from "../helpers";
+} from "./";
+import { readDragonChampionsData, readDragonSpellsData } from "@helpers";
 
 interface LCUContext {
   options: ClientOptions;

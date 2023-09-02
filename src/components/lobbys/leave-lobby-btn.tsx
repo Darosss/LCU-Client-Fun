@@ -1,9 +1,7 @@
-import { useEventHandler, Button } from "@nodegui/react-nodegui";
 import React from "react";
-import { lcuClientHandlerObj } from "../../LCU/LCUClientHandler";
-import { backgroundLinearGradient } from "../styles";
-import { playBtn } from "./styles";
+import { useEventHandler, Button } from "@nodegui/react-nodegui";
 import { QPushButtonSignals } from "@nodegui/nodegui";
+import { lcuClientHandlerObj } from "@lcu";
 
 export function LeaveLobbyBtn() {
   const leaveLobbyBtnHandler = useEventHandler<QPushButtonSignals>(

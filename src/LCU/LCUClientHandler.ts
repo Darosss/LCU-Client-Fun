@@ -17,15 +17,13 @@ import {
   LobbyGameDataResponse,
   ChampSelectSessionTimerResponse,
   ChangePositionPreferenceBody,
-} from "./types/";
-import {
   AddBotToLobbyBody,
   ChampionBotsData,
   CreateCustomLobbyOpts,
   ManageBotInCustomLobbyOpts,
   ManagePlayerInLobbyOpts,
   SwitchTeamParam,
-} from "./types/custom-mode";
+} from "./";
 interface LCUClientHandlerOpts {}
 
 export class LCUClientHandler {
