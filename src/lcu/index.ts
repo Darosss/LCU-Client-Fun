@@ -1,8 +1,8 @@
-export { LCUContext, LCUContextProvider } from "./lcucontext";
-export { lcuClientHandlerObj, LCUClientHandler } from "./LCUClientHandler";
+export { LCUContext, LCUContextProvider } from "./lcu-context";
+export { lcuClientHandlerObj, LCUClientHandler } from "./lcu-client-handler";
 export {
   readLocalStorageData,
   writeLocalStorageData,
-} from "./pseudoLocalStorage";
+} from "./pseudo-local-storage";
 export * from "./types";
 export { queues } from "./queues";
