@@ -7,7 +7,15 @@
     "strict": true,
     "alwaysStrict": true,
     "moduleResolution": "node",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@components": ["components"],
+      "@helpers": ["helpers"],
+      "@lcu": ["LCU"],
+      "@assets": ["assets"],
+      "@globals": ["globals"]
+    }
   },
   "include": ["**/*", "src/LCU/lcucontext.ts"]
 }
