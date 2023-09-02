@@ -12,7 +12,7 @@
     "paths": {
       "@components": ["components"],
       "@helpers": ["helpers"],
-      "@lcu": ["LCU"],
+      "@lcu": ["lcu"],
       "@assets": ["assets"],
       "@globals": ["globals"]
     }
