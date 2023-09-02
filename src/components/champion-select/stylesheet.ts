@@ -1,9 +1,7 @@
+import { getPercentFromValue } from "@helpers";
 import { backgroundLinearGradient } from "../styles";
 
-export function champselectStyleSheet(
-  maxHeightChampsList: number,
-  championSelectActionsWidth: number
-) {
+export function champselectStyleSheet(width: number, height: number) {
   return `
     #champ-select-title-wrapper{
         display:flex;
@@ -36,8 +34,8 @@ export function champselectStyleSheet(
         display:'flex';
         flex-direction:'row';
         justify-content:'space-between';
-        margin-horizontal: ${~~championSelectActionsWidth / 2}px;
-        width:${championSelectActionsWidth}px;
+        margin-horizontal:  ${~~getPercentFromValue(width, 8)}px;
+        width:${~~getPercentFromValue(width, 17)}px;
         ${backgroundLinearGradient(`rgba(90,166,25,1)`, `rgba(0,18,36,1)`)}
         padding:5px;
     }
@@ -62,7 +60,7 @@ export function champselectStyleSheet(
     #available-champs-wrapper {
         display:'flex'; 
         flex-direction:'column';
-        max-height:${maxHeightChampsList}px;
+        max-height:${getPercentFromValue(height, 70)}px;
         overflow:'hidden';
     }
 
@@ -120,8 +118,8 @@ export function champselectStyleSheet(
 
     #teams-champions-wrapper > QWidget {
         flex: 0 0 10%;
-        margin-left:${championSelectActionsWidth * 2}px; 
-        margin-right:${championSelectActionsWidth * 2}px;
+        margin-left:${~~getPercentFromValue(width, 34)}px; 
+        margin-right:${~~getPercentFromValue(width, 34)}px;
         
     }
 
@@ -145,8 +143,8 @@ export function champselectStyleSheet(
         display:'flex';
         flex-direction:'row';
         padding-vertical:4px;
-        min-width:${championSelectActionsWidth}px;
-        max-width:${championSelectActionsWidth}px;
+        min-width:${getPercentFromValue(width, 17)}px;
+        max-width:${getPercentFromValue(width, 17)}px;
     }
 
     #team-view > QWidget > QWidget > QLabel{
@@ -189,7 +187,7 @@ export function champselectStyleSheet(
         display:'flex';
         flex-wrap:'wrap';
         flex-direction:'row';
-        max-width:${championSelectActionsWidth}px;
+        max-width:${getPercentFromValue(width, 17)}px;
     }
 
     #change-summoner-spell-btn {

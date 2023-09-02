@@ -15,7 +15,11 @@ import { PhaseBans } from "./phase-bans";
 
 export function ChampSelect() {
   const {
-    options: { minSize, autoPickChamp, autoPickChamps },
+    options: {
+      minSize: { width, height },
+      autoPickChamp,
+      autoPickChamps,
+    },
   } = useContext(LCUContext);
   const {
     champSelectSessionData: {
@@ -38,15 +42,6 @@ export function ChampSelect() {
           action?.actorCellId === localPlayerCellId && action?.isInProgress
       );
   }, [actions, localPlayerCellId]);
-
-  const { maxHeightChampsList, championSelectActionsWidth } = useMemo<{
-    maxHeightChampsList: number;
-    championSelectActionsWidth: number;
-  }>(() => {
-    const maxHeightChampsList = getPercentFromValue(minSize.height, 70);
-    const championSelectActionsWidth = getPercentFromValue(minSize.width, 17);
-    return { maxHeightChampsList, championSelectActionsWidth };
-  }, [minSize]);
 
   function autoPickChampion() {
     if (!userAction) return;
@@ -88,12 +83,7 @@ export function ChampSelect() {
   }
 
   return (
-    <View
-      styleSheet={champselectStyleSheet(
-        maxHeightChampsList,
-        championSelectActionsWidth
-      )}
-    >
+    <View styleSheet={champselectStyleSheet(width, height)}>
       <View id="champ-select-title-wrapper">
         <Text>
           Champ select
