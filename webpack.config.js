@@ -49,7 +49,7 @@ module.exports = (env, argv) => {
       alias: {
         "@components": path.resolve(__dirname, "src/components"),
         "@helpers": path.resolve(__dirname, "src/helpers"),
-        "@lcu": path.resolve(__dirname, "src/LCU"),
+        "@lcu": path.resolve(__dirname, "src/lcu"),
         "@assets": path.resolve(__dirname, "assets"),
         "@globals": path.resolve(__dirname, "src/globals"),
       },

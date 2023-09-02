@@ -1,5 +1,5 @@
 import * as path from "path";
-import { getData, dataFileExists, readData, writeData } from "./";
+import { fetchDataByUrl, dataFileExists, readData, writeData } from "./";
 import type {
   DataDragonChampionDataResponse,
   DataDragonChampionsJsonFileData,
@@ -12,7 +12,7 @@ const championsFilePath = path.join(
 );
 
 export async function getDataDragonChampions(): Promise<DataDragonChampionDataResponse> {
-  const championsResponse = await getData(
+  const championsResponse = await fetchDataByUrl(
     ddragonLeagueOfLegendsBaseLink("champion.json")
   );
 

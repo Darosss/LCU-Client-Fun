@@ -1,6 +1,6 @@
 import * as path from "path";
 import { CURRENT_LOL_VERSION, ddragonLeagueOfLegendsBaseLink } from "@globals";
-import { getData, writeData, dataFileExists, readData } from "./";
+import { fetchDataByUrl, writeData, dataFileExists, readData } from "./";
 import {
   DataDragonSpellsDataResponse,
   DataDragonSpellsJsonFileData,
@@ -12,7 +12,7 @@ const spellsFilePath = path.join(
 );
 
 export async function getDataDragonSpells(): Promise<DataDragonSpellsDataResponse> {
-  const spellsResponse = await getData(
+  const spellsResponse = await fetchDataByUrl(
     ddragonLeagueOfLegendsBaseLink("summoner.json")
   );
 

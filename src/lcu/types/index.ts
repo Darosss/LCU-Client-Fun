@@ -1,5 +1,5 @@
 export * from "./champions";
-export * from "./champselect";
-export * from "./lcucommon";
+export * from "./champ-select";
+export * from "./lcu-common";
 export * from "./spells";
 export * from "./custom-mode";
