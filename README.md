@@ -45,7 +45,7 @@ if (options.body !== void 0) {
   - [] chat
   - [] quit button if custom match
   - [] refactor champions to available endpoints / banned champions / available / disabled
-- [] custom lobbys(from now it's static version of pracitce tool with available 9 bots)
+- [x] custom lobbys
 - [] add better styles
 - [] fix reloging
 - [] remove their ux / headless
@@ -55,8 +55,23 @@ if (options.body !== void 0) {
 - some automation functions:
 
   - [x] auto accept
+  - [x] prototype auto pick champ:
+
+    - [x] pick when auto pick is on
+    - [x] pick only available champs(not banned, not picked)
+      - [] check if lol did 'disable' champ and remove form available
+    - [x] possible to add champs depends on role utility, bottom, middle, jungle, top, other(blind, arams etc.)
+
+      - [x] pioritze champs by buttons
+
+    - [] add option to change auto pick on time fe. at 10 sec before your time finish(for now it's static 5sec)
+    - [] add options to with 'clever' auto pick. (only auto pick when your mouse didn't move by last 10 secs. this in case when you had turned on auto pick but didn't know what to pick and prevent program to pick it for you)
+
   - [] runes from opgg
-  - these with optional options if afk
-    (if mouse was not touched in some seconds in case when you know you will not come back from toilet too fast Kappa) - [] auto pick champ depends on choosen priority - [] auto bans (draft, rankeds)
 
 - [] global chat
+
+# Known bugs
+
+- [] actions in champ select are not shown corectly
+- [] sometimes change spells buttons duplicate and are hard to read
