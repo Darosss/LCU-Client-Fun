@@ -1,14 +1,10 @@
 import * as path from "path";
-import { getData } from "../helpers/fetchdata";
-import {
+import { getData, dataFileExists, readData, writeData } from "./";
+import type {
   DataDragonChampionDataResponse,
   DataDragonChampionsJsonFileData,
-} from "../LCU/types";
-import { dataFileExists, readData, writeData } from "../helpers/fsdata";
-import {
-  CURRENT_LOL_VERSION,
-  ddragonLeagueOfLegendsBaseLink,
-} from "../globals";
+} from "@lcu";
+import { CURRENT_LOL_VERSION, ddragonLeagueOfLegendsBaseLink } from "@globals";
 
 const championsFilePath = path.join(
   __dirname,

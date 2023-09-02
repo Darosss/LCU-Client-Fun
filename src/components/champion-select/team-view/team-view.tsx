@@ -1,5 +1,5 @@
-import { View } from "@nodegui/react-nodegui";
 import React, { useContext } from "react";
+import { View } from "@nodegui/react-nodegui";
 import { ChampionSelectContext } from "../champion-select-context";
 import { TeamSummonersBlocks } from "./team-summoners-blocks";
 

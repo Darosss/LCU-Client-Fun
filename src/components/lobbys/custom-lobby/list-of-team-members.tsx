@@ -1,10 +1,8 @@
-import { View, Button } from "@nodegui/react-nodegui";
 import React, { useContext } from "react";
-import { LobbyMember } from "../../../LCU/types";
-
+import { View, Button } from "@nodegui/react-nodegui";
+import { LobbyMember, LCUContext } from "@lcu";
 import { CustomLobbyContext } from "./custom-lobby-context";
-import { LCUContext } from "../../../LCU/lcucontext";
-import { LeaderBotsActions } from "../leader-bots-actions";
+import { LeaderBotsActions } from "./leader-bots-actions";
 import { SummonerInLobby } from "./summoner-in-lobby";
 
 interface ListOfTeamMembersProps {

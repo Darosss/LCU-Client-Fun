@@ -1,14 +1,10 @@
 import * as path from "path";
-import {
-  CURRENT_LOL_VERSION,
-  ddragonLeagueOfLegendsBaseLink,
-} from "../globals";
-import { getData } from "./fetchdata";
-import { writeData, dataFileExists, readData } from "./fsdata";
+import { CURRENT_LOL_VERSION, ddragonLeagueOfLegendsBaseLink } from "@globals";
+import { getData, writeData, dataFileExists, readData } from "./";
 import {
   DataDragonSpellsDataResponse,
   DataDragonSpellsJsonFileData,
-} from "../LCU/types";
+} from "@lcu";
 
 const spellsFilePath = path.join(
   __dirname,

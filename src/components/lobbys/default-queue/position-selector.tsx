@@ -1,8 +1,6 @@
-import { Button, View } from "@nodegui/react-nodegui";
 import React, { useCallback, useContext } from "react";
-import { PositionsPreferences } from "../../../LCU/types";
-import { LCUContext } from "../../../LCU/lcucontext";
-import { lcuClientHandlerObj } from "../../../LCU/LCUClientHandler";
+import { Button, View } from "@nodegui/react-nodegui";
+import { lcuClientHandlerObj, PositionsPreferences, LCUContext } from "@lcu";
 
 type PossiblePreferences = "primary" | "secondary";
 

@@ -1,13 +1,9 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Button, LineEdit, View, Text } from "@nodegui/react-nodegui";
-
-import { useContext, useState } from "react";
-import { lcuClientHandlerObj } from "../../LCU/LCUClientHandler";
-import { LCUContext } from "../../LCU/lcucontext";
-import { ChampionData } from "../../LCU/types";
+import { LCUContext, lcuClientHandlerObj } from "@lcu";
 import { SelectedChamp } from "./types";
 import { ChampionSelectContext } from "./champion-select-context";
-import { isBannedOrPickedChamp } from "../../helpers/champions-helpers";
+import { isBannedOrPickedChamp } from "@helpers";
 
 interface AvailableChampsProps {
   banPhase: boolean;

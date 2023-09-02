@@ -1,8 +1,7 @@
-import { Button, View } from "@nodegui/react-nodegui";
 import React, { useContext } from "react";
-import { lcuClientHandlerObj } from "../../../LCU/LCUClientHandler";
+import { Button, View } from "@nodegui/react-nodegui";
+import { lcuClientHandlerObj, LCUContext } from "@lcu";
 import { playBtn } from "../styles";
-import { LCUContext } from "../../../LCU/lcucontext";
 
 export function SearchMatchBtn() {
   const { lobbyData } = useContext(LCUContext);

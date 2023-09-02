@@ -1,15 +1,15 @@
-import { Button, View, LineEdit } from "@nodegui/react-nodegui";
 import React, { useContext, useState } from "react";
-import { lcuClientHandlerObj } from "../../LCU/LCUClientHandler";
-import { LobbyMember } from "../../LCU/types";
+import { Button, View, LineEdit } from "@nodegui/react-nodegui";
 import {
+  lcuClientHandlerObj,
+  LobbyMember,
   ChampionBotsData,
   TeamsIds,
   BotDifficulty,
-} from "../../LCU/types/custom-mode";
-import { CustomLobbyContext } from "./custom-lobby/custom-lobby-context";
-import { findChampionById } from "../../helpers/data-dragon-helpers";
-import { LCUContext } from "../../LCU/lcucontext";
+  LCUContext,
+} from "@lcu";
+import { CustomLobbyContext } from "./custom-lobby-context";
+import { findChampionById } from "@helpers";
 
 interface LeaderBotActionsProps {
   championData?: ChampionBotsData;

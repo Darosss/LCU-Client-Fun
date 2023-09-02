@@ -1,10 +1,10 @@
-import { View, Text, Button } from "@nodegui/react-nodegui";
 import React, { useContext } from "react";
-import { LCUContext } from "../../../LCU/lcucontext";
+import { View, Text, Button } from "@nodegui/react-nodegui";
 import {
   AssignedPosition,
+  LCUContext,
   DataDragonChampionsJsonFileData,
-} from "../../../LCU/types";
+} from "@lcu";
 
 interface AutoChampionChampionsListProps {
   currentChoosenPosition: AssignedPosition;

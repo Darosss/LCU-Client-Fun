@@ -1,14 +1,12 @@
+import React, { useContext, useState } from "react";
 import { useEventHandler, Button, View, Text } from "@nodegui/react-nodegui";
 import { QPushButtonSignals } from "@nodegui/nodegui";
-
-import React, { useContext, useState } from "react";
-import { lcuClientHandlerObj } from "../../LCU/LCUClientHandler";
+import { lcuClientHandlerObj, LCUContext } from "@lcu";
 import {
   defaultTextStyle,
   backgroundLinearGradient,
   defaultButton,
 } from "../styles";
-import { LCUContext } from "../../LCU/lcucontext";
 
 type ReadyCheckState = "Accepted" | "Declined" | "None";
 

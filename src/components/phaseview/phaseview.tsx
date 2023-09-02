@@ -1,17 +1,16 @@
-import { View } from "@nodegui/react-nodegui";
 import React, { useContext, useMemo } from "react";
+import { View } from "@nodegui/react-nodegui";
+import { LCUContext } from "@lcu";
+import { getPercentFromValue } from "@helpers";
+import { ChampionSelectContextProvider, ChampSelect } from "@components";
 import { ReadyCheck } from "./readycheck";
-import { LCUContext } from "../../LCU/lcucontext";
-import { MenuClient } from "../menuclient";
-import { ChampSelect } from "../champion-select";
-import { ChampionSelectContextProvider } from "../champion-select";
+import { MenuClient } from "./menu-client";
 import { Matchmaking } from "./matchmaking";
 import { WaitingForStats } from "./waiting-for-stats";
 import { Reconnect } from "./reconnect";
 import { GameStart } from "./game-start";
 import { InProgress } from "./in-progress";
 import { phaseViewStylesheet } from "./stylesheet";
-import { getPercentFromValue } from "../../helpers/node-gui-responsive-helpers";
 import { Sidebar } from "./sidebar";
 
 interface PhaseViewProps {}

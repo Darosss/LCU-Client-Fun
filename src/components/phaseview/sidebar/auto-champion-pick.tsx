@@ -1,8 +1,7 @@
-import { View, Text, LineEdit, Button } from "@nodegui/react-nodegui";
 import React, { useContext, useState } from "react";
-import { LCUContext } from "../../../LCU/lcucontext";
-import { AssignedPosition } from "../../../LCU/types";
-import { getPercentFromValue } from "../../../helpers/node-gui-responsive-helpers";
+import { View, Text, LineEdit, Button } from "@nodegui/react-nodegui";
+import { LCUContext, AssignedPosition } from "@lcu";
+import { getPercentFromValue } from "@helpers";
 import { AutoChampionChampionsList } from "./auto-champion-champions-list";
 
 const assignedPositions: AssignedPosition[] = [

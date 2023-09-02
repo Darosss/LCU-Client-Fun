@@ -1,6 +1,6 @@
 import * as path from "path";
-import { ClientOptions } from "./types";
-import { dataFileExists, readData, writeData } from "../helpers/fsdata";
+import type { ClientOptions } from "./";
+import { dataFileExists, readData, writeData } from "@helpers";
 
 const dataFilePath = path.join(__dirname, "localstorage.json");
 

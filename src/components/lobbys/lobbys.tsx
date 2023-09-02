@@ -1,6 +1,6 @@
-import { View } from "@nodegui/react-nodegui";
 import React, { useContext } from "react";
-import { LCUContext } from "../../LCU/lcucontext";
+import { View } from "@nodegui/react-nodegui";
+import { LCUContext } from "@lcu";
 import { lobbysStylesheet } from "./stylesheet";
 import { LobbyActions } from "./lobby-actions";
 import { LobbysList } from "./lobbys-list";
