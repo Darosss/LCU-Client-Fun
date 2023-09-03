@@ -23,6 +23,7 @@ import {
   ManageBotInCustomLobbyOpts,
   ManagePlayerInLobbyOpts,
   SwitchTeamParam,
+  ActionsChampSelectSessionData,
 } from "./";
 interface LCUClientHandlerOpts {}
 
@@ -137,6 +138,24 @@ export class LCUClientHandler {
     );
   }
 
+  private filterActionsToBansPicks(actions: ActionsChampSelectSessionData[]) {
+    const separateActions: ChampSelectSessionDataRequiredWithActionsFlat["actions"] =
+      {
+        pickActions: [],
+        banActions: [],
+      };
+
+    for (const action of actions) {
+      if (action.type === "pick") {
+        separateActions.pickActions.push(action);
+      } else if (action.type === "ban") {
+        separateActions.banActions.push(action);
+      }
+    }
+
+    return separateActions;
+  }
+
   public async wsOnChampionSelectPhase(
     cb: (dataSession: ChampSelectSessionDataRequiredWithActionsFlat) => void
   ) {
@@ -144,10 +163,11 @@ export class LCUClientHandler {
       "/lol-champ-select/v1/session",
       async (data, event) => {
         const requiredData = data as ChampSelectSessionDataRequired;
+
         const requiredDataSession: ChampSelectSessionDataRequiredWithActionsFlat =
           {
             myTeam: requiredData.myTeam,
-            actions: requiredData.actions.flat(),
+            actions: this.filterActionsToBansPicks(requiredData.actions.flat()),
             theirTeam: requiredData.theirTeam,
             bans: requiredData.bans,
             localPlayerCellId: requiredData.localPlayerCellId,
