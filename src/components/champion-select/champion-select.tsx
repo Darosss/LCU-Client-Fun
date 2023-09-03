@@ -34,7 +34,7 @@ export function ChampSelect() {
 
   const userAction = useMemo(() => {
     if (localPlayerCellId !== -1 && actions)
-      return actions.find(
+      return [...actions.banActions, ...actions.pickActions].find(
         (action) =>
           action?.actorCellId === localPlayerCellId && !action?.completed
       );

@@ -16,7 +16,10 @@ interface ChampionSelectContext {
 export const initialChampionSelectContextValue: ChampionSelectContext = {
   champSelectSessionData: {
     myTeam: [],
-    actions: [],
+    actions: {
+      pickActions: [],
+      banActions: [],
+    },
     theirTeam: [],
     bans: {
       myTeamBans: [],
@@ -60,7 +63,7 @@ export function ChampionSelectContextProvider({
   }, []);
 
   React.useEffect(() => {
-    if (champSelectSessionData.actions.length <= 0) return;
+    if (champSelectSessionData.myTeam.length <= 0) return;
     lcuClientHandlerObj
       .getChampSelectSessionTimer()
       .then((timerSessionData) => {

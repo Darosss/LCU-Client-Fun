@@ -21,38 +21,20 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
     currentSummoner,
   } = useContext(LCUContext);
 
-  const getInProgressAction = useMemo(() => {
-    const inProgressAction = champSelectSessionData.actions?.find(
-      ({ actorCellId, isInProgress, type }) => {
-        return (
-          actorCellId === summoner.cellId && isInProgress && type === "pick"
-        );
-      }
-    );
-
-    return inProgressAction;
-  }, [summoner]);
-
-  const getLastAction = useMemo(() => {
-    const lastAction = champSelectSessionData.actions
-      ?.reverse()
-      .find(({ actorCellId, type }) => {
-        return actorCellId === summoner.cellId && type === "pick";
-      });
-
-    return lastAction;
-  }, [summoner]);
-
   const summonerAction = useMemo(() => {
-    let gowno: ActionsChampSelectSessionData | null;
-    if (getInProgressAction) {
-      gowno = getInProgressAction || null;
-    } else {
-      gowno = getLastAction || null;
-    }
+    const lastAction = champSelectSessionData.actions.pickActions
+      ?.reverse()
+      .find(({ actorCellId }) => actorCellId === summoner.cellId);
 
-    return gowno;
-  }, [getInProgressAction, getLastAction]);
+    if (lastAction) return lastAction;
+    else {
+      const inProgressAction = champSelectSessionData.actions.pickActions?.find(
+        ({ actorCellId, isInProgress }) =>
+          actorCellId === summoner.cellId && isInProgress
+      );
+      return inProgressAction;
+    }
+  }, [summoner]);
 
   const currentOrLastAction = useMemo(() => {
     if (!summonerAction) return "";

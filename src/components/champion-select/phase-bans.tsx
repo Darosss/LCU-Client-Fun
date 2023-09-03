@@ -10,10 +10,8 @@ export function PhaseBans() {
   } = useContext(LCUContext);
 
   function listOfBans(isAlly = false) {
-    const onlyBanActions = champSelectSessionData.actions.filter(
-      (action) =>
-        action.type === "ban" &&
-        (isAlly ? action.isAllyAction : !action.isAllyAction)
+    const onlyBanActions = champSelectSessionData.actions.banActions.filter(
+      (action) => (isAlly ? action.isAllyAction : !action.isAllyAction)
     );
 
     return onlyBanActions.map((ban, idx) => {

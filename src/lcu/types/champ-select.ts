@@ -14,7 +14,10 @@ export interface ChampSelectSessionDataBans {
 
 export interface ChampSelectSessionDataRequiredWithActionsFlat
   extends Omit<ChampSelectSessionDataRequired, "actions"> {
-  actions: ActionsChampSelectSessionData[];
+  actions: {
+    pickActions: ActionsChampSelectSessionData[];
+    banActions: ActionsChampSelectSessionData[];
+  };
 }
 
 export interface TeamChampSelectSessionData {
