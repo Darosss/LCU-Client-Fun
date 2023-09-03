@@ -1,10 +1,7 @@
 import React, { useContext, useMemo, useState } from "react";
 import { Button, Text, View } from "@nodegui/react-nodegui";
 import { lcuClientHandlerObj, LCUContext } from "@lcu";
-import {
-  getPercentFromValue,
-  findAvailableChampionForAutoPick,
-} from "@helpers";
+import { findAvailableChampionForAutoPick } from "@helpers";
 import { SelectedChamp } from "./types";
 import { AvailableChamps } from "./available-champs";
 import { ChampionSelectContext } from "./champion-select-context";
@@ -39,12 +36,12 @@ export function ChampSelect() {
     if (localPlayerCellId !== -1 && actions)
       return actions.find(
         (action) =>
-          action?.actorCellId === localPlayerCellId && action?.isInProgress
+          action?.actorCellId === localPlayerCellId && !action?.completed
       );
   }, [actions, localPlayerCellId]);
 
   function autoPickChampion() {
-    if (!userAction) return;
+    if (!userAction?.isInProgress || userAction.type !== "pick") return;
 
     const localPlayer = myTeam.find(
       ({ cellId }) => cellId === localPlayerCellId
@@ -93,7 +90,7 @@ export function ChampSelect() {
         <Text> Bans </Text>
         <PhaseBans />
       </View>
-      {userAction ? (
+      {userAction?.isInProgress ? (
         <View>
           <Button
             id="pick-ban-button"
