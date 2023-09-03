@@ -8,23 +8,25 @@ export function PhaseBans() {
   const {
     lolDataDragon: { dataDragonChampions },
   } = useContext(LCUContext);
+
+  function listOfBans(isAlly = false) {
+    const onlyBanActions = champSelectSessionData.actions.filter(
+      (action) =>
+        action.type === "ban" &&
+        (isAlly ? action.isAllyAction : !action.isAllyAction)
+    );
+
+    return onlyBanActions.map((ban, idx) => {
+      const bannedChamp = findChampionById(dataDragonChampions, ban.championId);
+      return <Text key={idx}>{bannedChamp?.name || "no ban"}</Text>;
+    });
+  }
+
   const { champSelectSessionData } = useContext(ChampionSelectContext);
   return (
     <View id="bans-in-phase-wrapper">
-      <View id="bans-in-phase-ally">
-        {champSelectSessionData.bans.myTeamBans.map((ban, idx) => (
-          <Text key={idx}>
-            {findChampionById(dataDragonChampions, ban)?.name}
-          </Text>
-        ))}
-      </View>
-      <View id="bans-in-phase-enemy">
-        {champSelectSessionData.bans.theirTeamBans.map((ban, idx) => (
-          <Text key={idx}>
-            {findChampionById(dataDragonChampions, ban)?.name}
-          </Text>
-        ))}
-      </View>
+      <View id="bans-in-phase-ally">{listOfBans(true)}</View>
+      <View id="bans-in-phase-enemy">{listOfBans(false)}</View>
     </View>
   );
 }
