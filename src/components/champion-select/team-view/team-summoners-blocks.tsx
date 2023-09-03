@@ -23,8 +23,10 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
 
   const getInProgressAction = useMemo(() => {
     const inProgressAction = champSelectSessionData.actions?.find(
-      ({ actorCellId, isInProgress }) => {
-        return actorCellId === summoner.cellId && isInProgress;
+      ({ actorCellId, isInProgress, type }) => {
+        return (
+          actorCellId === summoner.cellId && isInProgress && type === "pick"
+        );
       }
     );
 
@@ -34,8 +36,8 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
   const getLastAction = useMemo(() => {
     const lastAction = champSelectSessionData.actions
       ?.reverse()
-      .find(({ actorCellId }) => {
-        return actorCellId === summoner.cellId;
+      .find(({ actorCellId, type }) => {
+        return actorCellId === summoner.cellId && type === "pick";
       });
 
     return lastAction;
@@ -53,19 +55,29 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
   }, [getInProgressAction, getLastAction]);
 
   const currentOrLastAction = useMemo(() => {
-    const foundChamp =
-      findChampionById(dataDragonChampions, summonerAction?.championId || 0)
-        ?.name || "";
+    if (!summonerAction) return "";
 
-    if (!summonerAction) return "Unknown";
-    else if (summonerAction.isInProgress) {
-      return summonerAction.type === "pick"
-        ? `Picking ${foundChamp}`
-        : `Banning ${foundChamp}`;
+    const foundChamp =
+      findChampionById(dataDragonChampions, summonerAction.championId)?.name ||
+      summonerAction.championId;
+    if (summonerAction.isInProgress) {
+      return `Picking ${foundChamp}`;
     } else if (summonerAction.completed) {
-      return summonerAction.type === "pick"
-        ? `Locked in ${foundChamp}`
-        : `Banned ${foundChamp}`;
+      return `Locked in ${foundChamp}`;
+    } else if (
+      champSelectSessionData.myTeam.find(
+        ({ cellId }) => cellId === summonerAction.actorCellId
+      )
+    ) {
+      const foundPlayerInTeam = champSelectSessionData.myTeam.find(
+        ({ cellId }) => cellId === summonerAction.actorCellId
+      )!;
+      return `Showed ${
+        findChampionById(
+          dataDragonChampions,
+          foundPlayerInTeam?.championPickIntent
+        )?.name || foundPlayerInTeam.championPickIntent
+      }`;
     } else {
       return "Not yet picked";
     }
@@ -74,15 +86,14 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
   return (
     <View id="team-summoners-blocks-wrapper">
       <View id="summoner-role-champion-wrapper">
-        <Text>{summoner.assignedPosition || ""}</Text>
-        <Text>
+        <Text id="summoner-assigned-position">
+          {summoner.assignedPosition || ""}
+        </Text>
+        <Text id="summoner-display-name">
           {`${
             champSelectSessionData.localPlayerCellId === summoner.cellId
               ? currentSummoner?.displayName
-              : ""
-          }${
-            findChampionById(dataDragonChampions, summoner.championPickIntent)
-              ?.name || ""
+              : `Summoner: ${summoner.cellId}`
           }`}
         </Text>
       </View>
