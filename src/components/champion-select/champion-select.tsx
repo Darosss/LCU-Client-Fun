@@ -1,10 +1,7 @@
 import React, { useContext, useMemo, useState } from "react";
 import { Button, Text, View } from "@nodegui/react-nodegui";
 import { lcuClientHandlerObj, LCUContext } from "@lcu";
-import {
-  getPercentFromValue,
-  findAvailableChampionForAutoPick,
-} from "@helpers";
+import { findAvailableChampionForAutoPick } from "@helpers";
 import { SelectedChamp } from "./types";
 import { AvailableChamps } from "./available-champs";
 import { ChampionSelectContext } from "./champion-select-context";
@@ -15,7 +12,11 @@ import { PhaseBans } from "./phase-bans";
 
 export function ChampSelect() {
   const {
-    options: { minSize, autoPickChamp, autoPickChamps },
+    options: {
+      minSize: { width, height },
+      autoPickChamp,
+      autoPickChamps,
+    },
   } = useContext(LCUContext);
   const {
     champSelectSessionData: {
@@ -35,21 +36,12 @@ export function ChampSelect() {
     if (localPlayerCellId !== -1 && actions)
       return actions.find(
         (action) =>
-          action?.actorCellId === localPlayerCellId && action?.isInProgress
+          action?.actorCellId === localPlayerCellId && !action?.completed
       );
   }, [actions, localPlayerCellId]);
 
-  const { maxHeightChampsList, championSelectActionsWidth } = useMemo<{
-    maxHeightChampsList: number;
-    championSelectActionsWidth: number;
-  }>(() => {
-    const maxHeightChampsList = getPercentFromValue(minSize.height, 70);
-    const championSelectActionsWidth = getPercentFromValue(minSize.width, 17);
-    return { maxHeightChampsList, championSelectActionsWidth };
-  }, [minSize]);
-
   function autoPickChampion() {
-    if (!userAction) return;
+    if (!userAction?.isInProgress || userAction.type !== "pick") return;
 
     const localPlayer = myTeam.find(
       ({ cellId }) => cellId === localPlayerCellId
@@ -88,12 +80,7 @@ export function ChampSelect() {
   }
 
   return (
-    <View
-      styleSheet={champselectStyleSheet(
-        maxHeightChampsList,
-        championSelectActionsWidth
-      )}
-    >
+    <View styleSheet={champselectStyleSheet(width, height)}>
       <View id="champ-select-title-wrapper">
         <Text>
           Champ select
@@ -103,7 +90,7 @@ export function ChampSelect() {
         <Text> Bans </Text>
         <PhaseBans />
       </View>
-      {userAction ? (
+      {userAction?.isInProgress ? (
         <View>
           <Button
             id="pick-ban-button"

@@ -15,7 +15,6 @@ export function PositionSelector() {
             key={idx}
             on={{
               clicked: () => {
-                console.log(position, whichToChange, "KURWA");
                 changePositionPreference(
                   //know that loop over objectkeys of PositionsPreferences
                   position as PositionsPreferences,
