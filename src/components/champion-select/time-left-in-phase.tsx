@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
-import { Text } from "@nodegui/react-nodegui";
+import { View } from "@nodegui/react-nodegui";
 import { ChampionSelectContext } from "./champion-select-context";
+import { PrimaryText } from "@components";
 
 interface TimeLeftInPhaseProps {
   onEndingTimeLeft: () => void;
@@ -29,5 +30,9 @@ export function TimeLeftInPhase({ onEndingTimeLeft }: TimeLeftInPhaseProps) {
     };
   }, [champSelectSessionTimer]);
 
-  return <Text id="time-left-text"> {timeLeftInPhase}</Text>;
+  return (
+    <View id="time-left-text-wrapper">
+      <PrimaryText text={`${timeLeftInPhase}`} />
+    </View>
+  );
 }

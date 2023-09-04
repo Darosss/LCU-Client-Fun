@@ -1,6 +1,6 @@
 import React from "react";
-import { Button } from "@nodegui/react-nodegui";
 import { lcuClientHandlerObj, SwitchTeamParam } from "@lcu";
+import { InfoButton } from "@components";
 
 interface JoinTeamButtonProps {
   lengthLobbyMembers: number;
@@ -15,14 +15,14 @@ export function JoinTeamButton({
 }: JoinTeamButtonProps) {
   if (lengthLobbyMembers < maxTeamSize) {
     return (
-      <Button
+      <InfoButton
         text="Join"
         on={{
           clicked: () => {
             lcuClientHandlerObj.switchTeamsInLobby(changeToTeam);
           },
         }}
-      ></Button>
+      />
     );
   }
 

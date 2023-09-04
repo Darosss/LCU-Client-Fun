@@ -1,8 +1,18 @@
 import React, { useContext, useState } from "react";
-import { View, Text, LineEdit, Button } from "@nodegui/react-nodegui";
+import { View } from "@nodegui/react-nodegui";
 import { LCUContext, AssignedPosition } from "@lcu";
 import { getPercentFromValue } from "@helpers";
 import { AutoChampionChampionsList } from "./auto-champion-champions-list";
+import {
+  DangerButton,
+  DangerText,
+  PrimaryButton,
+  PrimaryLineEdit,
+  PrimaryText,
+  SecondaryButton,
+  SuccessButton,
+  SuccessText,
+} from "@components";
 
 const assignedPositions: AssignedPosition[] = [
   "utility",
@@ -32,38 +42,42 @@ export function AutoChampionPick() {
   function showAssignedChampionsToPositions() {
     return assignedPositions.map((position, idx) => (
       <View id="assigned-champions-to-position" key={idx}>
-        <Button
-          id="assigned-champions-to-position-header"
-          style={`${
-            currentChoosenPosition === position
-              ? "border:1px solid green; color:green;"
-              : ""
-          }`}
-          text={position}
-          on={{
-            clicked: () => {
-              setCurrentPositionToAdd(position);
-            },
-          }}
-        />
+        {currentChoosenPosition === position ? (
+          <PrimaryButton
+            text={position}
+            on={{
+              clicked: () => {
+                setCurrentPositionToAdd(position);
+              },
+            }}
+          />
+        ) : (
+          <SecondaryButton
+            text={position}
+            on={{
+              clicked: () => {
+                setCurrentPositionToAdd(position);
+              },
+            }}
+          />
+        )}
+
         <View>
-          {autoPickChamps?.[position].map((champ, idx) => (
-            <Text
-              key={idx}
-              on={{
-                MouseButtonPress: () => {
-                  setChampFilter(champ.name);
-                },
-              }}
-              style={`${
-                champFilter && champ.name.toLowerCase().includes(champFilter)
-                  ? "color:red;"
-                  : ""
-              }`}
-            >
-              {champ.name}
-            </Text>
-          ))}
+          {autoPickChamps?.[position].map((champ, idx) =>
+            champFilter && champ.name.toLowerCase().includes(champFilter) ? (
+              <SuccessText key={idx} text={champ.name} />
+            ) : (
+              <PrimaryText
+                key={idx}
+                on={{
+                  MouseButtonPress: () => {
+                    setChampFilter(champ.name);
+                  },
+                }}
+                text={champ.name}
+              />
+            )
+          )}
         </View>
       </View>
     ));
@@ -72,26 +86,42 @@ export function AutoChampionPick() {
   return (
     <>
       <View>
-        <Button
-          text={`Auto champion pick: ${autoPickChamp}`}
-          id={autoPickChamp ? `button-enabled` : `button-disabled`}
-          on={{
-            clicked: () => changeOptions({ autoPickChamp: !autoPickChamp }),
-          }}
-        />
-        <Button
-          text={`${showMoreAssignedChampions ? "Show less" : "Show more"}`}
-          id="button-default"
-          on={{
-            clicked: () => {
-              setShowMoreAssignedChampions(!showMoreAssignedChampions);
-            },
-          }}
-        />
+        {autoPickChamp ? (
+          <SuccessButton
+            text={`Auto champion pick: ${autoPickChamp}`}
+            on={{
+              clicked: () => changeOptions({ autoPickChamp: !autoPickChamp }),
+            }}
+          />
+        ) : (
+          <DangerButton
+            text={`Auto champion pick: ${autoPickChamp}`}
+            on={{
+              clicked: () => changeOptions({ autoPickChamp: !autoPickChamp }),
+            }}
+          />
+        )}
+        {showMoreAssignedChampions ? (
+          <PrimaryButton
+            text={"Show less"}
+            on={{
+              clicked: () =>
+                setShowMoreAssignedChampions(!showMoreAssignedChampions),
+            }}
+          />
+        ) : (
+          <PrimaryButton
+            text={"Show more"}
+            on={{
+              clicked: () =>
+                setShowMoreAssignedChampions(!showMoreAssignedChampions),
+            }}
+          />
+        )}
       </View>
       <View id="auto-champion-pick-search-wrapper">
-        <Text id="button-default"> Search champion </Text>
-        <LineEdit
+        <PrimaryText text=" Search champion" />
+        <PrimaryLineEdit
           text={champFilter || ""}
           on={{
             textChanged: (e) => setChampFilter(e.toLowerCase()),

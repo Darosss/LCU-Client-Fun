@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Button, View, LineEdit } from "@nodegui/react-nodegui";
+import { View } from "@nodegui/react-nodegui";
 import {
   lcuClientHandlerObj,
   LobbyMember,
@@ -10,6 +10,12 @@ import {
 } from "@lcu";
 import { CustomLobbyContext } from "./custom-lobby-context";
 import { findChampionById } from "@helpers";
+import {
+  DangerButton,
+  PrimaryButton,
+  PrimaryLineEdit,
+  SuccessButton,
+} from "@components";
 
 interface LeaderBotActionsProps {
   championData?: ChampionBotsData;
@@ -72,48 +78,60 @@ export function LeaderBotsActions({
     });
 
     return (
-      <Button
+      <SuccessButton
         text={`${foundChamp ? `Change to: ${foundChamp?.name}` : "Not found"}`}
         on={{
           clicked: () => {
             if (foundChamp) handleOnChangeExistingBotBtn(foundChamp.id);
           },
         }}
-      ></Button>
+      />
     );
   }
+
+  function changeChoosenBotDifficulty() {
+    const champIdName = findChampionById(
+      dataDragonChampions,
+      championData?.id || -1
+    )?.idName;
+    if (!champIdName) return;
+
+    const changedBotDifficulty =
+      member.botDifficulty === BotDifficulty.EASY
+        ? BotDifficulty.MEDIUM
+        : BotDifficulty.EASY;
+
+    onChangeExistingBotDifficulty(
+      champIdName,
+      teamIdAsEnum,
+      member.botChampionId,
+      changedBotDifficulty
+    );
+  }
+
   return (
     <View id="leader-bot-actions-wrapper">
-      <Button
+      <PrimaryButton
         text={championData?.name || `${member.botChampionId}`}
         on={{ clicked: () => setShowChampionsList(!showChampionsList) }}
       />
 
-      <Button
-        text={member.botDifficulty}
-        on={{
-          clicked: () => {
-            const champIdName = findChampionById(
-              dataDragonChampions,
-              championData?.id || -1
-            )?.idName;
-            if (!champIdName) return;
-
-            const changedBotDifficulty =
-              member.botDifficulty === BotDifficulty.EASY
-                ? BotDifficulty.MEDIUM
-                : BotDifficulty.EASY;
-
-            onChangeExistingBotDifficulty(
-              champIdName,
-              teamIdAsEnum,
-              member.botChampionId,
-              changedBotDifficulty
-            );
-          },
-        }}
-      />
-      <Button
+      {member.botDifficulty === BotDifficulty.EASY ? (
+        <SuccessButton
+          text={member.botDifficulty}
+          on={{
+            clicked: () => changeChoosenBotDifficulty(),
+          }}
+        />
+      ) : (
+        <DangerButton
+          text={member.botDifficulty}
+          on={{
+            clicked: () => changeChoosenBotDifficulty(),
+          }}
+        />
+      )}
+      <DangerButton
         text="x"
         on={{
           clicked: () => {
@@ -128,10 +146,11 @@ export function LeaderBotsActions({
       {showChampionsList ? (
         <View id="leader-bot-actions-change-bot">
           {showFilteredChampBot()}
-          <LineEdit
+          <PrimaryLineEdit
             on={{
               textChanged: (e) => setBotChampFilter(e.toLowerCase()),
             }}
+            text={botChampFilter}
           />
         </View>
       ) : null}

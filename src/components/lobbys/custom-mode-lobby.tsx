@@ -1,6 +1,6 @@
 import React from "react";
-import { Button } from "@nodegui/react-nodegui";
 import { CreateCustomLobbyOpts, lcuClientHandlerObj } from "@lcu";
+import { SecondaryButton } from "@components";
 
 interface CustomModeLobbyProps {
   lobbyName: string;
@@ -13,7 +13,7 @@ export function CustomModeLobby({
 }: CustomModeLobbyProps) {
   return (
     <>
-      <Button
+      <SecondaryButton
         text={lobbyName}
         on={{
           clicked: () => {
@@ -28,7 +28,7 @@ export function CustomModeLobby({
               );
           },
         }}
-      ></Button>
+      />
     </>
   );
 }

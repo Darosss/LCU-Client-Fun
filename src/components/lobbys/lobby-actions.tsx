@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
-import { Button, Text, View } from "@nodegui/react-nodegui";
+import { View } from "@nodegui/react-nodegui";
 import { LCUContext, queues } from "@lcu";
 import { LeaveLobbyBtn } from "./leave-lobby-btn";
 import { DefaultQueue } from "./default-queue";
-import { textStyle } from "./styles";
 import { LobbysList } from "./lobbys-list";
 import { CustomLobby } from "./custom-lobby";
+import { PrimaryButton, PrimaryText, SecondaryButton } from "@components";
 
 export function LobbyActions() {
   const { lobbyData } = useContext(LCUContext);
@@ -14,18 +14,21 @@ export function LobbyActions() {
 
   function currentLobbyNameText() {
     return (
-      <Text style={textStyle}>
-        Lobby:
-        {queues.find(({ queueId }) => queueId === lobbyData?.gameConfig.queueId)
-          ?.description || `${lobbyData?.gameConfig.gameMode}`}
-      </Text>
+      <PrimaryText
+        text={` 
+        Lobby:${
+          queues.find(
+            ({ queueId }) => queueId === lobbyData?.gameConfig.queueId
+          )?.description || `${lobbyData?.gameConfig.gameMode}`
+        }`}
+      />
     );
   }
 
   return showLobbyActions ? (
     <View id="lobby-actions">
       <View id="lobby-actions-manage">
-        <Button
+        <SecondaryButton
           text="Hide lobby"
           on={{ clicked: () => setShowLobbyActions(false) }}
         />
@@ -42,7 +45,7 @@ export function LobbyActions() {
     </View>
   ) : (
     <View id="lobby-hidden">
-      <Button
+      <PrimaryButton
         text="Lobby"
         on={{
           clicked: () => {

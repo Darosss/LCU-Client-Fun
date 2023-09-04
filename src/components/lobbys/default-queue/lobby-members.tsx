@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
-import { Text, View } from "@nodegui/react-nodegui";
+import { View } from "@nodegui/react-nodegui";
 import { PositionsPreferences, LCUContext } from "@lcu";
 import { LeaderMemberManageActions } from "./leader-member-manage-actions";
+import { PrimaryText, SecondaryText } from "@components";
 
 export function LobbyMembers() {
   const { lobbyData } = useContext(LCUContext);
@@ -11,15 +12,15 @@ export function LobbyMembers() {
     <View id="lobby-members-wrapper">
       {lobbyData.members.map((member, idx) => (
         <View key={idx} id="lobby-one-member-wrapper">
-          <Text> {member.summonerName} </Text>
+          <PrimaryText text={member.summonerName} />
           {lobbyData.localMember.isLeader &&
           member.summonerId !== lobbyData.localMember.summonerId ? (
             <LeaderMemberManageActions member={member} />
           ) : null}
           <View id="lobby-one-member-position-preferences-wrapper">
-            <Text> {member.firstPositionPreference}</Text>
+            <SecondaryText text={member.firstPositionPreference} />
             {member.firstPositionPreference !== PositionsPreferences.FILL ? (
-              <Text> {member.secondPositionPreference}</Text>
+              <SecondaryText text={member.secondPositionPreference} />
             ) : null}
           </View>
         </View>

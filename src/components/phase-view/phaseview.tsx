@@ -1,7 +1,6 @@
-import React, { useContext, useMemo } from "react";
+import React, { useContext } from "react";
 import { View } from "@nodegui/react-nodegui";
 import { LCUContext } from "@lcu";
-import { getPercentFromValue } from "@helpers";
 import { ChampionSelectContextProvider, ChampSelect } from "@components";
 import { ReadyCheck } from "./readycheck";
 import { MenuClient } from "./menu-client";
@@ -10,17 +9,11 @@ import { WaitingForStats } from "./waiting-for-stats";
 import { Reconnect } from "./reconnect";
 import { GameStart } from "./game-start";
 import { InProgress } from "./in-progress";
-import { phaseViewStylesheet } from "./stylesheet";
 import { Sidebar } from "./sidebar";
 
 interface PhaseViewProps {}
 export function PhaseView({}: PhaseViewProps) {
-  const {
-    currentPhase,
-    options: {
-      minSize: { width },
-    },
-  } = useContext(LCUContext);
+  const { currentPhase } = useContext(LCUContext);
   console.log(new Date(), "PHASEVIEW => ", currentPhase);
   function renderDependsOnPhase() {
     switch (currentPhase) {
@@ -55,37 +48,14 @@ export function PhaseView({}: PhaseViewProps) {
     }
   }
 
-  const { contentWidth, sidebarWidth } = useMemo<{
-    contentWidth: number;
-    sidebarWidth: number;
-  }>(() => {
-    const contentWidth = getPercentFromValue(width, 70);
-    const sidebarWidth = getPercentFromValue(width, 25);
-    return { contentWidth, sidebarWidth };
-  }, [width]);
-
   return (
     <View>
-      <View
-        id="phases-wrapper"
-        styleSheet={
-          phaseViewStylesheet +
-          `#phases-wrapper QWidget {
-                font-size:${~~(contentWidth / 70)}px;
-          }`
-        }
-      >
-        <View
-          id="content-wrapper"
-          style={`min-width:${contentWidth}px; max-width:${contentWidth};`}
-        >
+      <View id="phases-wrapper">
+        <View id="content-wrapper">
           <MenuClient />
           {renderDependsOnPhase()}
         </View>
-        <View
-          id="sidebar-wrapper"
-          style={`min-width:${sidebarWidth}px; max-width:${sidebarWidth};`}
-        >
+        <View id="sidebar-wrapper">
           <Sidebar />
         </View>
       </View>

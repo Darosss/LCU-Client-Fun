@@ -1,6 +1,7 @@
 import React, { useCallback, useContext } from "react";
-import { Button, View } from "@nodegui/react-nodegui";
+import { View } from "@nodegui/react-nodegui";
 import { lcuClientHandlerObj, PositionsPreferences, LCUContext } from "@lcu";
+import { PrimaryButton, SecondaryButton } from "@components";
 
 type PossiblePreferences = "primary" | "secondary";
 
@@ -11,7 +12,7 @@ export function PositionSelector() {
     (whichToChange: PossiblePreferences) => (
       <View id="possible-positions-selection">
         {Object.keys(PositionsPreferences).map((position, idx) => (
-          <Button
+          <SecondaryButton
             key={idx}
             on={{
               clicked: () => {
@@ -22,9 +23,8 @@ export function PositionSelector() {
                 );
               },
             }}
-          >
-            {position}
-          </Button>
+            text={position}
+          />
         ))}
       </View>
     ),
@@ -82,7 +82,7 @@ export function PositionSelector() {
   return (
     <View id="position-selector">
       <View>
-        <Button
+        <PrimaryButton
           text={`Primary: ${lobbyData.localMember.firstPositionPreference}`}
         />
         {availablePositions("primary")}
@@ -90,7 +90,7 @@ export function PositionSelector() {
       {lobbyData.localMember.firstPositionPreference !==
       PositionsPreferences.FILL ? (
         <View>
-          <Button
+          <PrimaryButton
             text={`Secondary: ${lobbyData?.localMember.secondPositionPreference}`}
           />
           {availablePositions("secondary")}

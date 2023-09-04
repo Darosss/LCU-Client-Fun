@@ -1,9 +1,15 @@
 import React, { useContext, useState } from "react";
-import { Button, LineEdit, View, Text } from "@nodegui/react-nodegui";
+import { View } from "@nodegui/react-nodegui";
 import { LCUContext, lcuClientHandlerObj } from "@lcu";
 import { SelectedChamp } from "./types";
 import { ChampionSelectContext } from "./champion-select-context";
 import { isBannedOrPickedChamp } from "@helpers";
+import {
+  DangerButton,
+  PrimaryButton,
+  PrimaryLineEdit,
+  PrimaryText,
+} from "@components";
 
 interface AvailableChampsProps {
   banPhase: boolean;
@@ -46,16 +52,14 @@ export function AvailableChamps({
     key: number,
     disabled = false
   ): JSX.Element {
-    return (
-      <Button
+    return !currentActionId || disabled ? (
+      <DangerButton key={key} text={champName} />
+    ) : (
+      <PrimaryButton
         key={key}
         text={champName}
-        id={`${disabled ? "disabled-champion-btn" : ""}`}
         on={{
           clicked: () => {
-            //Not your action = return
-            if (!currentActionId || disabled) return;
-
             lcuClientHandlerObj
               .champSelectAction(champId, currentActionId)
               .then(() => {
@@ -69,7 +73,7 @@ export function AvailableChamps({
               );
           },
         }}
-      ></Button>
+      />
     );
   }
 
@@ -89,8 +93,8 @@ export function AvailableChamps({
   return (
     <View id="available-champs-wrapper">
       <View id="available-champs-search">
-        <Text> Search champion </Text>
-        <LineEdit
+        <PrimaryText text="Search champion" />
+        <PrimaryLineEdit
           on={{
             textChanged: (e) => setChampFilter(e.toLowerCase()),
           }}

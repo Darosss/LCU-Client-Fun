@@ -1,12 +1,13 @@
 import React from "react";
-import { Button, Text, View } from "@nodegui/react-nodegui";
+import { InfoButton, InfoText } from "@components";
 import { lcuClientHandlerObj } from "@lcu";
+import { View } from "@nodegui/react-nodegui";
 
 export function Reconnect() {
   return (
     <View id="reconnect-wrapper">
-      <Text>Summoner in game...</Text>
-      <Button
+      <InfoText text="Summoner in game..." />
+      <InfoButton
         text="Reconnect"
         on={{
           clicked: () =>

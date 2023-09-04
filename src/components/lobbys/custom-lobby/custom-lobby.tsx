@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
-import { Button, View } from "@nodegui/react-nodegui";
+import { View } from "@nodegui/react-nodegui";
 import { CustomLobbyContextProvider } from "./custom-lobby-context";
 import { LobbyTeamsView } from "./lobby-teams-view";
 import { LCUContext, lcuClientHandlerObj } from "@lcu";
+import { SuccessButton } from "@components";
 
 export function CustomLobby() {
   const { lobbyData } = useContext(LCUContext);
@@ -11,7 +12,7 @@ export function CustomLobby() {
       <View id="custom-lobby">
         <View>
           {lobbyData?.localMember.isLeader ? (
-            <Button
+            <SuccessButton
               on={{
                 clicked: () => {
                   lcuClientHandlerObj
@@ -24,9 +25,8 @@ export function CustomLobby() {
                     );
                 },
               }}
-            >
-              Start custom
-            </Button>
+              text="Start custom"
+            />
           ) : null}
         </View>
         <View>

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Button, View, Text } from "@nodegui/react-nodegui";
+import { View } from "@nodegui/react-nodegui";
 import {
   TeamsIds,
   BotDifficulty,
@@ -12,6 +12,12 @@ import { CustomLobbyContext } from "./custom-lobby-context";
 import { FillLobbyByBotsBtn } from "./fill-bot-lobby";
 import { ListOfTeamMembers } from "./list-of-team-members";
 import { JoinTeamButton } from "./join-team-btn";
+import {
+  DangerButton,
+  PrimaryButton,
+  PrimaryText,
+  SuccessButton,
+} from "@components";
 
 export function LobbyTeamsView() {
   const { lobbyData } = useContext(LCUContext);
@@ -36,7 +42,7 @@ export function LobbyTeamsView() {
     }
     if (!lobbyData?.localMember.isLeader || !canAddBot) return null;
     return (
-      <Button
+      <PrimaryButton
         on={{
           clicked: () => {
             lcuClientHandlerObj
@@ -49,9 +55,8 @@ export function LobbyTeamsView() {
               .catch((err) => console.log(err));
           },
         }}
-      >
-        Add bot
-      </Button>
+        text="Add bot"
+      />
     );
   }
   const customLobbyProperties = React.useMemo(() => {
@@ -60,26 +65,37 @@ export function LobbyTeamsView() {
     return { customTeam100, customTeam200, maxTeamSize };
   }, [lobbyData]);
 
+  function changeNewBotsDifficulty() {
+    if (currentBotDifficulty === BotDifficulty.EASY)
+      return setCurrentBotDifficulty(BotDifficulty.MEDIUM);
+    return setCurrentBotDifficulty(BotDifficulty.EASY);
+  }
+
   return (
     <View id="custom-lobby-teams-view">
       {lobbyData?.localMember.isLeader ? (
         <View id="custom-lobby-teams-options">
-          <Text>Difficulty</Text>
-          <Button
-            text={`${currentBotDifficulty}`}
-            on={{
-              clicked: () => {
-                if (currentBotDifficulty === BotDifficulty.EASY)
-                  return setCurrentBotDifficulty(BotDifficulty.MEDIUM);
-                return setCurrentBotDifficulty(BotDifficulty.EASY);
-              },
-            }}
-          />
+          <PrimaryText text="Difficulty" />
+          {currentBotDifficulty === BotDifficulty.EASY ? (
+            <SuccessButton
+              text={`${currentBotDifficulty}`}
+              on={{
+                clicked: () => changeNewBotsDifficulty(),
+              }}
+            />
+          ) : (
+            <DangerButton
+              text={`${currentBotDifficulty}`}
+              on={{
+                clicked: () => changeNewBotsDifficulty(),
+              }}
+            />
+          )}
         </View>
       ) : null}
       <View id="custom-lobby-teams-view-team">
         <FillLobbyByBotsBtn teamId={TeamsIds.first} />
-        <Text>Team 1</Text>
+        <PrimaryText text="Team 1" />
         {addBotButton(TeamsIds.first)}
         <ListOfTeamMembers
           lobbyMembers={customLobbyProperties?.customTeam100}
@@ -94,7 +110,7 @@ export function LobbyTeamsView() {
           />
         ) : null}
         <FillLobbyByBotsBtn teamId={TeamsIds.second} />
-        <Text>Team 2</Text>
+        <PrimaryText text="Team 2" />
         {addBotButton(TeamsIds.second)}
         <ListOfTeamMembers
           lobbyMembers={customLobbyProperties?.customTeam200}

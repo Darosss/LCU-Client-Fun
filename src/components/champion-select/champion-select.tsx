@@ -1,22 +1,23 @@
 import React, { useContext, useMemo, useState } from "react";
-import { Button, Text, View } from "@nodegui/react-nodegui";
+import { View } from "@nodegui/react-nodegui";
 import { lcuClientHandlerObj, LCUContext } from "@lcu";
 import { findAvailableChampionForAutoPick } from "@helpers";
 import { SelectedChamp } from "./types";
 import { AvailableChamps } from "./available-champs";
 import { ChampionSelectContext } from "./champion-select-context";
-import { champselectStyleSheet } from "./stylesheet";
 import { TeamView } from "./team-view";
 import { TimeLeftInPhase } from "./time-left-in-phase";
 import { PhaseBans } from "./phase-bans";
+import {
+  DangerButton,
+  DangerText,
+  PrimaryButton,
+  PrimaryText,
+} from "@components";
 
 export function ChampSelect() {
   const {
-    options: {
-      minSize: { width, height },
-      autoPickChamp,
-      autoPickChamps,
-    },
+    options: { autoPickChamp, autoPickChamps },
   } = useContext(LCUContext);
   const {
     champSelectSessionData: {
@@ -80,28 +81,42 @@ export function ChampSelect() {
   }
 
   return (
-    <View styleSheet={champselectStyleSheet(width, height)}>
+    <View id="champ-select-wrapper">
       <View id="champ-select-title-wrapper">
-        <Text>
-          Champ select
-          {userAction ? ` - Your time to ${userAction.type}!` : ""}
-        </Text>
+        <PrimaryText
+          text={`
+          Champ select ${
+            userAction ? ` - Your time to ${userAction.type}!` : ""
+          }
+        `}
+        />
         <TimeLeftInPhase onEndingTimeLeft={() => autoPickChampion()} />
-        <Text> Bans </Text>
+        <DangerText text="Bans" />
         <PhaseBans />
       </View>
       {userAction?.isInProgress ? (
         <View>
-          <Button
-            id="pick-ban-button"
-            text={userAction.type || "Action"}
-            on={{
-              clicked: () => {
-                if (!selectedChamp) return;
-                completeActionChampion(selectedChamp.id, userAction.id, true);
-              },
-            }}
-          ></Button>
+          {userAction.type === "pick" ? (
+            <PrimaryButton
+              text={userAction.type || "Pick"}
+              on={{
+                clicked: () => {
+                  if (!selectedChamp) return;
+                  completeActionChampion(selectedChamp.id, userAction.id, true);
+                },
+              }}
+            />
+          ) : (
+            <DangerButton
+              text={userAction.type || "Ban"}
+              on={{
+                clicked: () => {
+                  if (!selectedChamp) return;
+                  completeActionChampion(selectedChamp.id, userAction.id, true);
+                },
+              }}
+            />
+          )}
         </View>
       ) : null}
 

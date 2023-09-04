@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Text, View } from "@nodegui/react-nodegui";
+import { View } from "@nodegui/react-nodegui";
+import { PrimaryText } from "@components";
 import { secondsToHMS } from "@helpers";
 
 export function Matchmaking() {
@@ -15,7 +16,7 @@ export function Matchmaking() {
   }, []);
   return (
     <View id="matchmaking-wrapper">
-      <Text>Match making {secondsToHMS(searchingMatchTime)} </Text>
+      <PrimaryText text={`Match making ${secondsToHMS(searchingMatchTime)}`} />
     </View>
   );
 }

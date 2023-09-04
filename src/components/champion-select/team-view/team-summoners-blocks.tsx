@@ -1,10 +1,6 @@
 import React, { useContext, useMemo } from "react";
 import { View, Text } from "@nodegui/react-nodegui";
-import {
-  ActionsChampSelectSessionData,
-  TeamChampSelectSessionData,
-  LCUContext,
-} from "@lcu";
+import { TeamChampSelectSessionData, LCUContext } from "@lcu";
 import { findChampionById, findSummonerSpellById } from "@helpers";
 
 import { ChampionSelectContext } from "../champion-select-context";

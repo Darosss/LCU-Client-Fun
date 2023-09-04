@@ -1,19 +1,13 @@
-import React, { useContext } from "react";
-import { TabItem, Tabs, Text } from "@nodegui/react-nodegui";
+import React from "react";
+import { TabItem, Tabs } from "@nodegui/react-nodegui";
 import { Options } from "./options";
-import { LCUContext } from "@lcu";
-import { sidebarStylsheet } from "./stylesheet";
+import { PrimaryText } from "@components";
 
 export function Sidebar() {
-  const {
-    options: {
-      minSize: { height, width },
-    },
-  } = useContext(LCUContext);
   return (
-    <Tabs styleSheet={sidebarStylsheet(width, height)} id="sidebar">
+    <Tabs id="sidebar">
       <TabItem title="friends">
-        <Text> Friends</Text>
+        <PrimaryText text="Friends" />
       </TabItem>
       <TabItem title="options">
         <Options />

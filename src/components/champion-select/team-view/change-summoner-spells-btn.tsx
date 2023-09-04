@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
-import { View, Button } from "@nodegui/react-nodegui";
+import { View } from "@nodegui/react-nodegui";
 import { lcuClientHandlerObj, LCUContext } from "@lcu";
 import { ChampionSelectContext } from "../champion-select-context";
 import { findSummonerSpellById } from "@helpers";
+import { PrimaryButton, SecondaryButton, SuccessButton } from "@components";
 
 interface ChangeSummonerSpellsButtonsProps {
   spell1Id: number;
@@ -61,28 +62,36 @@ export function ChangeSummonerSpellsButtons({
   return (
     <View>
       <View id="current-summoner-spells-btn-wrapper">
-        <Button
-          style={`${
-            showSpellsChangeMenu === "spell1Id" ? "color:yellow;" : ""
-          }`}
-          text={findSummonerSpellById(dataDragonSpells, spell1Id)}
-          on={{
-            clicked: () => {
-              toggleShowSpellsChangeMenu("spell1Id");
-            },
-          }}
-        />
-        <Button
-          style={`${
-            showSpellsChangeMenu === "spell2Id" ? "color:yellow;" : ""
-          }`}
-          text={findSummonerSpellById(dataDragonSpells, spell2Id)}
-          on={{
-            clicked: () => {
-              toggleShowSpellsChangeMenu("spell2Id");
-            },
-          }}
-        />
+        {showSpellsChangeMenu === "spell1Id" ? (
+          <SuccessButton
+            text={findSummonerSpellById(dataDragonSpells, spell1Id)}
+            on={{
+              clicked: () => toggleShowSpellsChangeMenu("spell1Id"),
+            }}
+          />
+        ) : (
+          <PrimaryButton
+            text={findSummonerSpellById(dataDragonSpells, spell1Id)}
+            on={{
+              clicked: () => toggleShowSpellsChangeMenu("spell1Id"),
+            }}
+          />
+        )}
+        {showSpellsChangeMenu === "spell2Id" ? (
+          <SuccessButton
+            text={findSummonerSpellById(dataDragonSpells, spell2Id)}
+            on={{
+              clicked: () => toggleShowSpellsChangeMenu("spell2Id"),
+            }}
+          />
+        ) : (
+          <PrimaryButton
+            text={findSummonerSpellById(dataDragonSpells, spell2Id)}
+            on={{
+              clicked: () => toggleShowSpellsChangeMenu("spell2Id"),
+            }}
+          />
+        )}
       </View>
 
       {showSpellsChangeMenu !== "none" ? (
@@ -93,17 +102,25 @@ export function ChangeSummonerSpellsButtons({
                 lobbyData?.gameConfig &&
                 modes.includes(lobbyData.gameConfig.gameMode)
             )
-            .map((spell, idx) => (
-              <Button
-                key={idx}
-                id="change-summoner-spell-btn"
-                on={{
-                  clicked: () => handleOnChangeSummonerSpellBtn(spell.id),
-                }}
-              >
-                {spell.name}
-              </Button>
-            ))}
+            .map((spell, idx) =>
+              spell.id === spell1Id || spell.id === spell2Id ? (
+                <SuccessButton
+                  key={idx}
+                  on={{
+                    clicked: () => handleOnChangeSummonerSpellBtn(spell.id),
+                  }}
+                  text={spell.name}
+                />
+              ) : (
+                <SecondaryButton
+                  key={idx}
+                  on={{
+                    clicked: () => handleOnChangeSummonerSpellBtn(spell.id),
+                  }}
+                  text={spell.name}
+                />
+              )
+            )}
         </View>
       ) : null}
     </View>
