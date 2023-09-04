@@ -52,6 +52,7 @@ module.exports = (env, argv) => {
         "@lcu": path.resolve(__dirname, "src/lcu"),
         "@assets": path.resolve(__dirname, "assets"),
         "@globals": path.resolve(__dirname, "src/globals"),
+        "@styles": path.resolve(__dirname, "src/styles"),
       },
     },
   };

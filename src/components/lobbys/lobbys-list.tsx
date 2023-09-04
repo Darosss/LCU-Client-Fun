@@ -1,7 +1,14 @@
 import React, { useState } from "react";
-import { Button, LineEdit, Text, View } from "@nodegui/react-nodegui";
+import { View } from "@nodegui/react-nodegui";
 import { lcuClientHandlerObj, queues, EligibileLobbyAndQueueData } from "@lcu";
 import { CustomModeLobby } from "./custom-mode-lobby";
+import {
+  PrimaryLineEdit,
+  DangerButton,
+  PrimaryButton,
+  PrimaryText,
+  SecondaryButton,
+} from "@components";
 
 interface ShowLobbysProps {
   textOnShow?: string;
@@ -34,23 +41,23 @@ export function LobbysList({ textOnShow = "Show lobbys" }: ShowLobbysProps) {
 
   return (
     <>
-      <Button
-        id="show-hide-lobbys-btn"
-        text={`${!showLobbys ? textOnShow : "Hide lobbys"}`}
-        on={{
-          clicked: () => {
-            setShowLobbys(!showLobbys);
-          },
-        }}
-      ></Button>
       {showLobbys ? (
         <>
+          <DangerButton
+            on={{
+              clicked: () => {
+                setShowLobbys(!showLobbys);
+              },
+            }}
+            text="Hide lobbys"
+          />
           <View id="eligible-lobbys-filter-wrapper">
-            <Text> Filter modes </Text>
-            <LineEdit
+            <PrimaryText text="Filter modes" />
+            <PrimaryLineEdit
               on={{
                 textChanged: (e) => setLobbysFilter(e.toLowerCase()),
               }}
+              text={lobbysFilter || ""}
             />
           </View>
           <View id="lobbys-list">
@@ -65,7 +72,7 @@ export function LobbysList({ textOnShow = "Show lobbys" }: ShowLobbysProps) {
               })
               .map(({ queueId: eligibleQueueId, description }, idx) => {
                 return (
-                  <Button
+                  <SecondaryButton
                     key={idx}
                     on={{
                       clicked: (e) => {
@@ -85,12 +92,21 @@ export function LobbysList({ textOnShow = "Show lobbys" }: ShowLobbysProps) {
                       },
                     }}
                     text={`${description || eligibleQueueId}`}
-                  ></Button>
+                  />
                 );
               })}
           </View>
         </>
-      ) : null}
+      ) : (
+        <PrimaryButton
+          on={{
+            clicked: () => {
+              setShowLobbys(!showLobbys);
+            },
+          }}
+          text={textOnShow}
+        />
+      )}
     </>
   );
 }

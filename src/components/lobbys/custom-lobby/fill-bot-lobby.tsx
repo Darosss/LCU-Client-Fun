@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import React from "react";
 import { TeamsIds, LCUContext, lcuClientHandlerObj } from "@lcu";
-import { Button } from "@nodegui/react-nodegui";
 import { CustomLobbyContext } from "./custom-lobby-context";
+import { InfoButton } from "@components";
 
 interface FillLobbyByBotsBtnProps {
   teamId: TeamsIds;
@@ -39,5 +39,5 @@ export function FillLobbyByBotsBtn({ teamId }: FillLobbyByBotsBtnProps) {
 
   if (!lobbyData?.localMember.isLeader) return null;
 
-  return <Button text="Fill bots" on={{ clicked: () => fillBots() }} />;
+  return <InfoButton text="Fill bots" on={{ clicked: () => fillBots() }} />;
 }

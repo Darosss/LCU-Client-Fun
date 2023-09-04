@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
-import { View, Text, Button } from "@nodegui/react-nodegui";
+import { View } from "@nodegui/react-nodegui";
 import {
   AssignedPosition,
   LCUContext,
   DataDragonChampionsJsonFileData,
 } from "@lcu";
+import { DangerButton, PrimaryText, SuccessButton } from "@components";
 
 interface AutoChampionChampionsListProps {
   currentChoosenPosition: AssignedPosition;
@@ -94,14 +95,13 @@ export function AutoChampionChampionsList({
           return (
             <View key={idx} id="auto-champion-actions">
               <View>
-                <Text id="button-default">{champ.name}</Text>
+                <PrimaryText text={champ.name} />
               </View>
               <View>
                 {!isAssignedToRole ? (
                   <>
-                    <Button
+                    <SuccessButton
                       text={"Add"}
-                      id="button-default"
                       on={{
                         clicked: () =>
                           addChampToRole(
@@ -111,9 +111,8 @@ export function AutoChampionChampionsList({
                           ),
                       }}
                     />
-                    <Button
+                    <SuccessButton
                       text={"Add End"}
-                      id="button-default"
                       on={{
                         clicked: () =>
                           addChampToRole(currentChoosenPosition, champ, "end"),
@@ -122,24 +121,21 @@ export function AutoChampionChampionsList({
                   </>
                 ) : (
                   <>
-                    <Button
-                      text={"\u25b2"}
-                      id="button-default"
+                    <SuccessButton
+                      text={"\u25BC"}
                       on={{
                         clicked: () =>
                           moveChampInPlaces(currentChoosenPosition, champ, 1),
                       }}
                     />
-                    <Button
-                      text={"\u25BC"}
-                      id="button-default"
+                    <SuccessButton
+                      text={"\u25b2"}
                       on={{
                         clicked: () =>
                           moveChampInPlaces(currentChoosenPosition, champ, -1),
                       }}
                     />
-                    <Button
-                      id="button-disabled"
+                    <DangerButton
                       text="X"
                       on={{
                         clicked: () =>

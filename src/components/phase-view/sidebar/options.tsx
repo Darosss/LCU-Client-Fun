@@ -1,14 +1,13 @@
 import React, { useContext, useState } from "react";
-import {
-  Button,
-  LineEdit,
-  TabItem,
-  Tabs,
-  Text,
-  View,
-} from "@nodegui/react-nodegui";
+import { TabItem, Tabs, View } from "@nodegui/react-nodegui";
 import { LCUContext } from "@lcu";
 import { AutoChampionPick } from "./auto-champion-pick";
+import {
+  DangerButton,
+  InfoText,
+  PrimaryLineEdit,
+  SuccessButton,
+} from "@components";
 
 export function Options() {
   const {
@@ -22,17 +21,26 @@ export function Options() {
   return (
     <Tabs>
       <TabItem title="general">
-        <View>
-          <Button
-            id={autoAccept ? `button-enabled` : `button-disabled`}
-            text={`Auto accept:  ${autoAccept}`}
-            on={{
-              clicked: () => changeOptions({ autoAccept: !autoAccept }),
-            }}
-          ></Button>
+        <View id="general-options-wrapper">
+          {autoAccept ? (
+            <SuccessButton
+              text={`Auto accept:  ${autoAccept}`}
+              on={{
+                clicked: () => changeOptions({ autoAccept: !autoAccept }),
+              }}
+            />
+          ) : (
+            <DangerButton
+              text={`Auto accept:  ${autoAccept}`}
+              on={{
+                clicked: () => changeOptions({ autoAccept: !autoAccept }),
+              }}
+            />
+          )}
+
           <View>
-            <Text>Client width:</Text>
-            <LineEdit
+            <InfoText text="Client width:" />
+            <PrimaryLineEdit
               text={`${localSizesWindow.width}`}
               on={{
                 textChanged: (value) => {
@@ -44,8 +52,8 @@ export function Options() {
                 },
               }}
             />
-            <Text>Client height:</Text>
-            <LineEdit
+            <InfoText text="Client height:" />
+            <PrimaryLineEdit
               text={`${localSizesWindow.height}`}
               on={{
                 textChanged: (value) => {
@@ -57,13 +65,12 @@ export function Options() {
                 },
               }}
             />
-            <Button
+            <SuccessButton
               on={{
                 clicked: () => {
                   changeOptions({ minSize: localSizesWindow });
                 },
               }}
-              id="button-default"
               text="Apply"
             />
           </View>

@@ -2,6 +2,7 @@ import { Button, View } from "@nodegui/react-nodegui";
 import React from "react";
 import { LobbyMember, lcuClientHandlerObj } from "@lcu";
 import { LeaderPlayersActions } from "../leader-players-actions";
+import { DangerButton } from "@components";
 
 interface LeaderMemberManageActionsProps {
   member: LobbyMember;
@@ -12,7 +13,7 @@ export function LeaderMemberManageActions({
 }: LeaderMemberManageActionsProps) {
   return (
     <View>
-      <Button
+      <DangerButton
         text={"Make party owner"}
         on={{
           clicked: () =>

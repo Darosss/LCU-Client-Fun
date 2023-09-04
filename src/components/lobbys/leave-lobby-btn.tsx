@@ -1,7 +1,8 @@
 import React from "react";
-import { useEventHandler, Button } from "@nodegui/react-nodegui";
+import { useEventHandler } from "@nodegui/react-nodegui";
 import { QPushButtonSignals } from "@nodegui/nodegui";
 import { lcuClientHandlerObj } from "@lcu";
+import { DangerButton } from "@components";
 
 export function LeaveLobbyBtn() {
   const leaveLobbyBtnHandler = useEventHandler<QPushButtonSignals>(
@@ -17,9 +18,5 @@ export function LeaveLobbyBtn() {
     []
   );
 
-  return (
-    <Button id="leave-lobby-btn" on={leaveLobbyBtnHandler}>
-      Leave lobby
-    </Button>
-  );
+  return <DangerButton on={leaveLobbyBtnHandler} text="Leave lobby" />;
 }

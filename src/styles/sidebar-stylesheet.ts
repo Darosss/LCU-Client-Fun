@@ -1,5 +1,5 @@
 import { getPercentFromValue } from "@helpers";
-import { backgroundLinearGradient } from "../../styles";
+import { primaryLinearGradient } from "./colors";
 
 export function sidebarStylsheet(width: number, height: number) {
   return `
@@ -7,35 +7,21 @@ export function sidebarStylsheet(width: number, height: number) {
         display:'flex';
         min-height:${height}px;
         max-height:${height}px;border:0;
-      
       }
   
       #sidebar-options {
         min-height:${height}px;
         max-height:${height}px;
-        ${backgroundLinearGradient("rgba(25,0,36,0.6)", "rgba(43,52,136,0.7)")}
         flex-direction:'column';
+        ${primaryLinearGradient}
       }
       
       #button-active {
         color:orange;
       }
 
-      #button-enabled {
-        ${backgroundLinearGradient("rgba(110,254,5,1)", "rgba(225,250,12,0.9)")}
-      }
-  
-      #button-disabled {
-        ${backgroundLinearGradient("rgba(254,130,5,1)", "rgba(196,42,42,0.9)")}
-      }
-      
-      #button-default {
-        ${backgroundLinearGradient("rgba(5,156,254,1)", "rgba(10,10,199,0.8)")}
-        color:white;
-      }
-
-      #auto-champion-pick-wrapper {
-        ${backgroundLinearGradient("rgba(25,0,36,0.6)", "rgba(43,52,136,0.7)")}
+      #auto-champion-pick-wrapper,#general-options-wrapper  {
+        ${primaryLinearGradient}
       }
 
       #auto-champion-pick-search-wrapper {
@@ -54,31 +40,20 @@ export function sidebarStylsheet(width: number, height: number) {
         border-bottom:1px solid yellow;
       }
 
-      #auto-champion-roles-wrapper #assigned-champions-to-position {
+      #assigned-champions-to-position {
         display:'flex';
         flex-direction:'column';
       }
 
-      #auto-champion-roles-wrapper #assigned-champions-to-position-header {
+      #assigned-champions-to-position > QPushButton {
         color:yellow;
         padding:1px;
         padding-vertical:4px;
       }
       
-      #auto-champion-roles-wrapper QWidget{
-        color:white;
-      }
-
-      #auto-champion-roles-wrapper > QWidget {
-        display:'flex';
-        flex-direction:'row';
-      }
-
       #auto-champion-roles-wrapper QLabel {
         margin: 1px; padding:1px;
-        color:white;
         max-width:${getPercentFromValue(width, 4)}px;
-        ${backgroundLinearGradient("rgba(25,0,36,0.6)", "rgba(43,52,136,0.7)")}
       }
 
       #auto-champion-actions > QWidget {
@@ -100,7 +75,6 @@ export function sidebarStylsheet(width: number, height: number) {
         align-items:'center';
         color:white;
         flex-grow:1;
-        ${backgroundLinearGradient("rgba(25,0,36,0.6)", "rgba(43,52,136,0.7)")}
       }
   `;
 }

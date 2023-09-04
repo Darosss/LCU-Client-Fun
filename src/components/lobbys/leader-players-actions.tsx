@@ -1,6 +1,6 @@
 import React from "react";
-import { Button } from "@nodegui/react-nodegui";
 import { lcuClientHandlerObj } from "@lcu";
+import { DangerButton, SuccessButton } from "@components";
 
 interface LeaderPlayersActionsProps {
   summonerId: number;
@@ -13,7 +13,7 @@ export function LeaderPlayersActions({
 }: LeaderPlayersActionsProps) {
   return (
     <>
-      <Button
+      <DangerButton
         text="x"
         on={{
           clicked: () => {
@@ -23,8 +23,8 @@ export function LeaderPlayersActions({
             });
           },
         }}
-      ></Button>
-      <Button
+      />
+      <SuccessButton
         text={`Invite ${allowedInviteOthers ? "on" : "off"}`}
         on={{
           clicked: () => {
@@ -34,7 +34,7 @@ export function LeaderPlayersActions({
             });
           },
         }}
-      ></Button>
+      />
     </>
   );
 }

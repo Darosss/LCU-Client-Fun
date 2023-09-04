@@ -1,12 +1,13 @@
 import React, { useContext, useState } from "react";
-import { useEventHandler, Button, View, Text } from "@nodegui/react-nodegui";
+import { useEventHandler, View } from "@nodegui/react-nodegui";
 import { QPushButtonSignals } from "@nodegui/nodegui";
 import { lcuClientHandlerObj, LCUContext } from "@lcu";
 import {
-  defaultTextStyle,
-  backgroundLinearGradient,
-  defaultButton,
-} from "../styles";
+  DangerButton,
+  DangerText,
+  SuccessButton,
+  SuccessText,
+} from "@components";
 
 type ReadyCheckState = "Accepted" | "Declined" | "None";
 
@@ -51,19 +52,15 @@ export function ReadyCheck() {
   function ReadyCheckActions() {
     switch (readyCheckState) {
       case "Accepted":
-        return <Text style={defaultTextStyle}> Accepted</Text>;
+        return <SuccessText text="Accepted" />;
 
       case "Declined":
-        return <Text style={defaultTextStyle}> Declined</Text>;
+        return <DangerText text="Declined" />;
       case "None":
         return (
           <>
-            <Button style={acceptBtn} on={acceptMatchBtnHandler}>
-              Accept
-            </Button>
-            <Button style={declineBtn} on={declineMatchBtnHandler}>
-              Decline
-            </Button>
+            <SuccessButton on={acceptMatchBtnHandler} text="Accept" />
+            <DangerButton on={declineMatchBtnHandler} text="Decline" />
           </>
         );
     }
@@ -85,13 +82,3 @@ export function ReadyCheck() {
     </View>
   );
 }
-
-const acceptBtn = `
-${backgroundLinearGradient("rgba(25,0,36,0.6)", "rgba(32,52,136,0.7)")}
-${defaultButton}
-`;
-
-const declineBtn = `
-${backgroundLinearGradient("rgba(25,0,36,0.6)", "rgba(244,52,136,0.7)")}
-${defaultButton}
-`;

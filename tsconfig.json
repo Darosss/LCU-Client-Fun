@@ -14,7 +14,8 @@
       "@helpers": ["helpers"],
       "@lcu": ["lcu"],
       "@assets": ["assets"],
-      "@globals": ["globals"]
+      "@globals": ["globals"],
+      "@styles": ["styles"]
     }
   },
   "include": ["**/*", "src/LCU/lcucontext.ts"]

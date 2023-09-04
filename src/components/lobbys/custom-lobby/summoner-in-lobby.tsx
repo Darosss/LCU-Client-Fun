@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
-import { View, Button } from "@nodegui/react-nodegui";
+import { View } from "@nodegui/react-nodegui";
 import { LCUContext, LobbyMember } from "@lcu";
 import { LeaderPlayersActions } from "../leader-players-actions";
+import { PrimaryButton } from "@components";
 
 interface SummonerInLobbyProps {
   summoner: LobbyMember;
@@ -13,7 +14,7 @@ export function SummonerInLobby({
   const { currentSummoner, lobbyData } = useContext(LCUContext);
   return (
     <View id="summoner-in-lobby-wrapper">
-      <Button text={summonerName}></Button>
+      <PrimaryButton text={summonerName} />
       {currentSummoner?.summonerId !== summonerId &&
       lobbyData?.localMember.isLeader ? (
         <LeaderPlayersActions

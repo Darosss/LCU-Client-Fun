@@ -1,12 +1,13 @@
 import React from "react";
-import { Button, Text, View } from "@nodegui/react-nodegui";
 import { lcuClientHandlerObj } from "@lcu";
+import { InfoButton, InfoText } from "@components";
+import { View } from "@nodegui/react-nodegui";
 
 export function WaitingForStats() {
   return (
     <View id="waiting-for-stats-wrapper">
-      <Text> Waiting for stats</Text>
-      <Button
+      <InfoText text="Waiting for stats" />
+      <InfoButton
         text="Skip waiting"
         on={{
           clicked: () =>

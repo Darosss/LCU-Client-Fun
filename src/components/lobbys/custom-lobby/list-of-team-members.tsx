@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
-import { View, Button } from "@nodegui/react-nodegui";
+import { View } from "@nodegui/react-nodegui";
 import { LobbyMember, LCUContext } from "@lcu";
 import { CustomLobbyContext } from "./custom-lobby-context";
 import { LeaderBotsActions } from "./leader-bots-actions";
 import { SummonerInLobby } from "./summoner-in-lobby";
+import { PrimaryText } from "@components";
 
 interface ListOfTeamMembersProps {
   lobbyMembers?: LobbyMember[];
@@ -32,9 +33,9 @@ export function ListOfTeamMembers({ lobbyMembers }: ListOfTeamMembersProps) {
                 )}
               />
             ) : member.isBot ? (
-              <Button
+              <PrimaryText
                 text={`${foundChampionData?.name ?? member.botChampionId}`}
-              ></Button>
+              />
             ) : member.summonerName ? (
               <SummonerInLobby summoner={member} />
             ) : null}

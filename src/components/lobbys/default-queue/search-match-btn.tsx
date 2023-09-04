@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { Button, View } from "@nodegui/react-nodegui";
+import { View } from "@nodegui/react-nodegui";
 import { lcuClientHandlerObj, LCUContext } from "@lcu";
-import { playBtn } from "../styles";
+import { PrimaryButton } from "@components";
 
 export function SearchMatchBtn() {
   const { lobbyData } = useContext(LCUContext);
@@ -22,14 +22,12 @@ export function SearchMatchBtn() {
       style="display:'flex'; justify-content:'center'; align-items:'center';"
     >
       {lobbyData?.canStartActivity ? (
-        <Button
-          style={playBtn}
+        <PrimaryButton
           on={{
             clicked: () => searchMatch(),
           }}
-        >
-          Search
-        </Button>
+          text="Search"
+        />
       ) : null}
     </View>
   );
