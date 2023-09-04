@@ -1,5 +1,6 @@
 import { getPercentFromValue } from "@helpers";
 import { backgroundLinearGradient } from "./styles-helpers";
+import { infoLinearGradient, primaryLinearGradient } from "./colors";
 
 export function champselectStyleSheet(width: number, height: number) {
   const minMaxSizes = {
@@ -11,13 +12,21 @@ export function champselectStyleSheet(width: number, height: number) {
     teamBansWidthLabels: ~~getPercentFromValue(width, 4),
     champsWrapperWidgetsMargins: ~~getPercentFromValue(width, 34),
     champsWrapperHeight: ~~getPercentFromValue(height, 70),
+    champsWrapperWidth: ~~getPercentFromValue(width, 70),
   };
   return `
+
+    #champ-select-wrapper {
+        min-width:${minMaxSizes.champsWrapperWidth}px;
+        max-width:${minMaxSizes.champsWrapperWidth}px;
+
+    }
     #champ-select-title-wrapper{
         display:flex;
         justify-content:'center';
         align-items:'center';
-        ${backgroundLinearGradient(`rgba(90,166,25,1)`, `rgba(0,18,36,1)`)}
+        ${primaryLinearGradient}
+        
     }
 
     #champ-select-title-wrapper > QWidget {
@@ -26,10 +35,14 @@ export function champselectStyleSheet(width: number, height: number) {
         flex-direction:'row';
         justify-content: 'center';
         align-items:'center';
+        min-width:${minMaxSizes.champsWrapperWidth}px;
+        max-width:${minMaxSizes.champsWrapperWidth}px;
     }
 
-    #champ-select-title-wrapper > #time-left-text {
+    #time-left-text-wrapper QLabel{
         font-size: 20px;
+        min-width:${minMaxSizes.champsWrapperWidth}px;
+        max-width:${minMaxSizes.champsWrapperWidth}px;
     }
 
     #champ-select-title-wrapper > #bans-in-phase-wrapper{
@@ -44,34 +57,14 @@ export function champselectStyleSheet(width: number, height: number) {
         justify-content:'space-around';
         min-width:${minMaxSizes.teamBansWidth}px;
         max-width:${minMaxSizes.teamBansWidth}px;
-        ${backgroundLinearGradient(`rgba(90,166,25,1)`, `rgba(0,18,36,1)`)}
+        ${infoLinearGradient}
         padding:5px;
     }
 
     #bans-in-phase-wrapper QLabel {
         min-width:${minMaxSizes.teamBansWidthLabels}px;
         max-width:${minMaxSizes.teamBansWidthLabels}px;
-        color:white;
         padding:5px;
-    }
-
-    #bans-in-phase-wrapper > #bans-in-phase-ally QLabel{
-        ${backgroundLinearGradient(
-          `rgba(48,103,25,0.59)`,
-          `rgba(89,197,43,0.59)`
-        )}
-    }
-
-    #bans-in-phase-wrapper > #bans-in-phase-enemy QLabel {
-        ${backgroundLinearGradient(
-          `rgba(202,31,37,0.8)`,
-          `rgba(101,69,70,0.8)`
-        )}
-    }
-
-    #pick-ban-button {
-        color:white;
-        ${backgroundLinearGradient(`rgba(165,166,25,1)`, `rgba(0,18,36,1)`)}
     }
 
     #available-champs-wrapper {
@@ -88,16 +81,6 @@ export function champselectStyleSheet(width: number, height: number) {
         flex-direction:'row';
     }
 
-    #available-champs-search > QLineEdit{
-        ${backgroundLinearGradient(`rgba(100,166,25,1)`, `rgba(44,18,36,1)`)}
-        color:white;
-    }
-    #available-champs-search > QLabel{
-        ${backgroundLinearGradient(`rgba(100,166,25,1)`, `rgba(44,18,36,1)`)}
-        color:white;
-        border:1px solid white;
-    }
-
     #available-champs {
         display:'flex';
         flex-direction:'row';
@@ -108,22 +91,11 @@ export function champselectStyleSheet(width: number, height: number) {
     }
 
     #available-champs > QPushButton {
-        ${backgroundLinearGradient(`rgba(2,0,36,0.7)`, `rgba(87,20,29,0.5)`)}
         border:1px solid blue;
         font-weight:700;
         padding:2px;
         flex-shrink:1;
         width:100px;
-        color:yellow;
-    }
-    #available-champs > QPushButton:hover {
-        color:red;
-        ${backgroundLinearGradient(`rgba(2,0,36,0.4)`, `rgba(20,20,29,0.5)`)}
-    }
-
-    #available-champs #disabled-champion-btn {
-        color:red;
-        ${backgroundLinearGradient(`rgba(12,31,44,1)`, `rgba(12,123,12,0.7)`)} 
     }
 
     #teams-champions-wrapper {
@@ -152,7 +124,6 @@ export function champselectStyleSheet(width: number, height: number) {
     }
 
     #team-view QWidget {
-        color:black;
         font-weight:700;
     }
 
@@ -217,7 +188,6 @@ export function champselectStyleSheet(width: number, height: number) {
     }  
 
     #current-summoner-spells-btn-wrapper > QPushButton {
-        ${backgroundLinearGradient(`rgba(120,240,240,1)`, `rgba(90,90,12,0.7)`)}
         border:1px solid yellow;
         padding-vertical:4px;
         min-width:${minMaxSizes.summonerSpellsWidgets}px;
@@ -230,8 +200,5 @@ export function champselectStyleSheet(width: number, height: number) {
         flex-direction:'row';
     }
 
-    #change-summoner-spell-btn {
-        ${backgroundLinearGradient(`rgba(90,90,12,0.7)`, `rgba(120,240,240,1)`)}
-    }
 `;
 }
