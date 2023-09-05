@@ -1,8 +1,8 @@
 import { backgroundLinearGradient } from "./styles-helpers";
 
 export const primaryLinearGradient = backgroundLinearGradient(
-  "rgba(25,0,36,0.6)",
-  "rgba(43,52,136,0.7)"
+  "rgba(25,0,36,1)",
+  "rgba(43,52,136,1)"
 );
 
 export const secondaryLinearGradient = backgroundLinearGradient(
