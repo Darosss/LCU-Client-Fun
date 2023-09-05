@@ -118,10 +118,10 @@ export function LobbyTeamsView() {
         {lobbyData?.localMember.teamId !== CustomTeamIds.two ? (
           <JoinTeamButton
             lengthLobbyMembers={
-              customLobbyProperties?.customTeam100.length || 0
+              customLobbyProperties?.customTeam200.length || 0
             }
             maxTeamSize={customLobbyProperties?.maxTeamSize || 0}
-            changeToTeam="one"
+            changeToTeam="two"
           />
         ) : null}
       </View>
