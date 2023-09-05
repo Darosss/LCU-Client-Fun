@@ -46,6 +46,7 @@ export interface CurrentSummonerData {
   displayName: string;
   gameName: string;
   internalName: string;
+  //FIXME: boolean
   nameChangeFlag: false;
   percentCompleteForNextLevel: number;
   privacy: string;
@@ -61,6 +62,7 @@ export interface CurrentSummonerData {
   summonerId: number;
   summonerLevel: number;
   tagLine: string;
+  //FIXME: boolean
   unnamed: false;
   xpSinceLastLevel: number;
   xpUntilNextLevel: number;
@@ -70,7 +72,7 @@ export interface LobbyGameDataResponse {
   canStartActivity: boolean;
   gameConfig: LobbyGameConfig;
   //TODO: change any in needed / required data
-  invitations: any;
+  invitations: LobbyInvitationData[];
   localMember: LobbyMember;
   members: LobbyMember[];
   mucJwtDto: any;
@@ -81,6 +83,15 @@ export interface LobbyGameDataResponse {
   restrictions: any;
   scarcePositions: any;
   warnings: any;
+}
+
+export interface LobbyInvitationData {
+  invitationId?: string;
+  invitationType?: unknown;
+  state: InvitationState;
+  timestamp: number;
+  toSummonerId: number;
+  toSummonerName: string;
 }
 
 export interface LobbyGameConfig {
@@ -127,6 +138,7 @@ export interface LobbyMember {
   isSpectator: boolean;
   playerSlots: [];
   puuid: string;
+  // FIXME: boolean
   ready: true;
   secondPositionPreference: PositionsPreferences;
   showGhostedBanner: boolean;
@@ -157,3 +169,94 @@ export interface ChangePositionPreferenceBody {
   firstPreference: PositionsPreferences;
   secondPreference: PositionsPreferences;
 }
+
+export interface FriendsListData {
+  availability: string;
+  displayGroupId: number;
+  displayGroupName: string;
+  gameName: string;
+  gameTag: string;
+  groupId: number;
+  groupName: string;
+  icon: number;
+  id: string;
+  isP2PConversationMuted: boolean;
+  lastSeenOnlineTimestamp: number | null;
+  lol: FriendListLOL;
+  name: string;
+  note: string;
+  patchline: string;
+  pid: string;
+  platformId: string;
+  product: string;
+  productName: string;
+  puuid: string;
+  statusMessage: string;
+  summary: string;
+  summonerId: number;
+  time: number;
+}
+
+interface FriendListLOL {
+  championId: string;
+  companionId: string;
+  damageSkinId: string;
+  gameQueueType: string;
+  gameStatus: string;
+  iconOverride: string;
+  initRankStat: string;
+  isObservable: string;
+  level: string;
+  mapId: string;
+  mapSkinId: string;
+  masteryScore: string;
+  profileIcon: string;
+  puuid: string;
+  regalia: string;
+  skinVariant: string;
+  skinname: string;
+}
+
+export interface ConversationMessagesData {
+  body: string;
+  fromId: string;
+  fromObfuscatedSummonerId: number;
+  fromPid: string;
+  fromSummonerId: number;
+  id: string;
+  isHistorical: boolean;
+  timestamp: string;
+  type: "system" | "chat";
+}
+
+export interface InvitePlayerToLobbyBody {
+  toSummonerId: number;
+}
+
+export interface ReceivedInvitationData {
+  canAcceptInvitation: boolean;
+  fromSummonerId: number;
+  fromSummonerName: string;
+  gameConfig: {
+    gameMode: string;
+    inviteGameType: string;
+    mapId: number;
+    queueId: number;
+  };
+  invitationId: string;
+  restrictions: [
+    {
+      expiredTimestamp: number;
+      restrictionArgs: unknown;
+      restrictionCode: string;
+      summonerIds: number[];
+      summonerIdsString: string;
+    }
+  ];
+  state: InvitationState;
+  timestamp: string;
+}
+
+export type ManageInvitationAction = "accept" | "decline";
+
+export type InvitationState = "Requested" | "Declined" | "Pending" | "Accepted";
