@@ -2,26 +2,23 @@ import { getPercentFromValue } from "@helpers";
 import { primaryLinearGradient } from "./colors";
 
 export function sidebarStylsheet(width: number, height: number) {
+  const sidebarSizes = {
+    friendList: ~~getPercentFromValue(height, 65),
+    friendChat: ~~getPercentFromValue(height, 30),
+    autoChampionRolesWrapperQLabel: getPercentFromValue(width, 4),
+  };
   return `
       #sidebar {
         display:'flex';
         min-height:${height}px;
-        max-height:${height}px;border:0;
+        max-height:${height}px;
+        border:0;
       }
   
-      #sidebar-options {
+      #auto-champion-pick-wrapper, #general-options-wrapper, #social-window-wrapper  {
+        ${primaryLinearGradient}
         min-height:${height}px;
         max-height:${height}px;
-        flex-direction:'column';
-        ${primaryLinearGradient}
-      }
-      
-      #button-active {
-        color:orange;
-      }
-
-      #auto-champion-pick-wrapper,#general-options-wrapper  {
-        ${primaryLinearGradient}
       }
 
       #auto-champion-pick-search-wrapper {
@@ -53,7 +50,7 @@ export function sidebarStylsheet(width: number, height: number) {
       
       #auto-champion-roles-wrapper QLabel {
         margin: 1px; padding:1px;
-        max-width:${getPercentFromValue(width, 4)}px;
+        max-width:${sidebarSizes.autoChampionRolesWrapperQLabel}px;
       }
 
       #auto-champion-actions > QWidget {
@@ -76,5 +73,82 @@ export function sidebarStylsheet(width: number, height: number) {
         color:white;
         flex-grow:1;
       }
+
+
+      /* social-window styles */
+
+      #social-tabs {
+        display:'flex';
+        min-height:${height}px;
+        max-height:${height}px;
+      }
+
+
+      #social-window-wrapper {
+        display:'flex';
+        flex-direction:'column';
+      }
+
+      #logged-in-user-details-wrapper, #friends-list-wrapper {
+        ${primaryLinearGradient}
+      }
+
+      #friends-list-wrapper {
+        display:'flex';
+        flex-direction:'column';
+        justify-content:'space-between';
+      }
+
+
+      #friends-list {
+        max-height:${sidebarSizes.friendList}px;
+        min-height: ${sidebarSizes.friendList}px;
+        border-bottom:1px solid black;
+      }
+
+      #friends-list-chat-wrapper {
+        max-height:${sidebarSizes.friendChat}px;
+        min-height: ${sidebarSizes.friendChat}px;
+      }
+
+      #friend-block-wrapper {
+        margin-top:1px;
+        display:'flex';
+        flex-direction:'column';
+      }
+
+      #friend-block-info-wrapper {
+        display:'flex';
+        flex-direction:'row';
+      }
+
+      #friend-menu-wrapper {
+        display:'flex';
+        flex-direction:'row';
+      }
+
+      #friend-block-wrapper > QWidget {
+        display:'flex';
+        flex-direction:'row';
+        justify-content:'space-between';
+      }
+
+      #friend-block-wrapper > QWidget > QWidget{
+        display:'flex';
+        flex: 1 30px;
+        padding:1px;
+      }
+
+      #friend-block-wrapper QLabel {
+        padding:5px;
+      }
+
+      #invitation-wrapper > QWidget {
+        display:'flex';
+        flex-direction:'row';
+        justify-content:'space-between';
+        flex-grow:1;
+      }
+
   `;
 }

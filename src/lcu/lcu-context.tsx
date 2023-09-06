@@ -25,6 +25,7 @@ interface LCUContext {
   setCurrentPhase: React.Dispatch<React.SetStateAction<GameFlowPhaseData>>;
   lobbyData: LobbyGameDataResponse | null;
   lolDataDragon: AllRequiredDataDragon;
+  wsInitialized: boolean;
 }
 
 export const initialLCUContextValue: LCUContext = {
@@ -35,6 +36,7 @@ export const initialLCUContextValue: LCUContext = {
   setCurrentPhase: () => {},
   lobbyData: null,
   lolDataDragon: { dataDragonChampions: [], dataDragonSpells: [] },
+  wsInitialized: false,
 };
 
 export const LCUContext = React.createContext<LCUContext>(
@@ -61,6 +63,8 @@ export function LCUContextProvider({
     initialLCUContextValue.lolDataDragon
   );
 
+  const [wsInitialized, setWsInitialized] = useState(false);
+
   function changeOptions(value: Partial<ClientOptions>) {
     setOptions((prevOpts) => ({ ...prevOpts, ...value }));
 
@@ -77,6 +81,7 @@ export function LCUContextProvider({
         );
 
       lcuClientHandlerObj.initLeagueWS().then(() => {
+        setWsInitialized(true);
         lcuClientHandlerObj.wsOnGameflowPhaseChange((state) => {
           setCurrentPhase(state);
         });
@@ -109,6 +114,7 @@ export function LCUContextProvider({
   return (
     <LCUContext.Provider
       value={{
+        wsInitialized,
         options,
         changeOptions,
         currentPhase,

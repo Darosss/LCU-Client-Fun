@@ -24,6 +24,10 @@ import {
   ManagePlayerInLobbyOpts,
   SwitchTeamParam,
   ActionsChampSelectSessionData,
+  FriendsListData,
+  InvitePlayerToLobbyBody,
+  ReceivedInvitationData,
+  ManageInvitationAction,
 } from "./";
 interface LCUClientHandlerOpts {}
 
@@ -77,6 +81,51 @@ export class LCUClientHandler {
     const summoner = response.json() as CurrentSummonerData;
     this.currentSummoner = summoner;
     return summoner;
+  }
+
+  public async getCurrentFriendsList() {
+    const response = await createHttp1Request(
+      {
+        method: "GET",
+        url: "/lol-chat/v1/friends",
+      },
+      this.credentials!
+    );
+    const friendList = response.json() as FriendsListData[];
+    return friendList;
+  }
+
+  public async invitePlayerToLobby(body: InvitePlayerToLobbyBody[]) {
+    await createHttp1Request(
+      {
+        method: "POST",
+        url: "/lol-lobby/v2/lobby/invitations",
+        body: body,
+      },
+      this.credentials!
+    );
+  }
+
+  public async wsOnReceiveInvitation(
+    cb: (invitationData: ReceivedInvitationData[]) => void
+  ) {
+    this.leagueWS?.subscribe(
+      "/lol-lobby/v2/received-invitations",
+      async (data) => cb(data as ReceivedInvitationData[])
+    );
+  }
+
+  public async manageInvitation(
+    action: ManageInvitationAction,
+    invitationId: string
+  ) {
+    await createHttp1Request(
+      {
+        method: "POST",
+        url: `/lol-lobby/v2/received-invitations/${invitationId}/${action}`,
+      },
+      this.credentials!
+    );
   }
 
   public async reconnectToCurrentMatch() {
