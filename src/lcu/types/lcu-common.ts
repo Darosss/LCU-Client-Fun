@@ -198,23 +198,33 @@ export interface FriendsListData {
 }
 
 interface FriendListLOL {
+  bannerIdSelected: string;
+  challengeCrystalLevel: string;
+  challengePoints: number;
+  challengeTitleSelected: string;
+  challengeTokensSelected: string;
   championId: string;
-  companionId: string;
-  damageSkinId: string;
+  companionId: number;
+  damageSkinId: number;
+  gameId: number;
+  gameMode: string;
   gameQueueType: string;
   gameStatus: string;
   iconOverride: string;
-  initRankStat: string;
+  initRankStat: number;
   isObservable: string;
-  level: string;
+  level: number;
   mapId: string;
-  mapSkinId: string;
-  masteryScore: string;
-  profileIcon: string;
+  mapSkinId: number;
+  masteryScore: number;
+  profileIcon: number;
+  pty: string;
   puuid: string;
+  queueId: number;
   regalia: string;
   skinVariant: string;
   skinname: string;
+  timeStamp: number;
 }
 
 export interface ConversationMessagesData {
