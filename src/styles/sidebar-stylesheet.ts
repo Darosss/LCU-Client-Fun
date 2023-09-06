@@ -114,12 +114,29 @@ export function sidebarStylsheet(width: number, height: number) {
       #friend-block-wrapper {
         margin-top:1px;
         display:'flex';
+        flex-direction:'column';
+      }
+
+      #friend-block-info-wrapper {
+        display:'flex';
+        flex-direction:'row';
+      }
+
+      #friend-menu-wrapper {
+        display:'flex';
+        flex-direction:'row';
+      }
+
+      #friend-block-wrapper > QWidget {
+        display:'flex';
         flex-direction:'row';
         justify-content:'space-between';
       }
 
-      #friend-block-wrapper > #friend-menu-wrapper {
+      #friend-block-wrapper > QWidget > QWidget{
         display:'flex';
+        flex: 1 30px;
+        padding:1px;
       }
 
       #friend-block-wrapper QLabel {
