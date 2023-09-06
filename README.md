@@ -46,6 +46,12 @@ if (options.body !== void 0) {
   - [] quit button if custom match
   - [] refactor champions to available endpoints / banned champions / available / disabled
 - [x] custom lobbys
+- [] friends list:
+  - [x] invite friends
+  - [] remove friends
+  - [] message friends
+  - [] update info about friends (for now it's only with refresh button)
+  - [] detailed info about friends (maybe another tab or?)
 - [] add better styles
 - [] fix reloging
 - [] remove their ux / headless
