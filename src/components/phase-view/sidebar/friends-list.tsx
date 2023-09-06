@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import {
   DangerButton,
+  InfoButton,
   PrimaryText,
   SecondaryLineEdit,
   SuccessButton,
@@ -83,6 +84,10 @@ export function FriendsList() {
           <SecondaryLineEdit
             text={friendsFilter}
             on={{ textChanged: (e) => setFriendsFilter(e.toLowerCase()) }}
+          />
+          <InfoButton
+            text="Refresh"
+            on={{ clicked: () => updateFriendsList() }}
           />
           {!showOfflineFriends ? (
             <SuccessButton
