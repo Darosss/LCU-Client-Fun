@@ -68,7 +68,7 @@ export function lobbysStylesheet(width: number, height: number) {
     }
     
     #lobby-members-wrapper #lobby-one-member-wrapper QLabel {
-        font-size:${lobbysSizes.oneMemberWraperQLabel}px;
+        font-size:${~~lobbysSizes.oneMemberWraperQLabel / 3}px;
         font-weight:800;
         min-width:${lobbysSizes.oneMemberWraperQLabel}px;
         max-width:${lobbysSizes.oneMemberWraperQLabel}px;
