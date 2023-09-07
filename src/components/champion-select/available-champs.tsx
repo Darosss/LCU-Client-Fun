@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { View } from "@nodegui/react-nodegui";
-import { LCUContext, lcuClientHandlerObj } from "@lcu";
+import { LCUContext } from "@lcu";
 import { SelectedChamp } from "./types";
 import { ChampionSelectContext } from "./champion-select-context";
 import { isBannedOrPickedChamp } from "@helpers";
@@ -25,9 +25,11 @@ export function AvailableChamps({
   const {
     currentSummoner,
     lolDataDragon: { dataDragonChampions },
+    headLCUHandler,
   } = useContext(LCUContext);
 
   const {
+    champSelectLCUHandler,
     champSelectSessionData: { myTeam, bans, theirTeam },
     availableChamps,
     setAvailableChamps,
@@ -36,8 +38,8 @@ export function AvailableChamps({
 
   React.useEffect(() => {
     if (!currentSummoner) return;
-    lcuClientHandlerObj
-      .getAvailableChamps(currentSummoner.summonerId)
+    headLCUHandler
+      ?.getAvailableChampsBySummonerId(currentSummoner.summonerId)
       .then((availableChamps) => {
         setAvailableChamps(availableChamps);
       })
@@ -60,8 +62,11 @@ export function AvailableChamps({
         text={champName}
         on={{
           clicked: () => {
-            lcuClientHandlerObj
-              .champSelectAction(champId, currentActionId)
+            champSelectLCUHandler
+              ?.champSelectAction({
+                championId: champId,
+                actionId: currentActionId,
+              })
               .then(() => {
                 onChangeChampion({ id: champId, name: champName });
               })

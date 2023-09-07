@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import React from "react";
-import { TeamsIds, LCUContext, lcuClientHandlerObj } from "@lcu";
+import { TeamsIds, LCUContext } from "@lcu";
 import { CustomLobbyContext } from "./custom-lobby-context";
 import { InfoButton } from "@components";
 
@@ -9,7 +9,7 @@ interface FillLobbyByBotsBtnProps {
 }
 
 export function FillLobbyByBotsBtn({ teamId }: FillLobbyByBotsBtnProps) {
-  const { lobbyData } = useContext(LCUContext);
+  const { lobbyData, lobbyLCUHandler } = useContext(LCUContext);
   const { championBots, currentBotDifficulty } = useContext(CustomLobbyContext);
 
   function fillBots() {
@@ -29,7 +29,7 @@ export function FillLobbyByBotsBtn({ teamId }: FillLobbyByBotsBtnProps) {
 
     const randomlyBotsArray = championBots.sort(() => 0.5 - Math.random());
     for (let i = 0; i < numberBotsToTeam; i++) {
-      lcuClientHandlerObj.addBotsToCustomLobby({
+      lobbyLCUHandler?.addBotsToCustomLobby({
         botDifficulty: currentBotDifficulty,
         teamId: teamId,
         championId: randomlyBotsArray[i].id,

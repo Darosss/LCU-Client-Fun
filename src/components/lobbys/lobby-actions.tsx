@@ -6,6 +6,7 @@ import { DefaultQueue } from "./default-queue";
 import { LobbysList } from "./lobbys-list";
 import { CustomLobby } from "./custom-lobby";
 import { PrimaryButton, PrimaryText, SecondaryButton } from "@components";
+import { CustomLobbyContextProvider } from "./custom-lobby/custom-lobby-context";
 
 export function LobbyActions() {
   const { lobbyData } = useContext(LCUContext);
@@ -40,7 +41,13 @@ export function LobbyActions() {
         ) : null}
       </View>
       <View id="lobby-actions-members">
-        {lobbyData.gameConfig.isCustom ? <CustomLobby /> : <DefaultQueue />}
+        {lobbyData.gameConfig.isCustom ? (
+          <CustomLobbyContextProvider>
+            <CustomLobby />
+          </CustomLobbyContextProvider>
+        ) : (
+          <DefaultQueue />
+        )}
       </View>
     </View>
   ) : (

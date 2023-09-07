@@ -1,6 +1,6 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useCallback, useContext, useMemo, useState } from "react";
 import { View } from "@nodegui/react-nodegui";
-import { lcuClientHandlerObj, LCUContext } from "@lcu";
+import { ChampSelectActionArgs, LCUContext } from "@lcu";
 import { findAvailableChampionForAutoPick } from "@helpers";
 import { SelectedChamp } from "./types";
 import { AvailableChamps } from "./available-champs";
@@ -20,6 +20,7 @@ export function ChampSelect() {
     options: { autoPickChamp, autoPickChamps },
   } = useContext(LCUContext);
   const {
+    champSelectLCUHandler,
     champSelectSessionData: {
       actions,
       localPlayerCellId,
@@ -63,22 +64,29 @@ export function ChampSelect() {
       );
 
       if (foundChampionId)
-        completeActionChampion(foundChampionId, userAction.id, true);
+        completeActionChampion({
+          championId: foundChampionId,
+          actionId: userAction.id,
+          completed: true,
+        });
     } else {
       // TODO: add info about not picked auto pick champ
     }
   }
 
-  function completeActionChampion(
-    championId: number,
-    userActionId: number,
-    complete = false
-  ) {
-    // No selected champ return // add info to select champ?
-    lcuClientHandlerObj
-      .champSelectAction(championId, userActionId, complete)
-      .then(() => setSelectedChamp(null));
-  }
+  const completeActionChampion = useCallback(
+    ({ championId, actionId, completed = false }: ChampSelectActionArgs) => {
+      if (!champSelectLCUHandler) return;
+      champSelectLCUHandler
+        ?.champSelectAction({
+          championId,
+          actionId,
+          completed,
+        })
+        .then(() => setSelectedChamp(null));
+    },
+    [champSelectLCUHandler]
+  );
 
   return (
     <View id="champ-select-wrapper">
@@ -102,7 +110,11 @@ export function ChampSelect() {
               on={{
                 clicked: () => {
                   if (!selectedChamp) return;
-                  completeActionChampion(selectedChamp.id, userAction.id, true);
+                  completeActionChampion({
+                    championId: selectedChamp.id,
+                    actionId: userAction.id,
+                    completed: true,
+                  });
                 },
               }}
             />
@@ -112,7 +124,11 @@ export function ChampSelect() {
               on={{
                 clicked: () => {
                   if (!selectedChamp) return;
-                  completeActionChampion(selectedChamp.id, userAction.id, true);
+                  completeActionChampion({
+                    championId: selectedChamp.id,
+                    actionId: userAction.id,
+                    completed: true,
+                  });
                 },
               }}
             />

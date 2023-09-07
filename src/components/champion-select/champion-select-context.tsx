@@ -3,10 +3,12 @@ import {
   ChampSelectSessionDataRequiredWithActionsFlat,
   ChampSelectSessionTimerResponse,
   ChampionData,
-  lcuClientHandlerObj,
+  lcuHandlerFactory,
 } from "@lcu";
+import { ChampSelectLCUHandler } from "lcu/champ-select-lcu-handler";
 
 interface ChampionSelectContext {
+  champSelectLCUHandler: ChampSelectLCUHandler | null;
   champSelectSessionData: ChampSelectSessionDataRequiredWithActionsFlat;
   champSelectSessionTimer: ChampSelectSessionTimerResponse | null;
   availableChamps: ChampionData[];
@@ -14,6 +16,7 @@ interface ChampionSelectContext {
 }
 
 export const initialChampionSelectContextValue: ChampionSelectContext = {
+  champSelectLCUHandler: null,
   champSelectSessionData: {
     myTeam: [],
     actions: {
@@ -42,6 +45,11 @@ export function ChampionSelectContextProvider({
 }: {
   children: React.ReactNode;
 }) {
+  const [champSelectLCUHandler, setChampSelectLCUHandler] =
+    useState<ChampSelectLCUHandler | null>(
+      initialChampionSelectContextValue.champSelectLCUHandler
+    );
+
   const [champSelectSessionData, setChampSelectSessionData] =
     useState<ChampSelectSessionDataRequiredWithActionsFlat>(
       initialChampionSelectContextValue.champSelectSessionData
@@ -53,18 +61,20 @@ export function ChampionSelectContextProvider({
   const [availableChamps, setAvailableChamps] = useState<ChampionData[]>([]);
 
   React.useEffect(() => {
-    lcuClientHandlerObj
-      .wsOnChampionSelectPhase((data) => {
-        setChampSelectSessionData(data);
-      })
-      .catch((err) =>
-        console.log(`Error occured while getting session champ select`, err)
-      );
-  }, []);
+    const champSelectHandlerObj = lcuHandlerFactory.createChampSelectHandler();
+
+    champSelectHandlerObj.wsOnChampionSelectPhase((error, data) => {
+      if (error || !data) return;
+      setChampSelectSessionData(data);
+    });
+
+    setChampSelectLCUHandler(champSelectHandlerObj);
+  }, [lcuHandlerFactory]);
 
   React.useEffect(() => {
-    if (champSelectSessionData.myTeam.length <= 0) return;
-    lcuClientHandlerObj
+    if (champSelectSessionData.myTeam.length <= 0 || !champSelectLCUHandler)
+      return;
+    champSelectLCUHandler
       .getChampSelectSessionTimer()
       .then((timerSessionData) => {
         if (
@@ -78,11 +88,12 @@ export function ChampionSelectContextProvider({
       .catch((err) =>
         console.log(`Error occured while getting session champ select`, err)
       );
-  }, [champSelectSessionData]);
+  }, [champSelectSessionData, champSelectLCUHandler]);
 
   return (
     <ChampionSelectContext.Provider
       value={{
+        champSelectLCUHandler,
         availableChamps,
         setAvailableChamps,
         champSelectSessionData,

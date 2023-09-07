@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { View } from "@nodegui/react-nodegui";
-import { lcuClientHandlerObj, LCUContext } from "@lcu";
+import { LCUContext } from "@lcu";
 import { ChampionSelectContext } from "../champion-select-context";
 import { findSummonerSpellById } from "@helpers";
 import { PrimaryButton, SecondaryButton, SuccessButton } from "@components";
@@ -21,7 +21,7 @@ export function ChangeSummonerSpellsButtons({
     lolDataDragon: { dataDragonSpells },
   } = useContext(LCUContext);
 
-  const {} = useContext(ChampionSelectContext);
+  const { champSelectLCUHandler } = useContext(ChampionSelectContext);
 
   const [showSpellsChangeMenu, setShowSpellsChangeMenu] =
     useState<ShowSpellsChangeMenu>("none");
@@ -43,13 +43,13 @@ export function ChangeSummonerSpellsButtons({
   function handleOnChangeSummonerSpellBtn(spellId: number) {
     switch (showSpellsChangeMenu) {
       case "spell1Id":
-        lcuClientHandlerObj.changeSummonerSpells({
+        champSelectLCUHandler?.changeSummonerSpells({
           spell1Id: spellId,
           ...(spell2Id === spellId ? { spell2Id: spell1Id } : undefined),
         });
         break;
       case "spell2Id":
-        lcuClientHandlerObj.changeSummonerSpells({
+        champSelectLCUHandler?.changeSummonerSpells({
           spell2Id: spellId,
           ...(spell1Id === spellId ? { spell1Id: spell2Id } : undefined),
         });

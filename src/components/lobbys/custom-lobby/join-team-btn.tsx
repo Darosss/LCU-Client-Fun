@@ -1,5 +1,5 @@
-import React from "react";
-import { lcuClientHandlerObj, SwitchTeamParam } from "@lcu";
+import React, { useContext } from "react";
+import { LCUContext, SwitchTeamParam } from "@lcu";
 import { InfoButton } from "@components";
 
 interface JoinTeamButtonProps {
@@ -13,13 +13,14 @@ export function JoinTeamButton({
   maxTeamSize,
   changeToTeam,
 }: JoinTeamButtonProps) {
+  const { lobbyLCUHandler } = useContext(LCUContext);
   if (lengthLobbyMembers < maxTeamSize) {
     return (
       <InfoButton
         text="Join"
         on={{
           clicked: () => {
-            lcuClientHandlerObj.switchTeamsInLobby(changeToTeam);
+            lobbyLCUHandler?.switchTeamsInLobby(changeToTeam);
           },
         }}
       />

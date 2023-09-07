@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import { View } from "@nodegui/react-nodegui";
-import { lcuClientHandlerObj, LCUContext } from "@lcu";
+import { LCUContext } from "@lcu";
 import { PrimaryButton } from "@components";
 
 export function SearchMatchBtn() {
-  const { lobbyData } = useContext(LCUContext);
+  const { lobbyData, lobbyLCUHandler } = useContext(LCUContext);
 
   function searchMatch() {
-    lcuClientHandlerObj
-      .searchMatch()
+    lobbyLCUHandler
+      ?.searchMatch()
       .then(() => {})
       .catch((err) =>
         console.log("Error occured while trying to search the match", err)

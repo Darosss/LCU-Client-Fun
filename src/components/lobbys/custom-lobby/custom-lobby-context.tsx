@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { BotDifficulty, ChampionBotsData, lcuClientHandlerObj } from "@lcu";
+import { BotDifficulty, ChampionBotsData } from "@lcu";
 
 interface CustomLobbyContext {
   championBots: ChampionBotsData[];
+  setChampionBots: React.Dispatch<React.SetStateAction<ChampionBotsData[]>>;
   currentBotDifficulty: BotDifficulty;
   setCurrentBotDifficulty: React.Dispatch<React.SetStateAction<BotDifficulty>>;
 }
 
 export const initialCustomLobbyContextValue: CustomLobbyContext = {
   championBots: [],
+  setChampionBots: () => {},
   currentBotDifficulty: BotDifficulty.EASY,
   setCurrentBotDifficulty: () => {},
 };
@@ -30,20 +32,14 @@ export function CustomLobbyContextProvider({
       initialCustomLobbyContextValue.currentBotDifficulty
     );
 
-  React.useEffect(() => {
-    lcuClientHandlerObj
-      .getAvailableChampionsBots()
-      .then((championBots) => {
-        setChampionBots(championBots);
-      })
-      .catch((err) =>
-        console.log(`Error occured while getting available bot champions`, err)
-      );
-  }, []);
-
   return (
     <CustomLobbyContext.Provider
-      value={{ championBots, currentBotDifficulty, setCurrentBotDifficulty }}
+      value={{
+        championBots,
+        setChampionBots,
+        currentBotDifficulty,
+        setCurrentBotDifficulty,
+      }}
     >
       {children}
     </CustomLobbyContext.Provider>

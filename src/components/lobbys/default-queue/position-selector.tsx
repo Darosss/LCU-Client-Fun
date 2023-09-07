@@ -1,12 +1,12 @@
 import React, { useCallback, useContext } from "react";
 import { View } from "@nodegui/react-nodegui";
-import { lcuClientHandlerObj, PositionsPreferences, LCUContext } from "@lcu";
+import { PositionsPreferences, LCUContext } from "@lcu";
 import { PrimaryButton, SecondaryButton } from "@components";
 
 type PossiblePreferences = "primary" | "secondary";
 
 export function PositionSelector() {
-  const { lobbyData } = useContext(LCUContext);
+  const { lobbyData, lobbyLCUHandler: lobbyHandler } = useContext(LCUContext);
 
   const availablePositions = useCallback(
     (whichToChange: PossiblePreferences) => (
@@ -64,8 +64,8 @@ export function PositionSelector() {
         break;
     }
 
-    lcuClientHandlerObj
-      .changePositionPreferences({
+    lobbyHandler
+      ?.changePositionPreferences({
         firstPreference: newFirstPreference,
         secondPreference: newSecondPreference,
       })

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { FriendsListData, lcuClientHandlerObj } from "@lcu";
+import React, { useCallback, useState } from "react";
+import { FriendsListData, lcuHandlerFactory } from "@lcu";
+import { SocialLCUHandler } from "lcu/social-lcu-handler";
 
 interface CorespondingUser {
   name: string;
@@ -7,6 +8,7 @@ interface CorespondingUser {
 }
 
 interface FriendsListContext {
+  socialLCUHandler: SocialLCUHandler | null;
   friendsList: FriendsListData[];
   updateFriendsList: () => void;
   corespondingUser: CorespondingUser;
@@ -14,6 +16,7 @@ interface FriendsListContext {
 }
 
 export const initialFriendsListContextValue: FriendsListContext = {
+  socialLCUHandler: null,
   friendsList: [],
   updateFriendsList: () => {},
   corespondingUser: { name: "", pid: "" },
@@ -29,6 +32,9 @@ export function FriendsListContextProvider({
 }: {
   children: React.ReactNode;
 }) {
+  const [socialLCUHandler, setSocialLCUHandler] =
+    useState<SocialLCUHandler | null>(null);
+
   const [friendsList, setCurrentFriendsList] = useState<FriendsListData[]>(
     initialFriendsListContextValue.friendsList
   );
@@ -36,17 +42,41 @@ export function FriendsListContextProvider({
     initialFriendsListContextValue.corespondingUser
   );
 
-  function updateFriendsList() {
-    lcuClientHandlerObj
-      .getCurrentFriendsList()
-      .then((friendsData) => setCurrentFriendsList(friendsData))
-      .catch((err) =>
-        console.log(
-          `Error occured while trying to get current friends list`,
-          err
-        )
-      );
-  }
+  React.useEffect(() => {
+    //FIXME: temporary solution for async 'credentials' and 'ws' in factory
+
+    const checkFullInitalizedFactory = setInterval(() => {
+      const fullInitialized = lcuHandlerFactory.getFullInitialized();
+      if (fullInitialized) {
+        const socialLCUObj = lcuHandlerFactory.createSocialHandler();
+
+        socialLCUObj.getCurrentFriendsList().then((friendsListResponse) => {
+          setCurrentFriendsList(friendsListResponse);
+        });
+        setSocialLCUHandler(socialLCUObj);
+
+        clearInterval(checkFullInitalizedFactory);
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(checkFullInitalizedFactory);
+    };
+  }, [lcuHandlerFactory]);
+
+  const updateFriendsList = useCallback(
+    () =>
+      socialLCUHandler
+        ?.getCurrentFriendsList()
+        .then((friendsData) => setCurrentFriendsList(friendsData))
+        .catch((err) =>
+          console.log(
+            `Error occured while trying to get current friends list`,
+            err
+          )
+        ),
+    [socialLCUHandler]
+  );
 
   function changeCorespondingUser(value: CorespondingUser) {
     setCorespondingUser(value);
@@ -55,6 +85,7 @@ export function FriendsListContextProvider({
   return (
     <FriendsListContext.Provider
       value={{
+        socialLCUHandler,
         corespondingUser,
         changeCorespondingUser,
         friendsList,

@@ -1,6 +1,6 @@
-import React from "react";
-import { lcuClientHandlerObj } from "@lcu";
+import React, { useContext } from "react";
 import { DangerButton, SuccessButton } from "@components";
+import { LCUContext } from "@lcu";
 
 interface LeaderPlayersActionsProps {
   summonerId: number;
@@ -11,13 +11,14 @@ export function LeaderPlayersActions({
   summonerId,
   allowedInviteOthers,
 }: LeaderPlayersActionsProps) {
+  const { lobbyLCUHandler } = useContext(LCUContext);
   return (
     <>
       <DangerButton
         text="x"
         on={{
           clicked: () => {
-            lcuClientHandlerObj.managePlayerInLobby({
+            lobbyLCUHandler?.managePlayerInLobby({
               managePlayerId: summonerId,
               action: "kick",
             });
@@ -28,7 +29,7 @@ export function LeaderPlayersActions({
         text={`Invite ${allowedInviteOthers ? "on" : "off"}`}
         on={{
           clicked: () => {
-            lcuClientHandlerObj.managePlayerInLobby({
+            lobbyLCUHandler?.managePlayerInLobby({
               managePlayerId: summonerId,
               action: allowedInviteOthers ? "revoke-invite" : "grant-invite",
             });

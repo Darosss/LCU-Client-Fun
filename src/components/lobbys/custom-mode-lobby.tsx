@@ -1,5 +1,5 @@
-import React from "react";
-import { CreateCustomLobbyOpts, lcuClientHandlerObj } from "@lcu";
+import React, { useContext } from "react";
+import { CreateCustomLobbyOpts, LCUContext } from "@lcu";
 import { SecondaryButton } from "@components";
 
 interface CustomModeLobbyProps {
@@ -11,21 +11,20 @@ export function CustomModeLobby({
   lobbyName,
   customLobbyOpts,
 }: CustomModeLobbyProps) {
+  const { lobbyLCUHandler: lobbyHandler } = useContext(LCUContext);
   return (
     <>
       <SecondaryButton
         text={lobbyName}
         on={{
           clicked: () => {
-            lcuClientHandlerObj
-              .createCustomLobby(customLobbyOpts)
-              .catch((err) =>
-                console.log(
-                  //FIXME: add proper console log
-                  "Error occured while trying to search the match",
-                  err
-                )
-              );
+            lobbyHandler?.createCustomLobby(customLobbyOpts).catch((err) =>
+              console.log(
+                //FIXME: add proper console log
+                "Error occured while trying to search the match",
+                err
+              )
+            );
           },
         }}
       />
