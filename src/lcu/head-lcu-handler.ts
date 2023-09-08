@@ -70,4 +70,8 @@ export class HeadLCUHandler extends BaseLCUHandler {
       cb: cb,
     });
   }
+
+  public async unsubscribeOnGameflowPhaseChange() {
+    this.wsUnsubsribe("/lol-gameflow/v1/gameflow-phase");
+  }
 }
