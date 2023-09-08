@@ -41,8 +41,7 @@ export interface CurrentSummonerData {
   displayName: string;
   gameName: string;
   internalName: string;
-  //FIXME: boolean
-  nameChangeFlag: false;
+  nameChangeFlag: boolean;
   percentCompleteForNextLevel: number;
   privacy: string;
   profileIconId: number;
@@ -57,8 +56,7 @@ export interface CurrentSummonerData {
   summonerId: number;
   summonerLevel: number;
   tagLine: string;
-  //FIXME: boolean
-  unnamed: false;
+  unnamed: boolean;
   xpSinceLastLevel: number;
   xpUntilNextLevel: number;
 }

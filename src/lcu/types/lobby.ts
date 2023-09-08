@@ -75,8 +75,7 @@ export interface LobbyMember {
   isSpectator: boolean;
   playerSlots: [];
   puuid: string;
-  // FIXME: boolean
-  ready: true;
+  ready: boolean;
   secondPositionPreference: PositionsPreferences;
   showGhostedBanner: boolean;
   summonerIconId: number;
