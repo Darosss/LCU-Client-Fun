@@ -26,6 +26,7 @@ interface LCUContext {
   lobbyData: LobbyGameDataResponse | null;
   headLCUHandler: HeadLCUHandler | null;
   lobbyLCUHandler: LobbyLCUHandler | null;
+  initalizeHandlers: () => void;
 }
 
 export const initialLCUContextValue: LCUContext = {
@@ -37,6 +38,7 @@ export const initialLCUContextValue: LCUContext = {
   lobbyData: null,
   headLCUHandler: null,
   lobbyLCUHandler: null,
+  initalizeHandlers: () => {},
 };
 
 export const LCUContext = React.createContext<LCUContext>(
@@ -72,50 +74,52 @@ export function LCUContextProvider({
     writeLocalStorageData({ ...options, ...value });
   }
 
+  async function initalizeHandlers() {
+    await lcuHandlerFactory.initialize();
+
+    const lobbyHandlerObj = lcuHandlerFactory.createLobbyHandler();
+    setLobbyLCUHandler(lobbyHandlerObj);
+
+    const headHandlerObj = lcuHandlerFactory.createHeadHandler();
+    setHeadLCUHandler(headHandlerObj);
+  }
+
   React.useEffect(() => {
-    async function initHeadHandlerAndRequiredMethods() {
-      const headHandlerObj = lcuHandlerFactory.createHeadHandler();
-
-      headHandlerObj.wsOnGameflowPhaseChange((err, state) => {
-        if (err || !state) return;
-        setCurrentPhase(state);
-      });
-
-      const currentSummoner = await headHandlerObj.getCurrentSummoner();
-      setCurrentSummoner(currentSummoner);
-      return headHandlerObj;
-    }
-
-    async function initLobbyHandlerAndRequiredMethods() {
-      const lobbyHandlerObj = lcuHandlerFactory.createLobbyHandler();
-
-      lobbyHandlerObj.wsOnLobbyGet((err, lobbyData) => {
-        if (err) return;
-        setLobbyData(lobbyData);
-      });
-      return lobbyHandlerObj;
-    }
-
-    async function initalizeHandlers() {
-      await lcuHandlerFactory.initialize();
-
-      const lobbyHandlerObj = await initLobbyHandlerAndRequiredMethods();
-      setLobbyLCUHandler(lobbyHandlerObj);
-
-      const headHandlerObj = await initHeadHandlerAndRequiredMethods();
-      setHeadLCUHandler(headHandlerObj);
-    }
     initalizeHandlers();
+  }, [lcuHandlerFactory]);
+
+  React.useEffect(() => {
+    if (!headLCUHandler) return;
+
+    headLCUHandler.wsOnGameflowPhaseChange((err, state) => {
+      if (err || !state) return;
+      setCurrentPhase(state);
+    });
+
+    headLCUHandler
+      .getCurrentSummoner()
+      .then((summonerData) => setCurrentSummoner(summonerData));
+
+    return () => {
+      headLCUHandler?.unsubscribeOnGameflowPhaseChange();
+    };
+  }, [headLCUHandler]);
+
+  React.useEffect(() => {
+    if (!lobbyLCUHandler) return;
+    lobbyLCUHandler.wsOnLobbyGet((err, lobbyData) => {
+      if (err) return;
+      setLobbyData(lobbyData);
+    });
 
     return () => {
       lobbyLCUHandler?.unsubsribeOnLobbyGet();
-      headLCUHandler?.unsubscribeOnGameflowPhaseChange();
     };
-  }, [lcuHandlerFactory]);
-
+  }, [lobbyLCUHandler]);
   return (
     <LCUContext.Provider
       value={{
+        initalizeHandlers,
         headLCUHandler,
         lobbyLCUHandler,
         options,
