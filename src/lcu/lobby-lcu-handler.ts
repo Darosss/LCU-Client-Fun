@@ -230,4 +230,12 @@ export class LobbyLCUHandler extends BaseLCUHandler {
       cb: cb,
     });
   }
+
+  public async unsubsribeOnReceiveInvitation() {
+    this.wsUnsubsribe("/lol-lobby/v2/received-invitations");
+  }
+
+  public async unsubsribeOnLobbyGet() {
+    this.wsUnsubsribe("/lol-lobby/v2/lobby");
+  }
 }
