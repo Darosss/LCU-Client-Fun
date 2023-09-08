@@ -9,7 +9,7 @@ interface FriendMenuActionsProps {
 }
 
 export function FriendMenuActions({ friend }: FriendMenuActionsProps) {
-  const { lobbyData, lobbyLCUHandler: lobbyHandler } = useContext(LCUContext);
+  const { lobbyData, lobbyLCUHandler } = useContext(LCUContext);
   const { changeCorespondingUser } = useContext(FriendsListContext);
 
   function unFriend() {
@@ -18,7 +18,7 @@ export function FriendMenuActions({ friend }: FriendMenuActionsProps) {
   }
 
   function inviteFriend() {
-    lobbyHandler?.invitePlayerToLobby([{ toSummonerId: friend.summonerId }]);
+    lobbyLCUHandler?.invitePlayerToLobby([{ toSummonerId: friend.summonerId }]);
   }
 
   const showInviteButton = useMemo(() => {

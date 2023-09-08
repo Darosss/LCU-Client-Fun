@@ -15,14 +15,14 @@ interface ShowLobbysProps {
 }
 
 export function LobbysList({ textOnShow = "Show lobbys" }: ShowLobbysProps) {
-  const { lobbyLCUHandler: lobbyHandler } = useContext(LCUContext);
+  const { lobbyLCUHandler } = useContext(LCUContext);
   const [showLobbys, setShowLobbys] = useState(false);
   const [lobbysFilter, setLobbysFilter] = useState<string | null>(null);
   const [lobbys, setLobbys] = useState<EligibileLobbyAndQueueData[]>([]);
 
   React.useEffect(() => {
     if (showLobbys) {
-      lobbyHandler
+      lobbyLCUHandler
         ?.showEligibleLobbys()
         .then((eligibleLobbys) => {
           const lobbysWithQueueData = eligibleLobbys.map((eligibleLobby) => {
@@ -79,7 +79,7 @@ export function LobbysList({ textOnShow = "Show lobbys" }: ShowLobbysProps) {
                       clicked: (e) => {
                         if (!eligibleQueueId) return;
 
-                        lobbyHandler
+                        lobbyLCUHandler
                           ?.createLobby(eligibleQueueId)
                           .then(() => {
                             setShowLobbys(false);

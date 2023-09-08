@@ -6,7 +6,7 @@ import { PrimaryButton, SecondaryButton } from "@components";
 type PossiblePreferences = "primary" | "secondary";
 
 export function PositionSelector() {
-  const { lobbyData, lobbyLCUHandler: lobbyHandler } = useContext(LCUContext);
+  const { lobbyData, lobbyLCUHandler } = useContext(LCUContext);
 
   const availablePositions = useCallback(
     (whichToChange: PossiblePreferences) => (
@@ -64,7 +64,7 @@ export function PositionSelector() {
         break;
     }
 
-    lobbyHandler
+    lobbyLCUHandler
       ?.changePositionPreferences({
         firstPreference: newFirstPreference,
         secondPreference: newSecondPreference,

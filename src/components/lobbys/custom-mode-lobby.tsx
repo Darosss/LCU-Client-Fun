@@ -11,14 +11,14 @@ export function CustomModeLobby({
   lobbyName,
   customLobbyOpts,
 }: CustomModeLobbyProps) {
-  const { lobbyLCUHandler: lobbyHandler } = useContext(LCUContext);
+  const { lobbyLCUHandler } = useContext(LCUContext);
   return (
     <>
       <SecondaryButton
         text={lobbyName}
         on={{
           clicked: () => {
-            lobbyHandler?.createCustomLobby(customLobbyOpts).catch((err) =>
+            lobbyLCUHandler?.createCustomLobby(customLobbyOpts).catch((err) =>
               console.log(
                 //FIXME: add proper console log
                 "Error occured while trying to search the match",
