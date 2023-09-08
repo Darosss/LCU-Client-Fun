@@ -84,6 +84,10 @@ export class ChampSelectLCUHandler extends BaseLCUHandler {
     });
   }
 
+  public unsubscribeOnChampionSelectPhase() {
+    this.wsUnsubsribe("/lol-champ-select/v1/session");
+  }
+
   //   helpers
   private filterActionsToBansPicks(actions: ActionsChampSelectSessionData[]) {
     const separateActions: ChampSelectSessionDataRequiredWithActionsFlat["actions"] =
