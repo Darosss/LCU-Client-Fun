@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { View } from "@nodegui/react-nodegui";
 import {
-  lcuClientHandlerObj,
   LobbyMember,
   ChampionBotsData,
   TeamsIds,
@@ -32,6 +31,7 @@ export function LeaderBotsActions({
     String(member.teamId) === TeamsIds.first ? TeamsIds.first : TeamsIds.second;
   const {
     lolDataDragon: { dataDragonChampions },
+    lobbyLCUHandler,
   } = useContext(LCUContext);
   const { championBots } = useContext(CustomLobbyContext);
   const [botChampFilter, setBotChampFilter] = useState("");
@@ -42,7 +42,7 @@ export function LeaderBotsActions({
     botChampionId: number,
     botDifficulty: BotDifficulty
   ) {
-    lcuClientHandlerObj.editExistingBotInCustomLobby(
+    lobbyLCUHandler?.editExistingBotInCustomLobby(
       { botName, teamId: teamId },
       {
         championId: botChampionId,
@@ -59,8 +59,8 @@ export function LeaderBotsActions({
     )?.idName;
     if (!champIdName) return;
 
-    lcuClientHandlerObj
-      .editExistingBotInCustomLobby(
+    lobbyLCUHandler
+      ?.editExistingBotInCustomLobby(
         { teamId: teamIdAsEnum, botName: champIdName },
         {
           championId: newChampionId,
@@ -136,7 +136,7 @@ export function LeaderBotsActions({
         on={{
           clicked: () => {
             if (!championData) return;
-            lcuClientHandlerObj.removeExistingBotFromCustomLobby({
+            lobbyLCUHandler?.removeExistingBotFromCustomLobby({
               botName: championData.name,
               teamId: teamIdAsEnum,
             });

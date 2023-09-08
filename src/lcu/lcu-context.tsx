@@ -4,8 +4,8 @@ import {
   ClientOptions,
   CurrentSummonerData,
   GameFlowPhaseData,
+  LobbyLCUHandler,
   LobbyGameDataResponse,
-  lcuClientHandlerObj,
 } from "./";
 
 import { readDragonChampionsData, readDragonSpellsData } from "@helpers";
@@ -13,6 +13,8 @@ import {
   readLocalStorageData,
   writeLocalStorageData,
 } from "./pseudo-local-storage";
+import { lcuHandlerFactory } from "./lcu-handlers-factory";
+import { HeadLCUHandler } from "./head-lcu-handler";
 
 interface LCUContext {
   options: ClientOptions;
@@ -25,7 +27,8 @@ interface LCUContext {
   setCurrentPhase: React.Dispatch<React.SetStateAction<GameFlowPhaseData>>;
   lobbyData: LobbyGameDataResponse | null;
   lolDataDragon: AllRequiredDataDragon;
-  wsInitialized: boolean;
+  headLCUHandler: HeadLCUHandler | null;
+  lobbyLCUHandler: LobbyLCUHandler | null;
 }
 
 export const initialLCUContextValue: LCUContext = {
@@ -36,7 +39,8 @@ export const initialLCUContextValue: LCUContext = {
   setCurrentPhase: () => {},
   lobbyData: null,
   lolDataDragon: { dataDragonChampions: [], dataDragonSpells: [] },
-  wsInitialized: false,
+  headLCUHandler: null,
+  lobbyLCUHandler: null,
 };
 
 export const LCUContext = React.createContext<LCUContext>(
@@ -48,6 +52,12 @@ export function LCUContextProvider({
 }: {
   children: React.ReactNode;
 }) {
+  const [headLCUHandler, setHeadLCUHandler] = useState<HeadLCUHandler | null>(
+    null
+  );
+  const [lobbyLCUHandler, setLobbyLCUHandler] =
+    useState<LobbyLCUHandler | null>(null);
+
   const [currentSummoner, setCurrentSummoner] = useState<CurrentSummonerData>();
   const [currentPhase, setCurrentPhase] = useState<GameFlowPhaseData>(
     initialLCUContextValue.currentPhase
@@ -63,8 +73,6 @@ export function LCUContextProvider({
     initialLCUContextValue.lolDataDragon
   );
 
-  const [wsInitialized, setWsInitialized] = useState(false);
-
   function changeOptions(value: Partial<ClientOptions>) {
     setOptions((prevOpts) => ({ ...prevOpts, ...value }));
 
@@ -72,49 +80,67 @@ export function LCUContextProvider({
   }
 
   React.useEffect(() => {
-    lcuClientHandlerObj.init().then(() => {
-      lcuClientHandlerObj
-        .getCurrentSummoner()
-        .then((currSummonerRes) => setCurrentSummoner(currSummonerRes))
-        .catch((err) =>
-          console.log("Error occured while getting current summoner data", err)
-        );
+    async function initHeadHandlerAndRequiredMethods() {
+      const headHandlerObj = lcuHandlerFactory.createHeadHandler();
 
-      lcuClientHandlerObj.initLeagueWS().then(() => {
-        setWsInitialized(true);
-        lcuClientHandlerObj.wsOnGameflowPhaseChange((state) => {
-          setCurrentPhase(state);
-        });
-
-        lcuClientHandlerObj
-          .wsOnLobbyGet((lobbyData) => {
-            setLobbyData(lobbyData);
-          })
-          .catch((err) =>
-            console.log(`Error occured while get lobby with ws`, err)
-          );
+      headHandlerObj.wsOnGameflowPhaseChange((err, state) => {
+        if (err || !state) return;
+        setCurrentPhase(state);
       });
 
-      readDragonChampionsData().then((championsData) => {
-        setLolDataDragon((prevState) => ({
-          ...prevState,
-          dataDragonChampions: championsData,
-        }));
-      });
+      const currentSummoner = await headHandlerObj.getCurrentSummoner();
+      setCurrentSummoner(currentSummoner);
+      return headHandlerObj;
+    }
 
-      readDragonSpellsData().then((spellsData) =>
-        setLolDataDragon((prevState) => ({
-          ...prevState,
-          dataDragonSpells: spellsData,
-        }))
-      );
+    async function initLobbyHandlerAndRequiredMethods() {
+      const lobbyHandlerObj = lcuHandlerFactory.createLobbyHandler();
+
+      lobbyHandlerObj.wsOnLobbyGet((err, lobbyData) => {
+        if (err) return;
+        setLobbyData(lobbyData);
+      });
+      return lobbyHandlerObj;
+    }
+
+    async function initalizeHandlers() {
+      await lcuHandlerFactory.initialize();
+
+      const lobbyHandlerObj = await initLobbyHandlerAndRequiredMethods();
+      setLobbyLCUHandler(lobbyHandlerObj);
+
+      const headHandlerObj = await initHeadHandlerAndRequiredMethods();
+      setHeadLCUHandler(headHandlerObj);
+    }
+    initalizeHandlers();
+
+    return () => {
+      lobbyLCUHandler?.unsubsribeOnLobbyGet();
+      headLCUHandler?.unsubscribeOnGameflowPhaseChange();
+    };
+  }, [lcuHandlerFactory]);
+
+  React.useEffect(() => {
+    readDragonChampionsData().then((championsData) => {
+      setLolDataDragon((prevState) => ({
+        ...prevState,
+        dataDragonChampions: championsData,
+      }));
     });
+
+    readDragonSpellsData().then((spellsData) =>
+      setLolDataDragon((prevState) => ({
+        ...prevState,
+        dataDragonSpells: spellsData,
+      }))
+    );
   }, []);
 
   return (
     <LCUContext.Provider
       value={{
-        wsInitialized,
+        headLCUHandler,
+        lobbyLCUHandler,
         options,
         changeOptions,
         currentPhase,

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useEventHandler, View } from "@nodegui/react-nodegui";
 import { QPushButtonSignals } from "@nodegui/nodegui";
-import { lcuClientHandlerObj, LCUContext } from "@lcu";
+import { LCUContext } from "@lcu";
 import {
   DangerButton,
   DangerText,
@@ -14,14 +14,15 @@ type ReadyCheckState = "Accepted" | "Declined" | "None";
 export function ReadyCheck() {
   const {
     options: { autoAccept },
+    lobbyLCUHandler,
   } = useContext(LCUContext);
   const [readyCheckState, setReadyCheckState] =
     useState<ReadyCheckState>("None");
   const acceptMatchBtnHandler = useEventHandler<QPushButtonSignals>(
     {
       clicked: () => {
-        lcuClientHandlerObj
-          .acceptMatch()
+        lobbyLCUHandler
+          ?.manageMatchReadyCheck("accept")
           .then(() => {
             setReadyCheckState("Accepted");
           })
@@ -36,8 +37,8 @@ export function ReadyCheck() {
   const declineMatchBtnHandler = useEventHandler<QPushButtonSignals>(
     {
       clicked: () => {
-        lcuClientHandlerObj
-          .declineMatch()
+        lobbyLCUHandler
+          ?.manageMatchReadyCheck("decline")
           .then(() => {
             setReadyCheckState("Declined");
           })
@@ -67,8 +68,8 @@ export function ReadyCheck() {
   }
 
   if (autoAccept) {
-    lcuClientHandlerObj
-      .acceptMatch()
+    lobbyLCUHandler
+      ?.manageMatchReadyCheck("accept")
       .then(() => {
         setReadyCheckState("Accepted");
       })

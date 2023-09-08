@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { View } from "@nodegui/react-nodegui";
-import { lcuClientHandlerObj, queues, EligibileLobbyAndQueueData } from "@lcu";
+import { queues, EligibileLobbyAndQueueData, LCUContext } from "@lcu";
 import { CustomModeLobby } from "./custom-mode-lobby";
 import {
   PrimaryLineEdit,
@@ -15,14 +15,15 @@ interface ShowLobbysProps {
 }
 
 export function LobbysList({ textOnShow = "Show lobbys" }: ShowLobbysProps) {
+  const { lobbyLCUHandler } = useContext(LCUContext);
   const [showLobbys, setShowLobbys] = useState(false);
   const [lobbysFilter, setLobbysFilter] = useState<string | null>(null);
   const [lobbys, setLobbys] = useState<EligibileLobbyAndQueueData[]>([]);
 
   React.useEffect(() => {
     if (showLobbys) {
-      lcuClientHandlerObj
-        .showEligibleLobbys()
+      lobbyLCUHandler
+        ?.showEligibleLobbys()
         .then((eligibleLobbys) => {
           const lobbysWithQueueData = eligibleLobbys.map((eligibleLobby) => {
             const queueData = queues.find(
@@ -78,8 +79,8 @@ export function LobbysList({ textOnShow = "Show lobbys" }: ShowLobbysProps) {
                       clicked: (e) => {
                         if (!eligibleQueueId) return;
 
-                        lcuClientHandlerObj
-                          .createLobby(eligibleQueueId)
+                        lobbyLCUHandler
+                          ?.createLobby(eligibleQueueId)
                           .then(() => {
                             setShowLobbys(false);
                           })

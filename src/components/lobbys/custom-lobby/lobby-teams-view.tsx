@@ -1,12 +1,6 @@
 import React, { useContext } from "react";
 import { View } from "@nodegui/react-nodegui";
-import {
-  TeamsIds,
-  BotDifficulty,
-  CustomTeamIds,
-  LCUContext,
-  lcuClientHandlerObj,
-} from "@lcu";
+import { TeamsIds, BotDifficulty, CustomTeamIds, LCUContext } from "@lcu";
 import { randomElement } from "@helpers";
 import { CustomLobbyContext } from "./custom-lobby-context";
 import { FillLobbyByBotsBtn } from "./fill-bot-lobby";
@@ -20,7 +14,7 @@ import {
 } from "@components";
 
 export function LobbyTeamsView() {
-  const { lobbyData } = useContext(LCUContext);
+  const { lobbyData, lobbyLCUHandler } = useContext(LCUContext);
   const { championBots, currentBotDifficulty, setCurrentBotDifficulty } =
     useContext(CustomLobbyContext);
 
@@ -45,8 +39,8 @@ export function LobbyTeamsView() {
       <PrimaryButton
         on={{
           clicked: () => {
-            lcuClientHandlerObj
-              .addBotsToCustomLobby({
+            lobbyLCUHandler
+              ?.addBotsToCustomLobby({
                 botDifficulty: currentBotDifficulty,
                 teamId: team,
                 championId: randomElement(championBots).id,

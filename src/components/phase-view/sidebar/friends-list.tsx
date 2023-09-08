@@ -11,7 +11,6 @@ import {
   ReceivedInvitationData,
   LCUContext,
   ManageInvitationAction,
-  lcuClientHandlerObj,
   queues,
 } from "@lcu";
 import { FriendsListContext } from "./friends-list-context";
@@ -19,7 +18,7 @@ import { FriendBlock } from "./friend-block";
 import { MessagesWindow } from "./messages-window";
 
 export function FriendsList() {
-  const { wsInitialized } = useContext(LCUContext);
+  const { lobbyLCUHandler } = useContext(LCUContext);
   const { friendsList, updateFriendsList } = useContext(FriendsListContext);
   const [showOfflineFriends, setShowOfflineFriends] = useState(false);
   const [friendsFilter, setFriendsFilter] = useState("");
@@ -28,22 +27,24 @@ export function FriendsList() {
   >([]);
 
   React.useEffect(() => {
-    if (!wsInitialized) return;
-
-    updateFriendsList();
-    lcuClientHandlerObj.wsOnReceiveInvitation((invitationData) =>
-      setCurrentInvitations(invitationData)
-    );
+    lobbyLCUHandler?.wsOnReceiveInvitation((err, invitationData) => {
+      if (err || !invitationData) return;
+      setCurrentInvitations(invitationData);
+    });
 
     // TODO: we need to somehow get friends updates
-  }, [wsInitialized]);
+
+    return () => {
+      lobbyLCUHandler?.unsubsribeOnReceiveInvitation();
+    };
+  }, [lobbyLCUHandler]);
 
   function manageInvitation(
     action: ManageInvitationAction,
     invitationId: string
   ) {
-    lcuClientHandlerObj
-      .manageInvitation(action, invitationId)
+    lobbyLCUHandler
+      ?.manageInvitation({ action, invitationId })
       .catch((err) =>
         console.log(`Error occured while trying to ${action} invitation`, err)
       );

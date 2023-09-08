@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from "react";
-import { FriendsListData, LCUContext, lcuClientHandlerObj } from "@lcu";
+import { FriendsListData, LCUContext } from "@lcu";
 import { View } from "@nodegui/react-nodegui";
 import { SuccessButton, PrimaryButton, DangerButton } from "@components";
 import { FriendsListContext } from "./friends-list-context";
@@ -9,7 +9,7 @@ interface FriendMenuActionsProps {
 }
 
 export function FriendMenuActions({ friend }: FriendMenuActionsProps) {
-  const { lobbyData } = useContext(LCUContext);
+  const { lobbyData, lobbyLCUHandler } = useContext(LCUContext);
   const { changeCorespondingUser } = useContext(FriendsListContext);
 
   function unFriend() {
@@ -18,9 +18,7 @@ export function FriendMenuActions({ friend }: FriendMenuActionsProps) {
   }
 
   function inviteFriend() {
-    lcuClientHandlerObj.invitePlayerToLobby([
-      { toSummonerId: friend.summonerId },
-    ]);
+    lobbyLCUHandler?.invitePlayerToLobby([{ toSummonerId: friend.summonerId }]);
   }
 
   const showInviteButton = useMemo(() => {

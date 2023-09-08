@@ -74,3 +74,9 @@ export type AssignedPosition =
   | "bottom"
   | "jungle"
   | "other";
+
+export interface ChampSelectActionArgs {
+  championId: number;
+  actionId: number;
+  completed?: boolean;
+}
