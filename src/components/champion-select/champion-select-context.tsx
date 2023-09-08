@@ -69,6 +69,10 @@ export function ChampionSelectContextProvider({
     });
 
     setChampSelectLCUHandler(champSelectHandlerObj);
+
+    return () => {
+      champSelectHandlerObj?.unsubscribeOnChampionSelectPhase();
+    };
   }, [lcuHandlerFactory]);
 
   React.useEffect(() => {
