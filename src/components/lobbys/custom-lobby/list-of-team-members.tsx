@@ -10,8 +10,6 @@ interface ListOfTeamMembersProps {
   lobbyMembers?: LobbyMember[];
 }
 
-//TODO: fix botNames when data dragon will be in LCU Context
-
 export function ListOfTeamMembers({ lobbyMembers }: ListOfTeamMembersProps) {
   const { championBots } = useContext(CustomLobbyContext);
   const { lobbyData } = useContext(LCUContext);
