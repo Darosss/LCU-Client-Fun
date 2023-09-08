@@ -18,13 +18,14 @@ export function CustomModeLobby({
         text={lobbyName}
         on={{
           clicked: () => {
-            lobbyLCUHandler?.createCustomLobby(customLobbyOpts).catch((err) =>
-              console.log(
-                //FIXME: add proper console log
-                "Error occured while trying to search the match",
-                err
-              )
-            );
+            lobbyLCUHandler
+              ?.createCustomLobby(customLobbyOpts)
+              .catch((err) =>
+                console.log(
+                  "Error occured while trying to create custom lobby",
+                  err
+                )
+              );
           },
         }}
       />
