@@ -38,14 +38,22 @@ async function ifDataDragonChampsDoesNotExist() {
     }
 
     writeDragonChampionsData(dragonChampsData);
+
+    return true;
   }
 }
 
-export const dragonChampionsData =
+const readedDragonChampionsData =
   readData<DataDragonChampionsJsonFileData[]>(championsFilePath);
 
+export const dragonChampionsData =
+  Object.keys(readedDragonChampionsData).length === 0
+    ? []
+    : readedDragonChampionsData;
+
 (async () => {
-  await ifDataDragonChampsDoesNotExist();
+  const didntExist = await ifDataDragonChampsDoesNotExist();
+  if (!didntExist) return;
   dragonChampionsData.splice(0, dragonChampionsData.length);
   //in case when file does not exist
   const newData =
