@@ -18,7 +18,7 @@ import { FriendBlock } from "./friend-block";
 import { MessagesWindow } from "./messages-window";
 
 export function FriendsList() {
-  const { lobbyLCUHandler: lobbyHandler } = useContext(LCUContext);
+  const { lobbyLCUHandler } = useContext(LCUContext);
   const { friendsList, updateFriendsList } = useContext(FriendsListContext);
   const [showOfflineFriends, setShowOfflineFriends] = useState(false);
   const [friendsFilter, setFriendsFilter] = useState("");
@@ -27,19 +27,23 @@ export function FriendsList() {
   >([]);
 
   React.useEffect(() => {
-    lobbyHandler?.wsOnReceiveInvitation((err, invitationData) => {
+    lobbyLCUHandler?.wsOnReceiveInvitation((err, invitationData) => {
       if (err || !invitationData) return;
       setCurrentInvitations(invitationData);
     });
 
     // TODO: we need to somehow get friends updates
-  }, [lobbyHandler]);
+
+    return () => {
+      lobbyLCUHandler?.unsubsribeOnReceiveInvitation();
+    };
+  }, [lobbyLCUHandler]);
 
   function manageInvitation(
     action: ManageInvitationAction,
     invitationId: string
   ) {
-    lobbyHandler
+    lobbyLCUHandler
       ?.manageInvitation({ action, invitationId })
       .catch((err) =>
         console.log(`Error occured while trying to ${action} invitation`, err)
