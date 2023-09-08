@@ -99,6 +99,7 @@ export function AvailableChamps({
           on={{
             textChanged: (e) => setChampFilter(e.toLowerCase()),
           }}
+          text={champFilter || ""}
         />
       </View>
 
