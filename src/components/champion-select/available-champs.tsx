@@ -3,7 +3,7 @@ import { View } from "@nodegui/react-nodegui";
 import { LCUContext } from "@lcu";
 import { SelectedChamp } from "./types";
 import { ChampionSelectContext } from "./champion-select-context";
-import { isBannedOrPickedChamp } from "@helpers";
+import { dragonChampionsData, isBannedOrPickedChamp } from "@helpers";
 import {
   DangerButton,
   PrimaryButton,
@@ -22,11 +22,7 @@ export function AvailableChamps({
   currentActionId,
   onChangeChampion,
 }: AvailableChampsProps) {
-  const {
-    currentSummoner,
-    lolDataDragon: { dataDragonChampions },
-    headLCUHandler,
-  } = useContext(LCUContext);
+  const { currentSummoner, headLCUHandler } = useContext(LCUContext);
 
   const {
     champSelectLCUHandler,
@@ -123,7 +119,7 @@ export function AvailableChamps({
                   isBannedOrPickedChampByIdWrapped(champ.id)
                 )
               )
-          : dataDragonChampions
+          : dragonChampionsData
               .filter(({ name }) => {
                 if (champFilter)
                   return name.toLowerCase().includes(champFilter.toLowerCase());

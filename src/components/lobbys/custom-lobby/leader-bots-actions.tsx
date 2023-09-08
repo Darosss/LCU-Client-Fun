@@ -8,7 +8,7 @@ import {
   LCUContext,
 } from "@lcu";
 import { CustomLobbyContext } from "./custom-lobby-context";
-import { findChampionById } from "@helpers";
+import { findChampionById, dragonChampionsData } from "@helpers";
 import {
   DangerButton,
   PrimaryButton,
@@ -29,10 +29,7 @@ export function LeaderBotsActions({
 }: LeaderBotActionsProps) {
   const teamIdAsEnum =
     String(member.teamId) === TeamsIds.first ? TeamsIds.first : TeamsIds.second;
-  const {
-    lolDataDragon: { dataDragonChampions },
-    lobbyLCUHandler,
-  } = useContext(LCUContext);
+  const { lobbyLCUHandler } = useContext(LCUContext);
   const { championBots } = useContext(CustomLobbyContext);
   const [botChampFilter, setBotChampFilter] = useState("");
   const [showChampionsList, setShowChampionsList] = useState(false);
@@ -54,7 +51,7 @@ export function LeaderBotsActions({
 
   function handleOnChangeExistingBotBtn(newChampionId: number) {
     const champIdName = findChampionById(
-      dataDragonChampions,
+      dragonChampionsData,
       championData?.id || -1
     )?.idName;
     if (!champIdName) return;
@@ -91,7 +88,7 @@ export function LeaderBotsActions({
 
   function changeChoosenBotDifficulty() {
     const champIdName = findChampionById(
-      dataDragonChampions,
+      dragonChampionsData,
       championData?.id || -1
     )?.idName;
     if (!champIdName) return;

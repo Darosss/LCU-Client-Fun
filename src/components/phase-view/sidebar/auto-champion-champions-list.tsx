@@ -6,6 +6,7 @@ import {
   DataDragonChampionsJsonFileData,
 } from "@lcu";
 import { DangerButton, PrimaryText, SuccessButton } from "@components";
+import { dragonChampionsData } from "@helpers";
 
 interface AutoChampionChampionsListProps {
   currentChoosenPosition: AssignedPosition;
@@ -19,7 +20,6 @@ export function AutoChampionChampionsList({
   const {
     changeOptions,
     options: { autoPickChamps },
-    lolDataDragon: { dataDragonChampions },
   } = useContext(LCUContext);
 
   function addChampToRole(
@@ -82,7 +82,7 @@ export function AutoChampionChampionsList({
 
   return (
     <View id="auto-champion-pick-all-champions">
-      {dataDragonChampions
+      {dragonChampionsData
         .filter(({ name }) => {
           if (champFilter)
             return name.toLowerCase().includes(champFilter.toLowerCase());
