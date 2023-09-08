@@ -21,6 +21,20 @@ class LCUHandlersFactory {
     this.fullInitialized = true;
   }
 
+  public async refresh() {
+    this.fullInitialized = false;
+    this.resetAllWsSubscriptions();
+
+    await this.initialize();
+  }
+
+  private resetAllWsSubscriptions() {
+    const currentSubscriptions = this.leagueWs?.subscriptions;
+    [...(currentSubscriptions?.keys() || [])].forEach((key) =>
+      this.leagueWs?.unsubscribe(key)
+    );
+  }
+
   getFullInitialized() {
     return this.fullInitialized;
   }
