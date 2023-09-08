@@ -61,11 +61,6 @@ export interface CurrentSummonerData {
   xpUntilNextLevel: number;
 }
 
-export interface AllRequiredDataDragon {
-  dataDragonChampions: DataDragonChampionsJsonFileData[];
-  dataDragonSpells: DataDragonSpellsJsonFileData[];
-}
-
 export interface FriendsListData {
   availability: string;
   displayGroupId: number;

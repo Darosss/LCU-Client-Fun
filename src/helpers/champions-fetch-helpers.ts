@@ -38,11 +38,25 @@ async function ifDataDragonChampsDoesNotExist() {
     }
 
     writeDragonChampionsData(dragonChampsData);
+
+    return true;
   }
 }
 
-export async function readDragonChampionsData() {
-  await ifDataDragonChampsDoesNotExist();
+const readedDragonChampionsData =
+  readData<DataDragonChampionsJsonFileData[]>(championsFilePath);
 
-  return readData<DataDragonChampionsJsonFileData[]>(championsFilePath);
-}
+export const dragonChampionsData =
+  Object.keys(readedDragonChampionsData).length === 0
+    ? []
+    : readedDragonChampionsData;
+
+(async () => {
+  const didntExist = await ifDataDragonChampsDoesNotExist();
+  if (!didntExist) return;
+  dragonChampionsData.splice(0, dragonChampionsData.length);
+  //in case when file does not exist
+  const newData =
+    readData<DataDragonChampionsJsonFileData[]>(championsFilePath);
+  dragonChampionsData.push(...newData);
+})();

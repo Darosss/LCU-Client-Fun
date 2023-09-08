@@ -1,7 +1,12 @@
 import React, { useContext, useMemo } from "react";
 import { View, Text } from "@nodegui/react-nodegui";
 import { TeamChampSelectSessionData, LCUContext } from "@lcu";
-import { findChampionById, findSummonerSpellById } from "@helpers";
+import {
+  findChampionById,
+  findSummonerSpellById,
+  dragonChampionsData,
+  dragonSpellsData,
+} from "@helpers";
 
 import { ChampionSelectContext } from "../champion-select-context";
 import { ChangeSummonerSpellsButtons } from "./change-summoner-spells-btn";
@@ -12,10 +17,7 @@ interface TeamSummonersBlocksProps {
 //TODO: add show nicnames if visible fe. aram, flex, normal, normal draft etc. Exluding solo / duo ?
 export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
   const { champSelectSessionData } = useContext(ChampionSelectContext);
-  const {
-    lolDataDragon: { dataDragonChampions, dataDragonSpells },
-    currentSummoner,
-  } = useContext(LCUContext);
+  const { currentSummoner } = useContext(LCUContext);
 
   const summonerAction = useMemo(() => {
     const lastAction = champSelectSessionData.actions.pickActions
@@ -36,7 +38,7 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
     if (!summonerAction) return "";
 
     const foundChamp =
-      findChampionById(dataDragonChampions, summonerAction.championId)?.name ||
+      findChampionById(dragonChampionsData, summonerAction.championId)?.name ||
       summonerAction.championId;
     if (summonerAction.isInProgress) {
       return `Picking ${foundChamp}`;
@@ -52,7 +54,7 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
       )!;
       return `Showed ${
         findChampionById(
-          dataDragonChampions,
+          dragonChampionsData,
           foundPlayerInTeam?.championPickIntent
         )?.name || foundPlayerInTeam.championPickIntent
       }`;
@@ -84,10 +86,10 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
         ) : (
           <>
             <Text>
-              {findSummonerSpellById(dataDragonSpells, summoner.spell1Id)}
+              {findSummonerSpellById(dragonSpellsData, summoner.spell1Id)}
             </Text>
             <Text>
-              {findSummonerSpellById(dataDragonSpells, summoner.spell2Id)}
+              {findSummonerSpellById(dragonSpellsData, summoner.spell2Id)}
             </Text>
           </>
         )}

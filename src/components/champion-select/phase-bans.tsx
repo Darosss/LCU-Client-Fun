@@ -1,15 +1,10 @@
 import React, { useContext } from "react";
 import { View } from "@nodegui/react-nodegui";
 import { ChampionSelectContext } from "./champion-select-context";
-import { findChampionById } from "@helpers";
-import { LCUContext } from "@lcu";
+import { dragonChampionsData, findChampionById } from "@helpers";
 import { DangerText, PrimaryText } from "@components";
 
 export function PhaseBans() {
-  const {
-    lolDataDragon: { dataDragonChampions },
-  } = useContext(LCUContext);
-
   function listOfBans(isAlly = false) {
     const onlyBanActions = champSelectSessionData.actions.banActions.filter(
       (action) => (isAlly ? action.isAllyAction : !action.isAllyAction)
@@ -17,7 +12,7 @@ export function PhaseBans() {
 
     return onlyBanActions.map((ban, idx) => {
       const bannedChamp =
-        findChampionById(dataDragonChampions, ban.championId)?.name || "no ban";
+        findChampionById(dragonChampionsData, ban.championId)?.name || "no ban";
       return isAlly ? (
         <PrimaryText key={idx} text={bannedChamp} />
       ) : (

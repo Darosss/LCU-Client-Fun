@@ -38,10 +38,24 @@ async function ifDataDragonSpellsDoesNotExist() {
 
     writeDragonSpellsData(spellsDragonData);
   }
+
+  return true;
 }
 
-export async function readDragonSpellsData() {
-  await ifDataDragonSpellsDoesNotExist();
+const readedDragonSpellsData =
+  readData<DataDragonSpellsJsonFileData[]>(spellsFilePath);
 
-  return readData<DataDragonSpellsJsonFileData[]>(spellsFilePath);
-}
+export const dragonSpellsData =
+  Object.keys(readedDragonSpellsData).length === 0
+    ? []
+    : readedDragonSpellsData;
+
+(async () => {
+  const didntExist = await ifDataDragonSpellsDoesNotExist();
+  if (!didntExist) return;
+
+  dragonSpellsData.splice(0, dragonSpellsData.length);
+  //in case when file does not exist
+  const newData = readData<DataDragonSpellsJsonFileData[]>(spellsFilePath);
+  dragonSpellsData.push(...newData);
+})();
