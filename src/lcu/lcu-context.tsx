@@ -105,7 +105,6 @@ export function LCUContextProvider({
 
     async function initalizeHandlers() {
       await lcuHandlerFactory.initialize();
-      console.log("ile razy iniializue handlers ", new Date());
 
       const lobbyHandlerObj = await initLobbyHandlerAndRequiredMethods();
       setLobbyLCUHandler(lobbyHandlerObj);
@@ -116,7 +115,8 @@ export function LCUContextProvider({
     initalizeHandlers();
 
     return () => {
-      //TODO: dispose lobbbyhadler
+      lobbyLCUHandler?.unsubsribeOnLobbyGet();
+      headLCUHandler?.unsubscribeOnGameflowPhaseChange();
     };
   }, [lcuHandlerFactory]);
 
