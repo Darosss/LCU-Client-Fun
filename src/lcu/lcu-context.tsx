@@ -17,10 +17,10 @@ import { HeadLCUHandler } from "./head-lcu-handler";
 interface LCUContext {
   options: ClientOptions;
   changeOptions: (value: Partial<ClientOptions>) => void;
-  currentSummoner?: CurrentSummonerData;
+  currentSummoner: CurrentSummonerData | null;
   currentPhase: GameFlowPhaseData;
   setCurrentSummoner: React.Dispatch<
-    React.SetStateAction<CurrentSummonerData | undefined>
+    React.SetStateAction<CurrentSummonerData | null>
   >;
   setCurrentPhase: React.Dispatch<React.SetStateAction<GameFlowPhaseData>>;
   lobbyData: LobbyGameDataResponse | null;
@@ -33,6 +33,7 @@ export const initialLCUContextValue: LCUContext = {
   options: readLocalStorageData(),
   changeOptions: () => {},
   currentPhase: "None",
+  currentSummoner: null,
   setCurrentSummoner: () => {},
   setCurrentPhase: () => {},
   lobbyData: null,
@@ -56,7 +57,10 @@ export function LCUContextProvider({
   const [lobbyLCUHandler, setLobbyLCUHandler] =
     useState<LobbyLCUHandler | null>(null);
 
-  const [currentSummoner, setCurrentSummoner] = useState<CurrentSummonerData>();
+  const [currentSummoner, setCurrentSummoner] =
+    useState<CurrentSummonerData | null>(
+      initialLCUContextValue.currentSummoner
+    );
   const [currentPhase, setCurrentPhase] = useState<GameFlowPhaseData>(
     initialLCUContextValue.currentPhase
   );
