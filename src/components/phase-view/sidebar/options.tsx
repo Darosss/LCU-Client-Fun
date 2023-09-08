@@ -76,7 +76,7 @@ export function Options() {
           </View>
         </View>
       </TabItem>
-      <TabItem title="auto-accept">
+      <TabItem title="Auto champ">
         <View id="auto-champion-pick-wrapper">
           <AutoChampionPick />
         </View>
