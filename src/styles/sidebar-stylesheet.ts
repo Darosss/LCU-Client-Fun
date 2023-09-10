@@ -21,6 +21,8 @@ export function sidebarStylsheet(width: number, height: number) {
         max-height:${height}px;
       }
 
+      
+
       #auto-champion-pick-search-wrapper {
         display:'flex';
         flex-direction:'row';
@@ -150,5 +152,14 @@ export function sidebarStylsheet(width: number, height: number) {
         flex-grow:1;
       }
 
+
+      #launch-kill-ux-manualy-wrapper {
+        display:'flex';
+        flex-direction:'row';
+      }
+      
+      #launch-kill-ux-manualy-wrapper > QWidget {
+        flex-grow: 1;
+      }
   `;
 }
