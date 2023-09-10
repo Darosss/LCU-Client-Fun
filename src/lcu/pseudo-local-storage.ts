@@ -17,6 +17,7 @@ if (!dataFileExists(dataFilePath)) {
       other: [],
     },
     autoPickChamp: false,
+    preventRiotClientToTurnOn: true,
   };
   writeData<ClientOptions>(dataFilePath, defaultData);
 }

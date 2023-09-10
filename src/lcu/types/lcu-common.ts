@@ -1,9 +1,5 @@
 import { Credentials, LeagueWebSocket } from "league-connect";
-import {
-  DataDragonChampionsJsonFileData,
-  AssignedPosition,
-  DataDragonSpellsJsonFileData,
-} from "./";
+import { DataDragonChampionsJsonFileData, AssignedPosition } from "./";
 
 export interface BaseLCUHandlerOpts {
   credentials: Credentials;
@@ -34,6 +30,7 @@ export interface ClientOptions {
     [position in AssignedPosition]: DataDragonChampionsJsonFileData[];
   };
   autoPickChamp: boolean;
+  preventRiotClientToTurnOn: boolean;
 }
 
 export interface CurrentSummonerData {

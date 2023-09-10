@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TabItem, Tabs, View } from "@nodegui/react-nodegui";
 import { LCUContext } from "@lcu";
 import { AutoChampionPick } from "./auto-champion-pick";
@@ -18,10 +18,12 @@ export function Options() {
     width: number;
     height: number;
   }>({ width: minSize.width, height: minSize.height });
+
   return (
     <Tabs>
       <TabItem title="general">
         <View id="general-options-wrapper">
+          <ClientUXActions />
           {autoAccept ? (
             <SuccessButton
               text={`Auto accept:  ${autoAccept}`}
@@ -82,5 +84,76 @@ export function Options() {
         </View>
       </TabItem>
     </Tabs>
+  );
+}
+
+function ClientUXActions() {
+  const {
+    headLCUHandler,
+    options: { preventRiotClientToTurnOn },
+    changeOptions,
+  } = useContext(LCUContext);
+
+  function handleOnKillUx() {
+    headLCUHandler?.killUx().then(() => {
+      changeOptions({ preventRiotClientToTurnOn: true });
+    });
+  }
+  function handleOnLaunchUx() {
+    headLCUHandler?.launchUx().then(() => {
+      changeOptions({ preventRiotClientToTurnOn: false });
+    });
+  }
+
+  useEffect(() => {
+    if (!headLCUHandler) return;
+
+    if (preventRiotClientToTurnOn) {
+      headLCUHandler.killUx();
+      headLCUHandler.preventClientUXToTurnOn();
+    } else headLCUHandler.unsusbcribePreventClientUXToTurnOn();
+
+    return () => {
+      headLCUHandler.unsusbcribePreventClientUXToTurnOn();
+    };
+  }, [preventRiotClientToTurnOn, headLCUHandler]);
+
+  return (
+    <View id="client-ux-actions">
+      <View id="launch-kill-ux-manualy-wrapper">
+        <SuccessButton
+          text="Launch UX manualy"
+          on={{ clicked: () => handleOnLaunchUx() }}
+        />
+        <DangerButton
+          text="Kill UX manualy"
+          on={{ clicked: () => handleOnKillUx() }}
+        />
+      </View>
+
+      <View>
+        {preventRiotClientToTurnOn ? (
+          <SuccessButton
+            text={`Prevent client to turn on:  ${preventRiotClientToTurnOn}`}
+            on={{
+              clicked: () =>
+                changeOptions({
+                  preventRiotClientToTurnOn: !preventRiotClientToTurnOn,
+                }),
+            }}
+          />
+        ) : (
+          <DangerButton
+            text={`Prevent client to turn on:  ${preventRiotClientToTurnOn}`}
+            on={{
+              clicked: () =>
+                changeOptions({
+                  preventRiotClientToTurnOn: !preventRiotClientToTurnOn,
+                }),
+            }}
+          />
+        )}
+      </View>
+    </View>
   );
 }
