@@ -20,6 +20,19 @@ export class HeadLCUHandler extends BaseLCUHandler {
     super({ credentials, leagueWS });
   }
 
+  public async killUx(): Promise<void> {
+    await this.makeAHttp1Request({
+      url: "/riotclient/kill-ux",
+      method: "POST",
+    });
+  }
+  public async launchUx(): Promise<void> {
+    await this.makeAHttp1Request({
+      url: "/riotclient/launch-ux",
+      method: "POST",
+    });
+  }
+
   public async getCurrentSummoner(): Promise<CurrentSummonerData> {
     const response = await this.makeAHttp1Request({
       url: "/lol-summoner/v1/current-summoner",
@@ -61,6 +74,25 @@ export class HeadLCUHandler extends BaseLCUHandler {
   }
 
   // Websocket subscriptions
+
+  //FIXME: temporary way to prevent client ux to turn on
+  public preventClientUXToTurnOn() {
+    this.wsOn({
+      path: "/riotclient/ux-state/request",
+      cb: async (error, data: any) => {
+        if (error) return;
+        if (data.state !== "HideAll" && data.state !== "Quit") {
+          setTimeout(async () => {
+            await this.killUx();
+          }, 300);
+        }
+      },
+    });
+  }
+
+  public async unsusbcribePreventClientUXToTurnOn() {
+    this.wsUnsubsribe("/riotclient/ux-state/request");
+  }
 
   public async wsOnGameflowPhaseChange(
     cb: BaseLCUHandlerWsOnArgs<GameFlowPhaseData>["cb"]
