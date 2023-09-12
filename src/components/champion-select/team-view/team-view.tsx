@@ -8,17 +8,21 @@ interface TeamViewProps {
 }
 
 export function TeamView({ team }: TeamViewProps) {
-  const { champSelectSessionData } = useContext(ChampionSelectContext);
+  const { summonersData } = useContext(ChampionSelectContext);
 
   return (
     <View id="team-view">
       {team === "ally"
-        ? champSelectSessionData.myTeam?.map((summoner, idx) => (
-            <TeamSummonersBlocks key={idx} summoner={summoner} />
-          ))
-        : champSelectSessionData.theirTeam?.map((summoner, idx) => (
-            <TeamSummonersBlocks key={idx} summoner={summoner} />
-          ))}
+        ? [...summonersData.values()]
+            ?.filter(({ isOnPlayersTeam }) => isOnPlayersTeam)
+            .map((summoner, idx) => (
+              <TeamSummonersBlocks key={idx} summoner={summoner} />
+            ))
+        : [...summonersData.values()]
+            ?.filter(({ isOnPlayersTeam }) => !isOnPlayersTeam)
+            .map((summoner, idx) => (
+              <TeamSummonersBlocks key={idx} summoner={summoner} />
+            ))}
     </View>
   );
 }
