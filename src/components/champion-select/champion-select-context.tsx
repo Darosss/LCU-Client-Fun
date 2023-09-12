@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   ChampSelectSessionDataRequiredWithActionsFlat,
   ChampSelectSessionTimerResponse,
+  ChampSelectSummonerData,
   ChampionData,
   lcuHandlerFactory,
 } from "@lcu";
@@ -13,6 +14,11 @@ interface ChampionSelectContext {
   champSelectSessionTimer: ChampSelectSessionTimerResponse | null;
   availableChamps: ChampionData[];
   setAvailableChamps: React.Dispatch<React.SetStateAction<ChampionData[]>>;
+  summonersData: Map<string, ChampSelectSummonerData>;
+  updateSummonersDataByCellId: (
+    cellId: string,
+    data: ChampSelectSummonerData
+  ) => void;
 }
 
 export const initialChampionSelectContextValue: ChampionSelectContext = {
@@ -34,6 +40,8 @@ export const initialChampionSelectContextValue: ChampionSelectContext = {
   champSelectSessionTimer: null,
   availableChamps: [],
   setAvailableChamps: () => {},
+  summonersData: new Map(),
+  updateSummonersDataByCellId: () => {},
 };
 
 export const ChampionSelectContext = React.createContext<ChampionSelectContext>(
@@ -59,6 +67,9 @@ export function ChampionSelectContextProvider({
     useState<ChampSelectSessionTimerResponse | null>(null);
 
   const [availableChamps, setAvailableChamps] = useState<ChampionData[]>([]);
+  const [summonersData, setSummonersData] = useState(
+    initialChampionSelectContextValue.summonersData
+  );
 
   React.useEffect(() => {
     const champSelectHandlerObj = lcuHandlerFactory.createChampSelectHandler();
@@ -94,6 +105,16 @@ export function ChampionSelectContextProvider({
       );
   }, [champSelectSessionData, champSelectLCUHandler]);
 
+  function updateSummonersDataByCellId(
+    cellId: string,
+    data: ChampSelectSummonerData
+  ) {
+    setSummonersData((prevData) => {
+      prevData.set(cellId, data);
+      return prevData;
+    });
+  }
+
   return (
     <ChampionSelectContext.Provider
       value={{
@@ -102,6 +123,8 @@ export function ChampionSelectContextProvider({
         setAvailableChamps,
         champSelectSessionData,
         champSelectSessionTimer,
+        summonersData,
+        updateSummonersDataByCellId,
       }}
     >
       {children}

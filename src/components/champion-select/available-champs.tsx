@@ -6,11 +6,11 @@ import { ChampionSelectContext } from "./champion-select-context";
 import { dragonChampionsData, isBannedOrPickedChamp } from "@helpers";
 import {
   DangerButton,
+  InfoButton,
   PrimaryButton,
   PrimaryLineEdit,
   PrimaryText,
 } from "@components";
-
 interface AvailableChampsProps {
   banPhase: boolean;
   currentActionId?: number;
@@ -44,39 +44,28 @@ export function AvailableChamps({
       );
   }, [currentSummoner]);
 
-  function championButton(
-    champName: string,
+  function handleOnClickChampionBlock(
     champId: number,
-    key: number,
-    disabled = false
-  ): JSX.Element {
-    return !currentActionId || disabled ? (
-      <DangerButton key={key} text={champName} />
-    ) : (
-      <PrimaryButton
-        key={key}
-        text={champName}
-        on={{
-          clicked: () => {
-            champSelectLCUHandler
-              ?.champSelectAction({
-                championId: champId,
-                actionId: currentActionId,
-              })
-              .then(() => {
-                onChangeChampion({ id: champId, name: champName });
-              })
-              .catch((err) =>
-                console.log(
-                  `Error occured while invoking champSelectAction function`,
-                  err
-                )
-              );
-          },
-        }}
-      />
-    );
+    actionId: number,
+    champName: string
+  ) {
+    champSelectLCUHandler
+      ?.champSelectAction({
+        championId: champId,
+        actionId: actionId,
+      })
+      .then(() => {
+        onChangeChampion({ id: champId, name: champName });
+      })
+      .catch((err) =>
+        console.log(
+          `Error occured while invoking champSelectAction function`,
+          err
+        )
+      );
   }
+
+  // function championImage
 
   function isBannedOrPickedChampByIdWrapped(championId: number) {
     return isBannedOrPickedChamp(championId, Object.assign(myTeam, theirTeam), [
@@ -113,12 +102,22 @@ export function AvailableChamps({
               })
               .sort((a, b) => sortChampionsAlphabeticaly(a.name, b.name))
               .map((champ, idx) =>
-                championButton(
-                  champ.name,
-                  champ.id,
-                  idx,
-                  isBannedOrPickedChampByIdWrapped(champ.id)
-                )
+                currentActionId ? (
+                  <ChampionBtnBlock
+                    key={idx}
+                    currentActionId={currentActionId}
+                    champId={champ.id}
+                    champName={champ.name}
+                    disabled={isBannedOrPickedChampByIdWrapped(champ.id)}
+                    onClickChampionBtn={() =>
+                      handleOnClickChampionBlock(
+                        champ.id,
+                        currentActionId,
+                        champ.name
+                      )
+                    }
+                  />
+                ) : null
               )
           : dragonChampionsData
               .filter(({ name }) => {
@@ -128,14 +127,55 @@ export function AvailableChamps({
               })
               .sort((a, b) => sortChampionsAlphabeticaly(a.name, b.name))
               .map((champ, idx) =>
-                championButton(
-                  champ.name,
-                  champ.id,
-                  idx,
-                  isBannedOrPickedChampByIdWrapped(champ.id)
-                )
+                currentActionId ? (
+                  <ChampionBtnBlock
+                    key={idx}
+                    currentActionId={currentActionId}
+                    champId={champ.id}
+                    champName={champ.name}
+                    disabled={isBannedOrPickedChampByIdWrapped(champ.id)}
+                    onClickChampionBtn={() =>
+                      handleOnClickChampionBlock(
+                        champ.id,
+                        currentActionId,
+                        champ.name
+                      )
+                    }
+                  />
+                ) : null
               )}
       </View>
     </View>
+  );
+}
+
+interface ChampionBtnProps {
+  currentActionId: number;
+  champName: string;
+  champId: number;
+  disabled: boolean;
+  onClickChampionBtn: (
+    champId: number,
+    actionId: number,
+    champName: string
+  ) => void;
+}
+
+function ChampionBtnBlock({
+  currentActionId,
+  champName,
+  champId,
+  disabled = false,
+  onClickChampionBtn,
+}: ChampionBtnProps): JSX.Element {
+  return !currentActionId || disabled ? (
+    <DangerButton text={champName} />
+  ) : (
+    <PrimaryButton
+      text={champName}
+      on={{
+        clicked: () => onClickChampionBtn(champId, currentActionId, champName),
+      }}
+    />
   );
 }

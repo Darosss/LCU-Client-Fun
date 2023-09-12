@@ -8,6 +8,7 @@ import {
   ChampSelectSessionDataRequired,
   ChampSelectSessionDataRequiredWithActionsFlat,
   ChampSelectSessionTimerResponse,
+  ChampSelectSummonerData,
   ChangeSummonersSpellsBody,
 } from "./types";
 
@@ -59,6 +60,20 @@ export class ChampSelectLCUHandler extends BaseLCUHandler {
   }
 
   // Websocket subscriptions
+
+  public async wsOnChampionSelectSummoner(
+    summonerCellId: number,
+    cb: BaseLCUHandlerWsOnArgs<ChampSelectSummonerData>["cb"]
+  ) {
+    this.wsOn<ChampSelectSummonerData>({
+      path: `/lol-champ-select/v1/summoners/${summonerCellId}`,
+      cb,
+    });
+  }
+
+  public unsubscribeOnChampionSelectSummoner(summonerCellId: number) {
+    this.wsUnsubsribe(`/lol-champ-select/v1/summoners/${summonerCellId}`);
+  }
 
   public async wsOnChampionSelectPhase(
     cb: BaseLCUHandlerWsOnArgs<ChampSelectSessionDataRequiredWithActionsFlat>["cb"]

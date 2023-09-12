@@ -1,70 +1,47 @@
 import React, { useContext, useMemo } from "react";
 import { View, Text } from "@nodegui/react-nodegui";
-import { TeamChampSelectSessionData, LCUContext } from "@lcu";
-import {
-  findChampionById,
-  findSummonerSpellById,
-  dragonChampionsData,
-  dragonSpellsData,
-} from "@helpers";
+import { LCUContext, ChampSelectSummonerData } from "@lcu";
+import { findSummonerSpellById, dragonSpellsData } from "@helpers";
 
 import { ChampionSelectContext } from "../champion-select-context";
 import { ChangeSummonerSpellsButtons } from "./change-summoner-spells-btn";
+import { PrimaryText } from "@components";
 
 interface TeamSummonersBlocksProps {
-  summoner: TeamChampSelectSessionData;
+  summoner: ChampSelectSummonerData;
 }
+
 //TODO: add show nicnames if visible fe. aram, flex, normal, normal draft etc. Exluding solo / duo ?
 export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
-  const { champSelectSessionData } = useContext(ChampionSelectContext);
+  const { champSelectSessionData, summonersData } = useContext(
+    ChampionSelectContext
+  );
   const { currentSummoner } = useContext(LCUContext);
 
-  const summonerAction = useMemo(() => {
-    const lastAction = champSelectSessionData.actions.pickActions
-      ?.reverse()
-      .find(({ actorCellId }) => actorCellId === summoner.cellId);
-
-    if (lastAction) return lastAction;
-    else {
-      const inProgressAction = champSelectSessionData.actions.pickActions?.find(
-        ({ actorCellId, isInProgress }) =>
-          actorCellId === summoner.cellId && isInProgress
+  const { spell1Id, spell2Id } = useMemo(() => {
+    if (summoner.isOnPlayersTeam) {
+      const teamSummoner = champSelectSessionData.myTeam.find(
+        (x) => x.cellId === summoner.cellId
       );
-      return inProgressAction;
+
+      const spell1 = teamSummoner?.spell1Id;
+      const spell2 = teamSummoner?.spell2Id;
+      return { spell1Id: spell1 || -1, spell2Id: spell2 || -1 };
     }
+    return { spell1Id: -1, spell2Id: -1 };
   }, [summoner]);
 
-  const currentOrLastAction = useMemo(() => {
-    if (!summonerAction) return "";
-
-    const foundChamp =
-      findChampionById(dragonChampionsData, summonerAction.championId)?.name ||
-      summonerAction.championId;
-    if (summonerAction.isInProgress) {
-      return `Picking ${foundChamp}`;
-    } else if (summonerAction.completed) {
-      return `Locked in ${foundChamp}`;
-    } else if (
-      champSelectSessionData.myTeam.find(
-        ({ cellId }) => cellId === summonerAction.actorCellId
-      )
-    ) {
-      const foundPlayerInTeam = champSelectSessionData.myTeam.find(
-        ({ cellId }) => cellId === summonerAction.actorCellId
-      )!;
-      return `Showed ${
-        findChampionById(
-          dragonChampionsData,
-          foundPlayerInTeam?.championPickIntent
-        )?.name || foundPlayerInTeam.championPickIntent
-      }`;
-    } else {
-      return "Not yet picked";
-    }
-  }, [champSelectSessionData]);
+  const currentSummonerData = useMemo(() => {
+    return summonersData.get(summoner.cellId.toString());
+  }, [summonersData.get(summoner.cellId.toString())]);
 
   return (
-    <View id="team-summoners-blocks-wrapper">
+    <View
+      id="team-summoners-blocks-wrapper"
+      style={`${
+        currentSummonerData?.isSelf ? "border-top:15px solid white;" : ""
+      }`}
+    >
       <View id="summoner-role-champion-wrapper">
         <Text id="summoner-assigned-position">
           {summoner.assignedPosition || ""}
@@ -80,22 +57,26 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
       <View id="summoner-spells-wrapper">
         {champSelectSessionData.localPlayerCellId === summoner.cellId ? (
           <ChangeSummonerSpellsButtons
-            spell1Id={summoner.spell1Id}
-            spell2Id={summoner.spell2Id}
+            spell1Id={spell1Id}
+            spell2Id={spell2Id}
           />
         ) : (
           <>
-            <Text>
-              {findSummonerSpellById(dragonSpellsData, summoner.spell1Id)}
-            </Text>
-            <Text>
-              {findSummonerSpellById(dragonSpellsData, summoner.spell2Id)}
-            </Text>
+            <Text>{findSummonerSpellById(dragonSpellsData, spell1Id)}</Text>
+            <Text>{findSummonerSpellById(dragonSpellsData, spell2Id)}</Text>
           </>
         )}
       </View>
-      <View id="summoner-current-action">
-        <Text>{currentOrLastAction}</Text>
+      <View id="summoner-action">
+        {currentSummonerData?.areSummonerActionsComplete ? (
+          <PrimaryText text={currentSummonerData.championName} />
+        ) : (
+          <Text>
+            {`${currentSummonerData?.isActingNow ? `Now ` : ""}${
+              currentSummonerData?.activeActionType
+            } ${currentSummonerData?.championName} `}
+          </Text>
+        )}
       </View>
     </View>
   );

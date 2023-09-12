@@ -80,3 +80,49 @@ export interface ChampSelectActionArgs {
   actionId: number;
   completed?: boolean;
 }
+
+export interface ChampSelectSummonerData {
+  actingBackgroundAnimationState:
+    | "not-acting-background"
+    | "is-acting-background"
+    | "";
+  activeActionType: string;
+  areSummonerActionsComplete: false;
+  assignedPosition: AssignedPosition;
+  banIntentSquarePortratPath: string;
+  cellId: number;
+  championIconStyle: string;
+  championId: number;
+  championName: string;
+  currentChampionVotePercentInteger: number;
+  entitledFeatureType: string;
+  isActingNow: boolean;
+  isDonePicking: boolean;
+  isOnPlayersTeam: boolean;
+  isPickIntenting: boolean;
+  isPlaceholder: boolean;
+  isSelf: boolean;
+  nameVisibilityType: "VISIBLE" | "HIDDEN" | "";
+  obfuscatedPuuid: string;
+  obfuscatedSummonerId: number;
+  pickSnipedClass: string;
+  puuid: string;
+  shouldShowActingBar: boolean;
+  shouldShowBanIntentIcon: boolean;
+  shouldShowExpanded: boolean;
+  shouldShowRingAnimations: boolean;
+  shouldShowSelectedSkin: boolean;
+  shouldShowSpells: boolean;
+  showMuted: boolean;
+  showSwaps: boolean;
+  showTrades: boolean;
+  skinId: number;
+  skinSplashPath: string;
+  slotId: number;
+  spell1IconPath: string;
+  spell2IconPath: string;
+  statusMessageKey: string;
+  summonerId: number;
+  swapId: number;
+  tradeId: number;
+}

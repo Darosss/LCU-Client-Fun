@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { View } from "@nodegui/react-nodegui";
 import { ChampSelectActionArgs, LCUContext } from "@lcu";
 import { findAvailableChampionForAutoPick } from "@helpers";
@@ -18,6 +24,7 @@ import {
 export function ChampSelect() {
   const {
     options: { autoPickChamp, autoPickChamps },
+    lobbyData,
   } = useContext(LCUContext);
   const {
     champSelectLCUHandler,
@@ -29,16 +36,18 @@ export function ChampSelect() {
       bans,
     },
     availableChamps,
+    summonersData,
+    updateSummonersDataByCellId,
   } = useContext(ChampionSelectContext);
   const [selectedChamp, setSelectedChamp] = useState<SelectedChamp | null>(
     null
   );
 
   const userAction = useMemo(() => {
-    if (localPlayerCellId !== -1 && actions)
+    if (localPlayerCellId !== -1 && summonersData)
       return [...actions.banActions, ...actions.pickActions].find(
         (action) =>
-          action?.actorCellId === localPlayerCellId && !action?.completed
+          action?.actorCellId === localPlayerCellId && action?.isInProgress
       );
   }, [actions, localPlayerCellId]);
 
@@ -88,6 +97,28 @@ export function ChampSelect() {
     [champSelectLCUHandler]
   );
 
+  useEffect(() => {
+    if (!champSelectLCUHandler || !lobbyData) return;
+
+    const {
+      gameConfig: { customTeam100, customTeam200 },
+    } = lobbyData;
+    const countOfSummoners = customTeam100.length + customTeam200.length;
+
+    for (let i = 0; i < countOfSummoners; i++) {
+      champSelectLCUHandler.wsOnChampionSelectSummoner(i, (error, data) => {
+        if (error || !data) return;
+        updateSummonersDataByCellId(i.toString(), data);
+      });
+    }
+
+    return () => {
+      for (let i = 0; i < countOfSummoners; i++) {
+        champSelectLCUHandler?.unsubscribeOnChampionSelectSummoner(i);
+      }
+    };
+  }, [champSelectLCUHandler]);
+
   return (
     <View id="champ-select-wrapper">
       <View id="champ-select-title-wrapper">
@@ -103,7 +134,7 @@ export function ChampSelect() {
         <PhaseBans />
       </View>
       {userAction?.isInProgress ? (
-        <View>
+        <View id="summoner-action-btn-wrapper">
           {userAction.type === "pick" ? (
             <PrimaryButton
               text={userAction.type || "Pick"}
@@ -141,9 +172,7 @@ export function ChampSelect() {
         <AvailableChamps
           banPhase={userAction?.type === "ban"}
           currentActionId={userAction?.id}
-          onChangeChampion={(champ) => {
-            setSelectedChamp(champ);
-          }}
+          onChangeChampion={(champ) => setSelectedChamp(champ)}
         />
         <TeamView team="enemy" />
       </View>
