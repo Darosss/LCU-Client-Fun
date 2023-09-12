@@ -5,6 +5,8 @@ import { infoLinearGradient, primaryLinearGradient } from "./colors";
 export function champselectStyleSheet(width: number, height: number) {
   const minMaxSizes = {
     actionsWidth: ~~getPercentFromValue(width, 17),
+    summonerActionBtnWidth: ~~getPercentFromValue(width, 30),
+    summonerActionBtnHeight: ~~getPercentFromValue(height, 5),
     summonerSpellsWidgets: ~~getPercentFromValue(width, 7),
     summonerDisplayName: ~~getPercentFromValue(width, 11),
     summonerAssignedPosition: ~~getPercentFromValue(width, 6),
@@ -50,6 +52,19 @@ export function champselectStyleSheet(width: number, height: number) {
         display:'flex';
         flex-direction:'row';
         justify-content:'space-between';
+    }
+
+    #summoner-action-btn-wrapper {
+        display:'flex';
+        align-items:'center';
+    }
+
+    #summoner-action-btn-wrapper > QPushButton{
+        max-width:${minMaxSizes.summonerActionBtnWidth}px;
+        min-width:${minMaxSizes.summonerActionBtnWidth}px;
+        max-height:${minMaxSizes.summonerActionBtnHeight}px;
+        min-height:${minMaxSizes.summonerActionBtnHeight}px;
+        font-size: ${~~minMaxSizes.summonerActionBtnHeight / 2}px;
     }
 
     #bans-in-phase-wrapper > QWidget {

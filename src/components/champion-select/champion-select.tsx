@@ -134,7 +134,7 @@ export function ChampSelect() {
         <PhaseBans />
       </View>
       {userAction?.isInProgress ? (
-        <View>
+        <View id="summoner-action-btn-wrapper">
           {userAction.type === "pick" ? (
             <PrimaryButton
               text={userAction.type || "Pick"}
