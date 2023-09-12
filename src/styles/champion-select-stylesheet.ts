@@ -13,6 +13,7 @@ export function champselectStyleSheet(width: number, height: number) {
     champsWrapperWidgetsMargins: ~~getPercentFromValue(width, 34),
     champsWrapperHeight: ~~getPercentFromValue(height, 70),
     champsWrapperWidth: ~~getPercentFromValue(width, 70),
+    actionsHeight: ~~getPercentFromValue(height, 5),
   };
   return `
 
@@ -150,7 +151,6 @@ export function champselectStyleSheet(width: number, height: number) {
     }
 
     #team-summoners-blocks-wrapper > QWidget {
-        border:1px solid yellow;
     }
 
     #summoner-role-champion-wrapper {
@@ -169,8 +169,16 @@ export function champselectStyleSheet(width: number, height: number) {
         max-width:${minMaxSizes.summonerSpellsWidgets}px;
     }
 
-    #summoner-current-action {
+    #summoner-action {
+        display:'flex';
+        min-height:${minMaxSizes.actionsHeight}px;
+        max-height:${minMaxSizes.actionsHeight}px;
         ${backgroundLinearGradient(`rgba(12,31,44,1)`, `rgba(12,123,12,0.7)`)} 
+        padding-right:5px;
+    }
+
+    #summoner-action > QWidget {
+        flex-grow: 1;
     }
     
     #summoner-current-action QWidget {
