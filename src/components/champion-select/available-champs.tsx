@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Image, View } from "@nodegui/react-nodegui";
+import { Image, ScrollArea, View } from "@nodegui/react-nodegui";
 import { ChampionData, LCUContext } from "@lcu";
 import { SelectedChamp } from "./types";
 import { ChampionSelectContext } from "./champion-select-context";
@@ -158,43 +158,36 @@ export function AvailableChamps({
             return true;
           })
           .sort((a, b) => sortChampionsAlphabeticaly(a.name, b.name))
-          .map((champ, idx) =>
-            currentActionId ? (
-              <ChampionBtnBlock
-                key={idx}
-                currentActionId={currentActionId}
-                champData={champ}
-                disabled={isBannedOrPickedChampByIdWrapped(champ.id)}
-                onClickChampionBtn={() =>
-                  handleOnClickChampionBlock(
-                    champ.id,
-                    currentActionId,
-                    champ.name
-                  )
-                }
-                image={showImages}
-              />
-            ) : null
-          )}
+          .map((champ, idx) => (
+            <ChampionBtnBlock
+              key={idx}
+              champData={champ}
+              disabled={isBannedOrPickedChampByIdWrapped(champ.id)}
+              onClickChampionBtn={() =>
+                currentActionId
+                  ? handleOnClickChampionBlock(
+                      champ.id,
+                      currentActionId,
+                      champ.name
+                    )
+                  : null
+              }
+              image={showImages}
+            />
+          ))}
       </View>
     </View>
   );
 }
 
 interface ChampionBtnProps {
-  currentActionId: number;
   disabled: boolean;
   champData: ChampionData;
   image: boolean;
-  onClickChampionBtn: (
-    champId: number,
-    actionId: number,
-    champName: string
-  ) => void;
+  onClickChampionBtn: () => void;
 }
 
 function ChampionBtnBlock({
-  currentActionId,
   champData: { id, squarePortraitPath, name },
   disabled = false,
   image = false,
@@ -212,19 +205,20 @@ function ChampionBtnBlock({
     return (
       <View
         id="available-champs-images-wrapper"
-        style={`${disabled ? "background:red" : ""}`}
+        style={`${disabled ? "background:red;" : ""}`}
       >
+        <InfoText text={name} />
         <Image
+          id="champ-image"
           src={imgPath}
           aspectRatioMode={AspectRatioMode.KeepAspectRatio}
           minSize={{ width: widthAndHeightImg, height: widthAndHeightImg }}
           maxSize={{ width: widthAndHeightImg, height: widthAndHeightImg }}
           on={{
             [WidgetEventTypes.MouseButtonPress]: () =>
-              !disabled ? onClickChampionBtn(id, currentActionId, name) : null,
+              !disabled ? onClickChampionBtn() : null,
           }}
         />
-        <InfoText text={name} />
       </View>
     );
   }
@@ -235,7 +229,7 @@ function ChampionBtnBlock({
     <PrimaryButton
       text={name}
       on={{
-        clicked: () => onClickChampionBtn(id, currentActionId, name),
+        clicked: () => onClickChampionBtn(),
       }}
     />
   );
