@@ -90,6 +90,10 @@ export function LCUContextProvider({
 
   React.useEffect(() => {
     initalizeHandlers();
+
+    setTimeout(() => {
+      // setCurrentPhase("ChampSelect");
+    }, 1500);
   }, [lcuHandlerFactory]);
 
   React.useEffect(() => {

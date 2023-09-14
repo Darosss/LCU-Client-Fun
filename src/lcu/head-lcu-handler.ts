@@ -1,3 +1,4 @@
+import { loggerWsEvents } from "../logger";
 import { BaseLCUHandler } from "./base-lcu-handler";
 import {
   BaseLCUHandlerOpts,
@@ -18,6 +19,24 @@ interface HeadLCUHandlerOpts extends BaseLCUHandlerOpts {}
 export class HeadLCUHandler extends BaseLCUHandler {
   constructor({ credentials, leagueWS }: HeadLCUHandlerOpts) {
     super({ credentials, leagueWS });
+
+    this.leagueWS.on("message", (data) => {
+      try {
+        const parsedData = JSON.parse(data.toString())[2] as {
+          data: any;
+          eventType: string;
+          uri: string;
+        };
+        // console.log(parsedData.uri);
+        return;
+        loggerWsEvents.info(parsedData.uri);
+        loggerWsEvents.info(parsedData.data);
+        loggerWsEvents.info(parsedData.eventType);
+        loggerWsEvents.info(
+          "----------------------------------------------------------------------------"
+        );
+      } catch (err) {}
+    });
   }
 
   public async killUx(): Promise<void> {
@@ -56,6 +75,7 @@ export class HeadLCUHandler extends BaseLCUHandler {
     });
   }
 
+  //TODO: rename to getAllChamps?
   public async getAvailableChampsBySummonerId(
     summonerId: number
   ): Promise<ChampionData[]> {
@@ -70,7 +90,7 @@ export class HeadLCUHandler extends BaseLCUHandler {
       ({ ownership: { owned } }) => owned
     );
 
-    return availableChamps;
+    return allChamps;
   }
 
   // Websocket subscriptions

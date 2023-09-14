@@ -126,3 +126,8 @@ export interface ChampSelectSummonerData {
   swapId: number;
   tradeId: number;
 }
+
+export type GetChampionsIdsForChampSelectActions =
+  | "disabled-champion-ids"
+  | "pickable-champion-ids"
+  | "bannable-champion-ids";

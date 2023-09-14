@@ -1,4 +1,3 @@
-import * as path from "path";
 import { CURRENT_LOL_VERSION, ddragonLeagueOfLegendsBaseLink } from "@globals";
 import { fetchDataByUrl, writeData, dataFileExists, readData } from "./";
 import {
@@ -6,10 +5,7 @@ import {
   DataDragonSpellsJsonFileData,
 } from "@lcu";
 
-const spellsFilePath = path.join(
-  __dirname,
-  `spells${CURRENT_LOL_VERSION.trim()}.json`
-);
+const spellsFilePath = `spells${CURRENT_LOL_VERSION.trim()}.json`;
 
 export async function getDataDragonSpells(): Promise<DataDragonSpellsDataResponse> {
   const spellsResponse = await fetchDataByUrl(
@@ -37,9 +33,8 @@ async function ifDataDragonSpellsDoesNotExist() {
     }
 
     writeDragonSpellsData(spellsDragonData);
+    return true;
   }
-
-  return true;
 }
 
 const readedDragonSpellsData =

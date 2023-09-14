@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Window, hot, View } from "@nodegui/react-nodegui";
+import { Window, hot, View, Image } from "@nodegui/react-nodegui";
 import { QIcon } from "@nodegui/nodegui";
 import nodeguiIcon from "@assets/nodegui.jpg";
 import { LCUContext, LCUContextProvider } from "@lcu";
@@ -7,7 +7,6 @@ import { PhaseView } from "@components";
 import { appStylesheet } from "@styles";
 
 const winIcon = new QIcon(nodeguiIcon);
-
 function App() {
   const { options } = useContext(LCUContext);
 
@@ -27,6 +26,7 @@ function App() {
           )}
         >
           <PhaseView />
+          <Image src={`${__dirname}/2.png`} />
         </View>
       </Window>
     </LCUContextProvider>

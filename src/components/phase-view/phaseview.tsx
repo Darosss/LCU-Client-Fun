@@ -10,11 +10,12 @@ import { Reconnect } from "./reconnect";
 import { GameStart } from "./game-start";
 import { InProgress } from "./in-progress";
 import { Sidebar } from "./sidebar";
-
+import { loggerWsEvents } from "../../logger";
 interface PhaseViewProps {}
 export function PhaseView({}: PhaseViewProps) {
   const { currentPhase } = useContext(LCUContext);
   console.log(new Date(), "PHASEVIEW => ", currentPhase);
+  loggerWsEvents.info(` PHASE => ${currentPhase}`);
   function renderDependsOnPhase() {
     switch (currentPhase) {
       case "ChampSelect":
@@ -47,7 +48,6 @@ export function PhaseView({}: PhaseViewProps) {
         return <></>;
     }
   }
-
   return (
     <View>
       <View id="phases-wrapper">
