@@ -126,7 +126,6 @@ export function champselectStyleSheet(width: number, height: number) {
 
     #available-champs-images-wrapper {
         display:'flex';
-        justify-content:'center';
         min-height:${minMaxSizes.championImagesHeight}px;
         max-height:${minMaxSizes.championImagesHeight}px;
         min-width:${minMaxSizes.championImagesWidth}px;
@@ -135,6 +134,11 @@ export function champselectStyleSheet(width: number, height: number) {
 
     #available-champs-images-wrapper:hover {
         background:green;
+    }
+
+    #available-champs-images-wrapper #champ-image {
+        flex: 1;
+        qproperty-alignment: 'AlignCenter';
     }
 
     #teams-champions-wrapper {
