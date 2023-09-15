@@ -13,15 +13,23 @@ export function champselectStyleSheet(width: number, height: number) {
     teamBansWidth: ~~getPercentFromValue(width, 30),
     teamBansWidthLabels: ~~getPercentFromValue(width, 4),
     champsWrapperWidgetsMargins: ~~getPercentFromValue(width, 34),
-    champsWrapperHeight: ~~getPercentFromValue(height, 70),
+    champsWrapperHeight: ~~getPercentFromValue(height, 90),
     champsWrapperWidth: ~~getPercentFromValue(width, 70),
     actionsHeight: ~~getPercentFromValue(height, 5),
+    championImagesWidth: ~~getPercentFromValue(width, 5),
+    championImagesHeight: ~~getPercentFromValue(width, 7),
   };
   return `
 
-    #champ-select-wrapper {
+    #champ-select-tabs-wrapper{
         min-width:${minMaxSizes.champsWrapperWidth}px;
         max-width:${minMaxSizes.champsWrapperWidth}px;
+    }
+
+    #champ-select-wrapper, #champ-select-runes-wrapper {
+        ${primaryLinearGradient}
+        min-height:${minMaxSizes.champsWrapperHeight}px;
+        max-height:${minMaxSizes.champsWrapperHeight}px;
 
     }
     #champ-select-title-wrapper{
@@ -103,15 +111,34 @@ export function champselectStyleSheet(width: number, height: number) {
         flex-wrap:'wrap';
         justify-content:'center';
         align-items:'center';
-
     }
 
     #available-champs > QPushButton {
-        border:1px solid blue;
         font-weight:700;
         padding:2px;
         flex-shrink:1;
         width:100px;
+    }
+    
+    #available-champs > QWidget {
+        margin:1px;
+    }
+
+    #available-champs-images-wrapper {
+        display:'flex';
+        min-height:${minMaxSizes.championImagesHeight}px;
+        max-height:${minMaxSizes.championImagesHeight}px;
+        min-width:${minMaxSizes.championImagesWidth}px;
+        max-width:${minMaxSizes.championImagesWidth}px;
+    }
+
+    #available-champs-images-wrapper:hover {
+        background:green;
+    }
+
+    #available-champs-images-wrapper #champ-image {
+        flex: 1;
+        qproperty-alignment: 'AlignCenter';
     }
 
     #teams-champions-wrapper {

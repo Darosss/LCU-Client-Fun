@@ -1,8 +1,7 @@
-import * as path from "path";
 import type { ClientOptions } from "./";
 import { dataFileExists, readData, writeData } from "@helpers";
 
-const dataFilePath = path.join(__dirname, "localstorage.json");
+const dataFilePath = "localstorage.json";
 
 if (!dataFileExists(dataFilePath)) {
   const defaultData: ClientOptions = {
@@ -17,7 +16,7 @@ if (!dataFileExists(dataFilePath)) {
       other: [],
     },
     autoPickChamp: false,
-    preventRiotClientToTurnOn: true,
+    preventRiotClientToTurnOn: false,
   };
   writeData<ClientOptions>(dataFilePath, defaultData);
 }

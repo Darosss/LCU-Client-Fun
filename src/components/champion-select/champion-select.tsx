@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { View } from "@nodegui/react-nodegui";
+import { TabItem, Tabs, View } from "@nodegui/react-nodegui";
 import { ChampSelectActionArgs, LCUContext } from "@lcu";
 import { findAvailableChampionForAutoPick } from "@helpers";
 import { SelectedChamp } from "./types";
@@ -120,62 +120,72 @@ export function ChampSelect() {
   }, [champSelectLCUHandler]);
 
   return (
-    <View id="champ-select-wrapper">
-      <View id="champ-select-title-wrapper">
-        <PrimaryText
-          text={`
+    <Tabs>
+      <TabItem title="Champ select">
+        <View id="champ-select-wrapper">
+          <View id="champ-select-title-wrapper">
+            <PrimaryText
+              text={`
           Champ select ${
             userAction ? ` - Your time to ${userAction.type}!` : ""
           }
         `}
-        />
-        <TimeLeftInPhase onEndingTimeLeft={() => autoPickChampion()} />
-        <DangerText text="Bans" />
-        <PhaseBans />
-      </View>
-      {userAction?.isInProgress ? (
-        <View id="summoner-action-btn-wrapper">
-          {userAction.type === "pick" ? (
-            <PrimaryButton
-              text={userAction.type || "Pick"}
-              on={{
-                clicked: () => {
-                  if (!selectedChamp) return;
-                  completeActionChampion({
-                    championId: selectedChamp.id,
-                    actionId: userAction.id,
-                    completed: true,
-                  });
-                },
-              }}
             />
-          ) : (
-            <DangerButton
-              text={userAction.type || "Ban"}
-              on={{
-                clicked: () => {
-                  if (!selectedChamp) return;
-                  completeActionChampion({
-                    championId: selectedChamp.id,
-                    actionId: userAction.id,
-                    completed: true,
-                  });
-                },
-              }}
-            />
-          )}
-        </View>
-      ) : null}
+            <TimeLeftInPhase onEndingTimeLeft={() => autoPickChampion()} />
+            <DangerText text="Bans" />
+            <PhaseBans />
+          </View>
+          {userAction?.isInProgress ? (
+            <View id="summoner-action-btn-wrapper">
+              {userAction.type === "pick" ? (
+                <PrimaryButton
+                  text={userAction.type || "Pick"}
+                  on={{
+                    clicked: () => {
+                      if (!selectedChamp) return;
+                      completeActionChampion({
+                        championId: selectedChamp.id,
+                        actionId: userAction.id,
+                        completed: true,
+                      });
+                    },
+                  }}
+                />
+              ) : (
+                <DangerButton
+                  text={userAction.type || "Ban"}
+                  on={{
+                    clicked: () => {
+                      if (!selectedChamp) return;
+                      completeActionChampion({
+                        championId: selectedChamp.id,
+                        actionId: userAction.id,
+                        completed: true,
+                      });
+                    },
+                  }}
+                />
+              )}
+            </View>
+          ) : null}
 
-      <View id="teams-champions-wrapper">
-        <TeamView team="ally" />
-        <AvailableChamps
-          banPhase={userAction?.type === "ban"}
-          currentActionId={userAction?.id}
-          onChangeChampion={(champ) => setSelectedChamp(champ)}
-        />
-        <TeamView team="enemy" />
-      </View>
-    </View>
+          <View id="teams-champions-wrapper">
+            <TeamView team="ally" />
+            <AvailableChamps
+              banPhase={userAction?.type === "ban"}
+              currentActionId={userAction?.id}
+              onChangeChampion={(champ) => setSelectedChamp(champ)}
+            />
+            <TeamView team="enemy" />
+          </View>
+        </View>
+      </TabItem>
+
+      <TabItem title="Runes">
+        <View id="champ-select-runes-wrapper">
+          <PrimaryText text="runes" />
+        </View>
+      </TabItem>
+    </Tabs>
   );
 }

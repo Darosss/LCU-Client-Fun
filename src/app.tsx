@@ -7,7 +7,6 @@ import { PhaseView } from "@components";
 import { appStylesheet } from "@styles";
 
 const winIcon = new QIcon(nodeguiIcon);
-
 function App() {
   const { options } = useContext(LCUContext);
 

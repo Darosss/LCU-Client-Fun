@@ -1,11 +1,11 @@
 import React, { useContext, useMemo } from "react";
-import { View, Text } from "@nodegui/react-nodegui";
+import { View, Text, Window } from "@nodegui/react-nodegui";
 import { LCUContext, ChampSelectSummonerData } from "@lcu";
 import { findSummonerSpellById, dragonSpellsData } from "@helpers";
 
 import { ChampionSelectContext } from "../champion-select-context";
 import { ChangeSummonerSpellsButtons } from "./change-summoner-spells-btn";
-import { PrimaryText } from "@components";
+import { PrimaryButton, PrimaryText } from "@components";
 
 interface TeamSummonersBlocksProps {
   summoner: ChampSelectSummonerData;
@@ -48,14 +48,14 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
         </Text>
         <Text id="summoner-display-name">
           {`${
-            champSelectSessionData.localPlayerCellId === summoner.cellId
+            summoner.isSelf
               ? currentSummoner?.displayName
               : `Summoner: ${summoner.cellId}`
           }`}
         </Text>
       </View>
       <View id="summoner-spells-wrapper">
-        {champSelectSessionData.localPlayerCellId === summoner.cellId ? (
+        {summoner.isSelf ? (
           <ChangeSummonerSpellsButtons
             spell1Id={spell1Id}
             spell2Id={spell2Id}

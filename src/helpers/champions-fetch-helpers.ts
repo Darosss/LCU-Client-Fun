@@ -1,15 +1,24 @@
-import * as path from "path";
-import { fetchDataByUrl, dataFileExists, readData, writeData } from "./";
+import {
+  fetchDataByUrl,
+  dataFileExists,
+  readData,
+  writeData,
+  downloadPng,
+  createFolder,
+} from "./";
 import type {
   DataDragonChampionDataResponse,
   DataDragonChampionsJsonFileData,
 } from "@lcu";
-import { CURRENT_LOL_VERSION, ddragonLeagueOfLegendsBaseLink } from "@globals";
+import {
+  BASE_RAW_COMMUNITY_DRAGON_GAME_DATA,
+  CURRENT_LOL_VERSION,
+  ddragonLeagueOfLegendsBaseLink,
+} from "@globals";
 
-const championsFilePath = path.join(
-  __dirname,
-  `champions${CURRENT_LOL_VERSION.trim()}.json`
-);
+const basePathChampionIcons = `/lol-game-data/assets/v1/champion-icons`;
+
+const championsFilePath = `champions${CURRENT_LOL_VERSION.trim()}.json`;
 
 export async function getDataDragonChampions(): Promise<DataDragonChampionDataResponse> {
   const championsResponse = await fetchDataByUrl(
@@ -38,6 +47,19 @@ async function ifDataDragonChampsDoesNotExist() {
     }
 
     writeDragonChampionsData(dragonChampsData);
+
+    //download all jpg champ select icons
+    //https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/
+
+    dragonChampsData.forEach(async (champ) => {
+      const url = `${BASE_RAW_COMMUNITY_DRAGON_GAME_DATA}/v1/champion-icons/${champ.id}.png`;
+      const outputPath = `${basePathChampionIcons}/${champ.id}.png`;
+
+      if (!dataFileExists(basePathChampionIcons)) {
+        createFolder(basePathChampionIcons);
+      }
+      downloadPng(url, outputPath);
+    });
 
     return true;
   }

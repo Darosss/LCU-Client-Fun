@@ -9,7 +9,9 @@ import {
   ChampSelectSessionDataRequiredWithActionsFlat,
   ChampSelectSessionTimerResponse,
   ChampSelectSummonerData,
+  ChampionData,
   ChangeSummonersSpellsBody,
+  GetChampionsIdsForChampSelectActions,
 } from "./types";
 
 interface ChampSelectLCUHandlerOpts extends BaseLCUHandlerOpts {}
@@ -59,8 +61,18 @@ export class ChampSelectLCUHandler extends BaseLCUHandler {
     return response.json() as ChampSelectSessionTimerResponse;
   }
 
-  // Websocket subscriptions
+    public async getChampionsIdsForChampSelect(
+    action: GetChampionsIdsForChampSelectActions
+  ): Promise<number[]> {
+    const response = await this.makeAHttp1Request({
+      method: "GET",
+      url: `/lol-champ-select/v1/${action}`,
+    });
 
+    return response.json() as number[];
+  }
+
+  // Websocket subscriptions
   public async wsOnChampionSelectSummoner(
     summonerCellId: number,
     cb: BaseLCUHandlerWsOnArgs<ChampSelectSummonerData>["cb"]

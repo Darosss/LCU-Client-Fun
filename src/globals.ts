@@ -7,3 +7,6 @@ export function ddragonLeagueOfLegendsBaseLink(
 ) {
   return `http://ddragon.leagueoflegends.com/cdn/${ver}/data/${lang}/${suffixUrl}`;
 }
+
+export const BASE_RAW_COMMUNITY_DRAGON_GAME_DATA =
+  "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default";
