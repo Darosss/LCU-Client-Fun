@@ -61,8 +61,7 @@ export class ChampSelectLCUHandler extends BaseLCUHandler {
     return response.json() as ChampSelectSessionTimerResponse;
   }
 
-  // Websocket subscriptions
-  public async getChampionsIdsForChampSelect(
+    public async getChampionsIdsForChampSelect(
     action: GetChampionsIdsForChampSelectActions
   ): Promise<number[]> {
     const response = await this.makeAHttp1Request({
@@ -73,6 +72,7 @@ export class ChampSelectLCUHandler extends BaseLCUHandler {
     return response.json() as number[];
   }
 
+  // Websocket subscriptions
   public async wsOnChampionSelectSummoner(
     summonerCellId: number,
     cb: BaseLCUHandlerWsOnArgs<ChampSelectSummonerData>["cb"]
