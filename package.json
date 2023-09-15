@@ -1,8 +1,8 @@
 {
-  "name": "react-nodegui-starter",
+  "name": "lcu-lol-client",
   "version": "1.0.0",
   "main": "index.js",
-  "author": "Atul R <atulanand94@gmail.com>",
+  "author": "darosss <darosss12@proton.me>",
   "license": "MIT",
   "private": true,
   "scripts": {
