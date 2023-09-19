@@ -20,6 +20,8 @@ import {
   PrimaryButton,
   PrimaryText,
 } from "@components";
+import { ChampionSelectRunes } from "./runes";
+import { RunesContextProvider } from "./runes/runes-context";
 
 export function ChampSelect() {
   const {
@@ -183,7 +185,9 @@ export function ChampSelect() {
 
       <TabItem title="Runes">
         <View id="champ-select-runes-wrapper">
-          <PrimaryText text="runes" />
+          <RunesContextProvider>
+            <ChampionSelectRunes />
+          </RunesContextProvider>
         </View>
       </TabItem>
     </Tabs>
