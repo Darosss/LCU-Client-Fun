@@ -18,6 +18,12 @@ export function champselectStyleSheet(width: number, height: number) {
     actionsHeight: ~~getPercentFromValue(height, 5),
     championImagesWidth: ~~getPercentFromValue(width, 5),
     championImagesHeight: ~~getPercentFromValue(width, 7),
+    runesWrapperWidth: ~~getPercentFromValue(width, 70),
+    runesWrapperHeight: ~~getPercentFromValue(height, 80),
+    currentRunePageActionsWidth: ~~getPercentFromValue(height, 5),
+    runesImagesWidth: ~~getPercentFromValue(width, 4),
+    runesImagesHeight: ~~getPercentFromValue(width, 4),
+    runesPageBtnWidth: ~~getPercentFromValue(width, 10),
   };
   return `
 
@@ -30,6 +36,7 @@ export function champselectStyleSheet(width: number, height: number) {
         ${primaryLinearGradient}
         min-height:${minMaxSizes.champsWrapperHeight}px;
         max-height:${minMaxSizes.champsWrapperHeight}px;
+
 
     }
     #champ-select-title-wrapper{
@@ -250,5 +257,74 @@ export function champselectStyleSheet(width: number, height: number) {
         flex-direction:'row';
     }
 
+    #champion-select-current-rune-page {
+        min-height:${minMaxSizes.runesWrapperHeight}px;
+        max-height:${minMaxSizes.runesWrapperHeight}px;
+        min-width:${minMaxSizes.runesWrapperWidth}px;
+        max-width:${minMaxSizes.runesWrapperWidth}px;
+        display:'flex';
+        justify-content:'space-between';
+    }
+
+    #champion-select-rune-page-actions {
+        display:'flex';
+        flex-direction:'row';
+        justify-content:'center';
+        min-height:${minMaxSizes.currentRunePageActionsWidth}px;
+        max-height:${minMaxSizes.currentRunePageActionsWidth}px;
+    }
+
+    #champion-select-rune-page-actions > QLabel {
+        padding:2px;
+        margin-left:2px;
+    }
+
+
+    #champion-select-runes-pages-list {
+        display:'flex';
+        flex-direction:'row';
+        flex-wrap:'wrap';
+        max-width:700px;
+    }
+
+    #champion-select-runes-pages-list > QPushButton {
+        max-width:${minMaxSizes.runesPageBtnWidth}px;
+        min-width:${minMaxSizes.runesPageBtnWidth}px;
+    }
+
+    #rune-style-slots-wrapper {
+        display:'flex'; 
+        justify-content:'space-between';
+        flex-direction:'row';
+    }
+
+    #rune-style-slots-wrapper > QWidget {
+        padding:2px;
+        border:2px solid yellow;
+    }
+
+    #rune-style-slot {
+        display:'flex'; 
+        flex-direction:'row';
+        margin-top:1px; 
+        border-bottom:1px solid blue;
+        ${primaryLinearGradient}
+    }
+
+    #rune-style-slot > QWidget {
+        max-width:${minMaxSizes.runesImagesWidth}px;
+        min-width:${minMaxSizes.runesImagesWidth}px;
+        max-height:${minMaxSizes.runesImagesHeight}px;
+        min-height:${minMaxSizes.runesImagesHeight}px;
+    }
+
+    #rune-style-slot > QWidget:hover {
+        ${infoLinearGradient}
+    }
+
+    #rune-image {
+        flex: 1;
+        qproperty-alignment: 'AlignCenter';
+    }
 `;
 }
