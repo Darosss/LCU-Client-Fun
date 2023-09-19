@@ -1,6 +1,11 @@
 import { Credentials, LeagueWebSocket } from "league-connect";
 import { DataDragonChampionsJsonFileData, AssignedPosition } from "./";
 
+export enum MouseButton {
+  LEFT,
+  RIGHT,
+  SCROLL,
+}
 export interface BaseLCUHandlerOpts {
   credentials: Credentials;
   leagueWS: LeagueWebSocket;
