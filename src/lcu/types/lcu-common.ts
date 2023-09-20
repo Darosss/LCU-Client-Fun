@@ -37,6 +37,7 @@ export interface ClientOptions {
   autoPickChamp: boolean;
   preventRiotClientToTurnOn: boolean;
   runes: RunesOptions;
+  championSelect: ChampionSelectOptions;
 }
 
 export interface RunesOptions {
@@ -44,6 +45,9 @@ export interface RunesOptions {
   changeSpells: boolean;
 }
 
+interface ChampionSelectOptions {
+  showImages: boolean;
+}
 export interface CurrentSummonerData {
   accountId: number;
   displayName: string;
