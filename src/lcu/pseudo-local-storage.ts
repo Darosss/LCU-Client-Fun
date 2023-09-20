@@ -21,6 +21,9 @@ if (!dataFileExists(dataFilePath)) {
       swapSpells: false,
       changeSpells: true,
     },
+    championSelect: {
+      showImages: false,
+    },
   };
   writeData<ClientOptions>(dataFilePath, defaultData);
 }
