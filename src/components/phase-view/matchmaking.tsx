@@ -1,25 +1,31 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View } from "@nodegui/react-nodegui";
-import { DangerButton, PrimaryText } from "@components";
+import { DangerButton, PrimaryText, SecondaryText } from "@components";
 import { secondsToHMS } from "@helpers";
 import { LCUContext } from "@lcu";
 
 export function Matchmaking() {
   const { lobbyLCUHandler } = useContext(LCUContext);
   const [searchingMatchTime, setSearchingMatchTime] = useState(0);
+  const [estimatedTime, setEstimatedTime] = useState(0);
+
   useEffect(() => {
-    const timer = setInterval(() => {
-      setSearchingMatchTime((prevTime) => ++prevTime);
-    }, 1000);
+    if (!lobbyLCUHandler) return;
+
+    lobbyLCUHandler.wsOnMatchmakingSearch((err, data) => {
+      if (err || !data) return;
+      setEstimatedTime(~~data.estimatedQueueTime);
+      setSearchingMatchTime(data.timeInQueue);
+    });
 
     return () => {
-      clearInterval(timer);
+      lobbyLCUHandler.unsubsribeOnMatchmakingSearch();
     };
-  }, []);
-
+  }, [lobbyLCUHandler]);
   return (
     <View id="matchmaking-wrapper">
       <PrimaryText text={`Match making ${secondsToHMS(searchingMatchTime)}`} />
+      <SecondaryText text={`Estimated time: ${secondsToHMS(estimatedTime)}`} />
       <DangerButton
         text="Cancel search"
         on={{
