@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from "react";
 import { getDragonRunesData } from "@helpers";
 import {
   HeadRuneSlot,
-  HeadRuneSlotType,
+  RuneSlotType,
   MouseButton,
   RunePageData,
   RuneStyle,
@@ -31,8 +31,8 @@ export function SwitchSubRunes({
           //If secondary we return only sub runes without keystone or stat mod
           if (whichChange === RuneStyle.SECONDARY) {
             return (
-              slot.type !== HeadRuneSlotType.K_KEY_STONE &&
-              slot.type !== HeadRuneSlotType.K_STAT_MOD
+              slot.type !== RuneSlotType.K_KEY_STONE &&
+              slot.type !== RuneSlotType.K_STAT_MOD
             );
           }
           return true;
