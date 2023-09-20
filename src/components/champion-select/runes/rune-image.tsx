@@ -33,6 +33,7 @@ export function RuneImage({
 }: RuneImageProps) {
   return (
     <View
+      id="rune-image-wrapper"
       style={`${choosenCondition ? choosenConditionStyle : ""}`}
       on={{
         [WidgetEventTypes.MouseButtonPress]: (e: any) => {
