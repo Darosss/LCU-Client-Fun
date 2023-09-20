@@ -36,21 +36,21 @@ export class HeadLCUHandler extends BaseLCUHandler {
 
     this.initalizeHeadRunesData();
     this.initializeRunesData();
-    this.leagueWS.on("message", (data) => {
-      try {
-        const parsedData = JSON.parse(data.toString())[2] as {
-          data: any;
-          eventType: string;
-          uri: string;
-        };
-        loggerWsEvents.info(parsedData.uri);
-        loggerWsEvents.info(parsedData.data);
-        loggerWsEvents.info(parsedData.eventType);
-        loggerWsEvents.info(
-          "----------------------------------------------------------------------------"
-        );
-      } catch (err) {}
-    });
+    // this.leagueWS.on("message", (data) => {
+    //   try {
+    //     const parsedData = JSON.parse(data.toString())[2] as {
+    //       data: any;
+    //       eventType: string;
+    //       uri: string;
+    //     };
+    //     loggerWsEvents.info(parsedData.uri);
+    //     loggerWsEvents.info(parsedData.data);
+    //     loggerWsEvents.info(parsedData.eventType);
+    //     loggerWsEvents.info(
+    //       "----------------------------------------------------------------------------"
+    //     );
+    //   } catch (err) {}
+    // });
   }
 
   public async killUx(): Promise<void> {
