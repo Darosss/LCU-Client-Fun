@@ -1,15 +1,17 @@
 import { View } from "@nodegui/react-nodegui";
-import { InfoText } from "@components";
-import React, { useCallback, useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { LCUContext } from "@lcu";
 import { RunesContext } from "./runes-context";
 import { RunePagesList } from "./rune-pages-list";
 import { CurrentRunePageActions } from "./current-rune-page-actions";
+import { RecommenedRunesForChampion } from "./recommend-runes-for-champion";
 
 export function ChampionSelectRunes() {
   const { headLCUHandler } = useContext(LCUContext);
   const { changeCurrentPage, runePages, changeRunePages } =
     useContext(RunesContext);
+
+  const [showRecommendedRunes, setShowRecommendedRunes] = useState(false);
 
   useEffect(() => {
     if (!headLCUHandler) return;
@@ -38,13 +40,19 @@ export function ChampionSelectRunes() {
 
   return (
     <View id="champion-select-runes-wrapper">
-      <InfoText text="Runes" />
       <RunePagesList
         onChangePageCallback={() => setCurrentPageFetch()}
-        onCreatePageCallback={() => {
-          setRunePagesFetch();
-        }}
+        onCreatePageCallback={() => setRunePagesFetch()}
       />
+
+      <RecommenedRunesForChampion
+        show={showRecommendedRunes}
+        onClickRecommendedRunes={() =>
+          setShowRecommendedRunes(!showRecommendedRunes)
+        }
+        onChangeRecommendedRunePage={() => setRunePagesFetch()}
+      />
+
       <CurrentRunePageActions
         onDeleteCallback={() => {
           setRunePagesFetch();
