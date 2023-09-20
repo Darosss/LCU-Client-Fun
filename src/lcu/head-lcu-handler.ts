@@ -43,7 +43,6 @@ export class HeadLCUHandler extends BaseLCUHandler {
           eventType: string;
           uri: string;
         };
-        return;
         loggerWsEvents.info(parsedData.uri);
         loggerWsEvents.info(parsedData.data);
         loggerWsEvents.info(parsedData.eventType);
@@ -217,6 +216,14 @@ export class HeadLCUHandler extends BaseLCUHandler {
       url: `/lol-perks/v1/recommended-pages/champion/${champId}/position/${position}/map/${mapId}`,
     });
     return response.json() as RecommendedRunesData[];
+  }
+
+  public async getGameflowPhase(): Promise<GameFlowPhaseData> {
+    const response = await this.makeAHttp1Request({
+      method: "GET",
+      url: `/lol-gameflow/v1/gameflow-phase`,
+    });
+    return response.json() as GameFlowPhaseData;
   }
 
   // Websocket subscriptions
