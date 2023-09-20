@@ -5,7 +5,7 @@ export interface RunesData {
   name: string;
   recommendationDescriptor: string;
   shortDesc: string;
-  slotType: string;
+  slotType: RuneSlotType;
   styleId: number;
   styleIdName: string;
   tooltip: string;
@@ -29,10 +29,10 @@ export interface HeadRuneData {
 export interface HeadRuneSlot {
   perks: number[];
   slotLabel: string;
-  type: HeadRuneSlotType;
+  type: RuneSlotType;
 }
 
-export enum HeadRuneSlotType {
+export enum RuneSlotType {
   K_KEY_STONE = "kKeyStone",
   K_STAT_MOD = "kStatMod",
   K_MIXED_REGULAR_SPLASHABLE = "kMixedRegularSplashable",
@@ -66,33 +66,36 @@ export interface RunePageData {
   secondaryStyleIconPath: string;
   secondaryStyleName: string;
   // We know min and max is 9 runes
-  selectedPerkIds: [
-    number, // this is primary keystone
-    number, // this is primary
-    number, // this is primary
-    number, // this is primary
-    number, // this is subStyle
-    number, // this is subStyle
-    number, // this is kStatMod
-    number, // this is kStatMod
-    number // this is kStatMod
-  ];
+  selectedPerkIds: SelectedPerkIds;
   subStyleId: number;
   tooltipBgPath: string;
   // We know min and max is 9 runes
-  uiPerks:
-    | [
-        RunePageDataPerk, // this is primary keystone
-        RunePageDataPerk, // this is primary
-        RunePageDataPerk, // this is primary
-        RunePageDataPerk, // this is primary
-        RunePageDataPerk, // this is subStyle
-        RunePageDataPerk, // this is subStyle
-        RunePageDataPerk, // this is kStatMod
-        RunePageDataPerk, // this is kStatMod
-        RunePageDataPerk // this is kStatMod
-      ];
+  uiPerks: UIPerks;
 }
+
+export type SelectedPerkIds = [
+  number, // this is primary keystone
+  number, // this is primary
+  number, // this is primary
+  number, // this is primary
+  number, // this is subStyle
+  number, // this is subStyle
+  number, // this is kStatMod
+  number, // this is kStatMod
+  number // this is kStatMod
+];
+
+type UIPerks = [
+  RunePageDataPerk, // this is primary keystone
+  RunePageDataPerk, // this is primary
+  RunePageDataPerk, // this is primary
+  RunePageDataPerk, // this is primary
+  RunePageDataPerk, // this is subStyle
+  RunePageDataPerk, // this is subStyle
+  RunePageDataPerk, // this is kStatMod
+  RunePageDataPerk, // this is kStatMod
+  RunePageDataPerk // this is kStatMod
+];
 
 interface RunePageDataPerk {
   id: number;
@@ -105,7 +108,7 @@ export interface OwnedRunePageCountData {
   ownedPageCount: number;
 }
 
-export interface CreateRunePageBody {
+export interface CreateRunePageBody extends Partial<RunePageData> {
   name: string;
   isEditable: boolean;
   primaryStyleId: number;
