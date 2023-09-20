@@ -22,7 +22,12 @@ export function RecommenedRunesForChampion({
   onClickRecommendedRunes,
   onChangeRecommendedRunePage,
 }: RecomenedRunesForChampionProps) {
-  const { headLCUHandler, lobbyData } = useContext(LCUContext);
+  const {
+    headLCUHandler,
+    lobbyData,
+    options: { runes: runesOpts },
+    changeOptions,
+  } = useContext(LCUContext);
   const {
     summonersData,
     champSelectSessionData: { localPlayerCellId },
@@ -32,8 +37,6 @@ export function RecommenedRunesForChampion({
   const [recommendedRunesData, setRecommendedRunesData] = useState<
     RecommendedRunesData[]
   >([]);
-
-  const [changeSpells, setChangeSpells] = useState(false);
 
   function handleOnClickRecommendedRunes() {
     if (!headLCUHandler || !lobbyData || !summonersData) return;
@@ -52,8 +55,12 @@ export function RecommenedRunesForChampion({
   }
 
   function handleOnClickChangeSpells() {
-    setChangeSpells(!changeSpells);
+    changeOptions({
+      runes: { ...runesOpts, changeSpells: !runesOpts.changeSpells },
+    });
   }
+
+  //TODO: add swap spells change options - not necessary for now
 
   function handleOnClickRecommendedRunePage({
     recommendationChampionId,
@@ -81,7 +88,7 @@ export function RecommenedRunesForChampion({
         onChangeRecommendedRunePage();
       });
 
-    if (changeSpells && champSelectLCUHandler) {
+    if (runesOpts.changeSpells && champSelectLCUHandler) {
       champSelectLCUHandler.changeSummonerSpells({
         spell1Id: spell1,
         spell2Id: spell2,
@@ -98,7 +105,7 @@ export function RecommenedRunesForChampion({
         />
 
         <InfoButton
-          text={`ChangeSpells: ${changeSpells}`}
+          text={`ChangeSpells: ${runesOpts.changeSpells}`}
           on={{ clicked: () => handleOnClickChangeSpells() }}
         />
       </View>
@@ -143,7 +150,7 @@ export function RecommenedRunesForChampion({
                   </View>
                 ))}
 
-                {changeSpells ? (
+                {runesOpts.changeSpells ? (
                   <View id="recommended-spells-for-champion-list">
                     {data.summonerSpellIds.map((spell, idx) => {
                       const foundSpell = findSummonerSpellById(
