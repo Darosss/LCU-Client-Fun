@@ -1,3 +1,10 @@
+export enum RunesRecommendationAvailablePositions {
+  TOP = "TOP",
+  JUNGLE = "JUNGLE",
+  MIDDLE = "MIDDLE",
+  BOTTOM = "BOTTOM",
+  UTILITY = "UTILITY",
+}
 export interface RunesData {
   iconPath: string;
   id: number;
@@ -118,3 +125,30 @@ export enum RuneStyle {
   PRIMARY,
   SECONDARY,
 }
+
+export interface RecommendedRunesData {
+  isDefaultPosition: boolean;
+  isRecommendationOverride: boolean;
+  keystone: RunesData;
+  perks: RecommendedRunesDataPerks;
+  position: RunesRecommendationAvailablePositions;
+  primaryPerkStyleId: number;
+  primaryRecommendationAttribute: string;
+  recommendationChampionId: number;
+  recommendationId: string;
+  secondaryPerkStyleId: number;
+  secondaryRecommendationAttribute: string;
+  summonerSpellIds: [number, number];
+}
+
+type RecommendedRunesDataPerks = [
+  RunesData,
+  RunesData,
+  RunesData,
+  RunesData,
+  RunesData,
+  RunesData,
+  RunesData,
+  RunesData,
+  RunesData
+];
