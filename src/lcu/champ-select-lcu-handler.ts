@@ -61,7 +61,7 @@ export class ChampSelectLCUHandler extends BaseLCUHandler {
     return response.json() as ChampSelectSessionTimerResponse;
   }
 
-    public async getChampionsIdsForChampSelect(
+  public async getChampionsIdsForChampSelect(
     action: GetChampionsIdsForChampSelectActions
   ): Promise<number[]> {
     const response = await this.makeAHttp1Request({
@@ -70,6 +70,34 @@ export class ChampSelectLCUHandler extends BaseLCUHandler {
     });
 
     return response.json() as number[];
+  }
+  public async getChampionSelectPhaseData(): Promise<ChampSelectSessionDataRequiredWithActionsFlat> {
+    const response = await this.makeAHttp1Request({
+      method: "GET",
+      url: "/lol-champ-select/v1/session",
+    });
+
+    //TODO: make a helper for DRY
+    const requiredData = response.json() as ChampSelectSessionDataRequired;
+
+    const requiredDataSession: ChampSelectSessionDataRequiredWithActionsFlat = {
+      myTeam: requiredData.myTeam,
+      actions: this.filterActionsToBansPicks(requiredData.actions.flat()),
+      theirTeam: requiredData.theirTeam,
+      bans: requiredData.bans,
+      localPlayerCellId: requiredData.localPlayerCellId,
+    };
+
+    return requiredDataSession;
+  }
+
+  public async getChampionSelectSummonerCellId(summonerCellId: number) {
+    const response = await this.makeAHttp1Request({
+      method: "GET",
+      url: `/lol-champ-select/v1/summoners/${summonerCellId}`,
+    });
+
+    return response.json() as ChampSelectSummonerData;
   }
 
   // Websocket subscriptions
