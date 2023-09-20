@@ -32,16 +32,11 @@ export function champselectStyleSheet(width: number, height: number) {
   };
   return `
 
-    #champ-select-tabs-wrapper{
-        min-width:${minMaxSizes.champsWrapperWidth}px;
-        max-width:${minMaxSizes.champsWrapperWidth}px;
-    }
-
     #champ-select-wrapper, #champ-select-runes-wrapper {
-        ${primaryLinearGradient}
+        flex:1;
         min-height:${minMaxSizes.champsWrapperHeight}px;
         max-height:${minMaxSizes.champsWrapperHeight}px;
-
+        ${primaryLinearGradient}
 
     }
     #champ-select-title-wrapper{
@@ -49,7 +44,6 @@ export function champselectStyleSheet(width: number, height: number) {
         justify-content:'center';
         align-items:'center';
         ${primaryLinearGradient}
-        
     }
 
     #champ-select-title-wrapper > QWidget {
