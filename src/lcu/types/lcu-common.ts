@@ -33,6 +33,8 @@ export type GameFlowPhaseData =
   | "WaitingForStats"
   | "TerminatedInError"
   | "Lobby"
+  | "PreEndOfGame"
+  | "EndOfGame"
   | "None";
 
 export interface ClientOptions {
