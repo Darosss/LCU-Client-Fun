@@ -1,5 +1,5 @@
 import { BaseLCUHandler } from "./base-lcu-handler";
-import { BaseLCUHandlerOpts, FriendsListData } from "./types";
+import { BaseLCUHandlerOpts, FriendsListData, RPCLCUResponse } from "./types";
 
 interface SocialLCUHandlerOpts extends BaseLCUHandlerOpts {}
 
@@ -13,8 +13,11 @@ export class SocialLCUHandler extends BaseLCUHandler {
       url: "/lol-chat/v1/friends",
       method: "GET",
     });
+    const friendList = response.json() as FriendsListData[] | RPCLCUResponse;
 
-    const friendList = response.json() as FriendsListData[];
-    return friendList;
+    if ((friendList as RPCLCUResponse).httpStatus !== undefined) {
+      return [] as FriendsListData[];
+    }
+    return friendList as FriendsListData[];
   }
 }
