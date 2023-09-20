@@ -16,6 +16,8 @@ import {
   GameFlowPhaseData,
   HeadRuneData,
   OwnedRunePageCountData,
+  PositionsPreferences,
+  RecommendedRunesData,
   RunePageData,
   RunesData,
 } from "./types";
@@ -34,7 +36,6 @@ export class HeadLCUHandler extends BaseLCUHandler {
 
     this.initalizeHeadRunesData();
     this.initializeRunesData();
-
     this.leagueWS.on("message", (data) => {
       try {
         const parsedData = JSON.parse(data.toString())[2] as {
@@ -195,6 +196,27 @@ export class HeadLCUHandler extends BaseLCUHandler {
     });
 
     return response.json() as OwnedRunePageCountData;
+  }
+
+  public async getRecommendedPagesPositionByChampionId(champId: number) {
+    const response = await this.makeAHttp1Request({
+      method: "GET",
+      url: `lol-perks/v1/recommended-pages-position/champion/${champId}`,
+    });
+    console.log(response.json(), "position!?");
+    // return response.json() as any;
+  }
+
+  public async getRecomenedPagesByChampIdPositionAndMapId(
+    champId: number,
+    position: Omit<PositionsPreferences, "FILL" | "UNSELECTED">,
+    mapId: number
+  ): Promise<RecommendedRunesData[]> {
+    const response = await this.makeAHttp1Request({
+      method: "GET",
+      url: `/lol-perks/v1/recommended-pages/champion/${champId}/position/${position}/map/${mapId}`,
+    });
+    return response.json() as RecommendedRunesData[];
   }
 
   // Websocket subscriptions
