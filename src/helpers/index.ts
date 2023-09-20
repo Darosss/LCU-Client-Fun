@@ -7,3 +7,4 @@ export * from "./champions-helpers";
 export * from "./data-dragon-helpers";
 export * from "./node-gui-responsive-helpers";
 export * from "./time-helpers";
+export * from "./runes-fetch-helpers";
