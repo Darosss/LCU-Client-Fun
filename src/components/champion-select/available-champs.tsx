@@ -38,7 +38,14 @@ export function AvailableChamps({
   currentActionId,
   onChangeChampion,
 }: AvailableChampsProps) {
-  const { currentSummoner, headLCUHandler } = useContext(LCUContext);
+  const {
+    currentSummoner,
+    headLCUHandler,
+    options: {
+      championSelect: { showImages },
+    },
+    changeOptions,
+  } = useContext(LCUContext);
 
   const {
     champSelectLCUHandler,
@@ -47,7 +54,6 @@ export function AvailableChamps({
     setAvailableChamps,
   } = useContext(ChampionSelectContext);
   const [champFilter, setChampFilter] = useState<string | null>(null);
-  const [showImages, setShowImages] = useState(true);
 
   const [pickableChamps, setPickableChamps] = useState<AvailableChampions>({
     banChampions: [],
@@ -129,6 +135,10 @@ export function AvailableChamps({
     return 0;
   }
 
+  function handleOnClickShowImages(show: boolean) {
+    changeOptions({ championSelect: { showImages: show } });
+  }
+
   return (
     <View id="available-champs-wrapper">
       <View id="available-champs-search">
@@ -142,12 +152,12 @@ export function AvailableChamps({
         {showImages ? (
           <InfoButton
             text="Text"
-            on={{ clicked: () => setShowImages(false) }}
+            on={{ clicked: () => handleOnClickShowImages(false) }}
           />
         ) : (
           <InfoButton
             text="Images"
-            on={{ clicked: () => setShowImages(true) }}
+            on={{ clicked: () => handleOnClickShowImages(true) }}
           />
         )}
       </View>
