@@ -1,16 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { View } from "@nodegui/react-nodegui";
 import { LCUContext, queues } from "@lcu";
 import { LeaveLobbyBtn } from "./leave-lobby-btn";
 import { DefaultQueue } from "./default-queue";
 import { LobbysList } from "./lobbys-list";
 import { CustomLobby } from "./custom-lobby";
-import { PrimaryButton, PrimaryText, SecondaryButton } from "@components";
+import { PrimaryText } from "@components";
 import { CustomLobbyContextProvider } from "./custom-lobby/custom-lobby-context";
 
 export function LobbyActions() {
   const { lobbyData } = useContext(LCUContext);
-  const [showLobbyActions, setShowLobbyActions] = useState(true);
   if (!lobbyData) return null;
 
   function currentLobbyNameText() {
@@ -26,13 +25,9 @@ export function LobbyActions() {
     );
   }
 
-  return showLobbyActions ? (
+  return (
     <View id="lobby-actions">
       <View id="lobby-actions-manage">
-        <SecondaryButton
-          text="Hide lobby"
-          on={{ clicked: () => setShowLobbyActions(false) }}
-        />
         {currentLobbyNameText()}
         <LeaveLobbyBtn />
 
@@ -49,18 +44,6 @@ export function LobbyActions() {
           <DefaultQueue />
         )}
       </View>
-    </View>
-  ) : (
-    <View id="lobby-hidden">
-      <PrimaryButton
-        text="Lobby"
-        on={{
-          clicked: () => {
-            setShowLobbyActions(true);
-          },
-        }}
-      />
-      {currentLobbyNameText()}
     </View>
   );
 }
