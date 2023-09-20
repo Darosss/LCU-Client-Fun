@@ -6,7 +6,11 @@ import React, {
   useState,
 } from "react";
 import { TabItem, Tabs, View } from "@nodegui/react-nodegui";
-import { ChampSelectActionArgs, LCUContext } from "@lcu";
+import {
+  ActionsChampSelectSessionData,
+  ChampSelectActionArgs,
+  LCUContext,
+} from "@lcu";
 import { findAvailableChampionForAutoPick } from "@helpers";
 import { SelectedChamp } from "./types";
 import { AvailableChamps } from "./available-champs";
@@ -20,6 +24,8 @@ import {
   PrimaryButton,
   PrimaryText,
 } from "@components";
+import { ChampionSelectRunes } from "./runes";
+import { RunesContextProvider } from "./runes/runes-context";
 
 export function ChampSelect() {
   const {
@@ -43,13 +49,23 @@ export function ChampSelect() {
     null
   );
 
+  const localUserActionActiveNow = useMemo(() => {
+    return summonersData.get(String(localPlayerCellId))?.activeActionType;
+  }, [localPlayerCellId, summonersData.get(String(localPlayerCellId))]);
+
   const userAction = useMemo(() => {
-    if (localPlayerCellId !== -1 && summonersData)
-      return [...actions.banActions, ...actions.pickActions].find(
-        (action) =>
-          action?.actorCellId === localPlayerCellId && action?.isInProgress
-      );
-  }, [actions, localPlayerCellId]);
+    if (localPlayerCellId === -1 && !localUserActionActiveNow) return;
+
+    const actionsToCheck: ActionsChampSelectSessionData[] = [];
+    if (localUserActionActiveNow === "ban")
+      actionsToCheck.push(...actions.banActions);
+    else if (localUserActionActiveNow === "pick")
+      actionsToCheck.push(...actions.pickActions);
+
+    return actionsToCheck.find(
+      (action) => action.isInProgress && !action.completed
+    );
+  }, [localUserActionActiveNow]);
 
   function autoPickChampion() {
     if (!userAction?.isInProgress || userAction.type !== "pick") return;
@@ -119,6 +135,15 @@ export function ChampSelect() {
     };
   }, [champSelectLCUHandler]);
 
+  function handleOnFinishAction() {
+    if (!selectedChamp || !userAction) return;
+    completeActionChampion({
+      championId: selectedChamp.id,
+      actionId: userAction.id,
+      completed: true,
+    });
+  }
+
   return (
     <Tabs>
       <TabItem title="Champ select">
@@ -135,35 +160,17 @@ export function ChampSelect() {
             <DangerText text="Bans" />
             <PhaseBans />
           </View>
-          {userAction?.isInProgress ? (
+          {userAction ? (
             <View id="summoner-action-btn-wrapper">
               {userAction.type === "pick" ? (
                 <PrimaryButton
-                  text={userAction.type || "Pick"}
-                  on={{
-                    clicked: () => {
-                      if (!selectedChamp) return;
-                      completeActionChampion({
-                        championId: selectedChamp.id,
-                        actionId: userAction.id,
-                        completed: true,
-                      });
-                    },
-                  }}
+                  text={userAction.type}
+                  on={{ clicked: () => handleOnFinishAction() }}
                 />
               ) : (
                 <DangerButton
-                  text={userAction.type || "Ban"}
-                  on={{
-                    clicked: () => {
-                      if (!selectedChamp) return;
-                      completeActionChampion({
-                        championId: selectedChamp.id,
-                        actionId: userAction.id,
-                        completed: true,
-                      });
-                    },
-                  }}
+                  text={userAction.type}
+                  on={{ clicked: () => handleOnFinishAction() }}
                 />
               )}
             </View>
@@ -183,7 +190,9 @@ export function ChampSelect() {
 
       <TabItem title="Runes">
         <View id="champ-select-runes-wrapper">
-          <PrimaryText text="runes" />
+          <RunesContextProvider>
+            <ChampionSelectRunes />
+          </RunesContextProvider>
         </View>
       </TabItem>
     </Tabs>

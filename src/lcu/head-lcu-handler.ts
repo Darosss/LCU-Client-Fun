@@ -1,11 +1,25 @@
+import {
+  downloadRunesPngs,
+  ifDataDragonHeadRunesDoesNotExist,
+  ifDataDragonRunesDoesNotExist,
+  writeDragonHeadRunesData,
+  writeDragonRunesData,
+} from "@helpers";
 import { loggerWsEvents } from "../logger";
 import { BaseLCUHandler } from "./base-lcu-handler";
 import {
   BaseLCUHandlerOpts,
   BaseLCUHandlerWsOnArgs,
   ChampionData,
+  CreateRunePageBody,
   CurrentSummonerData,
   GameFlowPhaseData,
+  HeadRuneData,
+  OwnedRunePageCountData,
+  PositionsPreferences,
+  RecommendedRunesData,
+  RunePageData,
+  RunesData,
 } from "./types";
 
 interface HeadLCUHandlerOpts extends BaseLCUHandlerOpts {}
@@ -20,6 +34,8 @@ export class HeadLCUHandler extends BaseLCUHandler {
   constructor({ credentials, leagueWS }: HeadLCUHandlerOpts) {
     super({ credentials, leagueWS });
 
+    this.initalizeHeadRunesData();
+    this.initializeRunesData();
     this.leagueWS.on("message", (data) => {
       try {
         const parsedData = JSON.parse(data.toString())[2] as {
@@ -27,7 +43,6 @@ export class HeadLCUHandler extends BaseLCUHandler {
           eventType: string;
           uri: string;
         };
-        // console.log(parsedData.uri);
         return;
         loggerWsEvents.info(parsedData.uri);
         loggerWsEvents.info(parsedData.data);
@@ -91,6 +106,117 @@ export class HeadLCUHandler extends BaseLCUHandler {
     );
 
     return allChamps;
+  }
+
+  /* Runes */
+
+  private async initalizeHeadRunesData(): Promise<void> {
+    if (!ifDataDragonHeadRunesDoesNotExist()) {
+      return;
+    }
+    const response = await this.makeAHttp1Request({
+      method: "GET",
+      url: `/lol-perks/v1/styles`,
+    });
+    const headRuneData = response.json() as HeadRuneData[];
+    downloadRunesPngs(headRuneData);
+    writeDragonHeadRunesData(headRuneData);
+  }
+
+  private async initializeRunesData(): Promise<void> {
+    if (!ifDataDragonRunesDoesNotExist()) {
+      return;
+    }
+
+    const response = await this.makeAHttp1Request({
+      method: "GET",
+      url: `/lol-perks/v1/perks`,
+    });
+    const runesData = response.json() as RunesData[];
+    downloadRunesPngs(runesData);
+    writeDragonRunesData(runesData);
+  }
+
+  public async getRunePages(): Promise<RunePageData[]> {
+    const response = await this.makeAHttp1Request({
+      method: "GET",
+      url: `/lol-perks/v1/pages`,
+    });
+    const runePages = response.json() as RunePageData[];
+
+    return runePages;
+  }
+
+  public async setCurrentPage(pageId: number): Promise<void> {
+    await this.makeAHttp1Request({
+      method: "PUT",
+      url: `/lol-perks/v1/currentpage`,
+      body: pageId,
+    });
+  }
+
+  public async getCurrentPage(): Promise<RunePageData> {
+    const response = await this.makeAHttp1Request({
+      method: "GET",
+      url: `/lol-perks/v1/currentpage`,
+    });
+
+    return response.json() as RunePageData;
+  }
+
+  public async editRunePageById(pageId: number, updateData: RunePageData) {
+    await this.makeAHttp1Request({
+      method: "PUT",
+      url: `/lol-perks/v1/pages/${pageId}`,
+      body: updateData,
+    });
+  }
+
+  public async deleteRunePageById(pageId: number) {
+    await this.makeAHttp1Request({
+      method: "DELETE",
+      url: `/lol-perks/v1/pages/${pageId}`,
+    });
+  }
+
+  public async createRunePage(body: CreateRunePageBody): Promise<RunePageData> {
+    const response = await this.makeAHttp1Request({
+      method: "POST",
+      url: `/lol-perks/v1/pages/`,
+      body: body,
+    });
+
+    return response.json() as RunePageData;
+  }
+
+  public async getOwnedRunePageCount() {
+    const response = await this.makeAHttp1Request({
+      method: "GET",
+      url: `/lol-perks/v1/inventory`,
+    });
+
+    return response.json() as OwnedRunePageCountData;
+  }
+
+  public async getRecommendedPagesPositionByChampionId(champId: number) {
+    const response = await this.makeAHttp1Request({
+      method: "GET",
+      url: `lol-perks/v1/recommended-pages-position/champion/${champId}`,
+    });
+    console.log(response.json(), "position!?");
+    // return response.json() as any;
+  }
+
+  public async getRecomenedPagesByChampIdPositionAndMapId(
+    champId: number,
+    position: Omit<PositionsPreferences, "FILL" | "UNSELECTED">,
+    mapId: number
+  ): Promise<RecommendedRunesData[]> {
+    const response = await this.makeAHttp1Request({
+      method: "GET",
+      url: `/lol-perks/v1/recommended-pages/champion/${champId}/position/${position}/map/${mapId}`,
+    });
+    return response.json() as RecommendedRunesData[];
   }
 
   // Websocket subscriptions
