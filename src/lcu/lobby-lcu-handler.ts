@@ -211,6 +211,15 @@ export class LobbyLCUHandler extends BaseLCUHandler {
     });
   }
 
+  public async getLobbyData(): Promise<LobbyGameDataResponse> {
+    const response = await this.makeAHttp1Request({
+      method: "GET",
+      url: "/lol-lobby/v2/lobby",
+    });
+
+    return response.json() as LobbyGameDataResponse;
+  }
+
   //   Websocket subscriptions
 
   public async wsOnReceiveInvitation(
