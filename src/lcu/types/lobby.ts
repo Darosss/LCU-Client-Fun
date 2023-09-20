@@ -148,3 +148,36 @@ export interface QueueData {
 }
 
 export type ManageReadyCheckMatchActions = "accept" | "decline";
+
+export interface MatchmakingSearchData {
+  dodgeData: MatchmakingSearchDodgeData;
+  errors: unknown[];
+  estimatedQueueTime: number;
+  isCurrentlyInQueue: boolean;
+  lobbyId: string;
+  lowPriorityData: MatchmakingSearchLowPriorityData;
+  queueId: number;
+  readyCheck: MatchmakingSearchReadyCheck;
+  searchState: string; // probably Search, wait for ban time etc.
+  timeInQueue: number;
+}
+
+interface MatchmakingSearchDodgeData {
+  dodgerId: number;
+  state: string;
+}
+interface MatchmakingSearchLowPriorityData {
+  bustedLeaverAccessToken: string;
+  penalizedSummonerIds: number[];
+  penaltyTime: number;
+  penaltyTimeRemaining: number;
+  reason: string;
+}
+interface MatchmakingSearchReadyCheck {
+  declinerIds: number[];
+  dodgeWarning: string;
+  playerResponse: string;
+  state: string;
+  suppressUx: boolean;
+  timer: number;
+}
