@@ -15,6 +15,7 @@ import {
   ChangePositionPreferenceBody,
   ManageInvitationArgs,
   ManageReadyCheckMatchActions,
+  MatchmakingSearchData,
 } from "./types";
 
 interface LobbyLCUHandlerOpts extends BaseLCUHandlerOpts {}
@@ -231,6 +232,15 @@ export class LobbyLCUHandler extends BaseLCUHandler {
     });
   }
 
+  public async wsOnMatchmakingSearch(
+    cb: BaseLCUHandlerWsOnArgs<MatchmakingSearchData>["cb"]
+  ): Promise<void> {
+    this.wsOn<MatchmakingSearchData>({
+      path: "/lol-matchmaking/v1/search",
+      cb: cb,
+    });
+  }
+
   public async wsOnLobbyGet(
     cb: BaseLCUHandlerWsOnArgs<LobbyGameDataResponse>["cb"]
   ): Promise<void> {
@@ -238,6 +248,10 @@ export class LobbyLCUHandler extends BaseLCUHandler {
       path: "/lol-lobby/v2/lobby",
       cb: cb,
     });
+  }
+
+  public async unsubsribeOnMatchmakingSearch() {
+    this.wsUnsubsribe("/lol-matchmaking/v1/search");
   }
 
   public async unsubsribeOnReceiveInvitation() {
