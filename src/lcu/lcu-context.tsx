@@ -82,9 +82,19 @@ export function LCUContextProvider({
     await lcuHandlerFactory.initialize();
 
     const lobbyHandlerObj = lcuHandlerFactory.createLobbyHandler();
+
     setLobbyLCUHandler(lobbyHandlerObj);
 
     const headHandlerObj = lcuHandlerFactory.createHeadHandler();
+    headHandlerObj.getGameflowPhase().then(async (state) => {
+      setCurrentPhase(state);
+      if (
+        state !== "None" &&
+        state !== "TerminatedInError" &&
+        state !== "WaitingForStats"
+      )
+        setLobbyData(await lobbyHandlerObj.getLobbyData());
+    });
     setHeadLCUHandler(headHandlerObj);
   }
 
@@ -115,6 +125,7 @@ export function LCUContextProvider({
 
   React.useEffect(() => {
     if (!lobbyLCUHandler) return;
+
     lobbyLCUHandler.wsOnLobbyGet((err, lobbyData) => {
       if (err) return;
       setLobbyData(lobbyData);
