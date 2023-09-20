@@ -16,7 +16,8 @@ export function champselectStyleSheet(width: number, height: number) {
     summonerAssignedPosition: ~~getPercentFromValue(width, 6),
     teamBansWidth: ~~getPercentFromValue(width, 30),
     teamBansWidthLabels: ~~getPercentFromValue(width, 4),
-    champsWrapperWidgetsMargins: ~~getPercentFromValue(width, 34),
+    teamsViewWidth: ~~getPercentFromValue(width, 20),
+    champsListWidth: ~~getPercentFromValue(width, 30),
     champsWrapperHeight: ~~getPercentFromValue(height, 90),
     champsWrapperWidth: ~~getPercentFromValue(width, 70),
     actionsHeight: ~~getPercentFromValue(height, 5),
@@ -117,6 +118,7 @@ export function champselectStyleSheet(width: number, height: number) {
         flex-wrap:'wrap';
         justify-content:'center';
         align-items:'center';
+
     }
 
     #available-champs > QPushButton {
@@ -139,7 +141,7 @@ export function champselectStyleSheet(width: number, height: number) {
     }
 
     #available-champs-images-wrapper:hover {
-        background:green;
+        ${successLinearGradient}
     }
 
     #available-champs-images-wrapper #champ-image {
@@ -150,15 +152,15 @@ export function champselectStyleSheet(width: number, height: number) {
     #teams-champions-wrapper {
         display:'flex';
         flex-direction:'row';
-        justify-content:'space-around';
-
     }
 
-    #teams-champions-wrapper > QWidget {
-        flex: 0 0 10%;
-        margin-left:${minMaxSizes.champsWrapperWidgetsMargins}px; 
-        margin-right:${minMaxSizes.champsWrapperWidgetsMargins}px;
-        
+    #teams-champions-wrapper #team-view {
+        max-width:${minMaxSizes.teamsViewWidth}px;
+    }
+
+    #teams-champions-wrapper #available-champs-wrapper {
+        max-width:${minMaxSizes.champsListWidth}px;
+        min-width:${minMaxSizes.champsListWidth}px;
     }
 
     #team-view {
