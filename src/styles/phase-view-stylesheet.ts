@@ -1,4 +1,5 @@
 import { getPercentFromValue } from "@helpers";
+import { primaryLinearGradient } from "./colors";
 const commonLayoutPhaseView = `
     display:'flex';
     flex-direction:'column';
@@ -14,6 +15,7 @@ const commonQWidgetPhaseView = `
 export function phaseViewStylesheet(width: number, height: number) {
   const phaseViewSizes = {
     contentWidth: ~~getPercentFromValue(width, 70),
+    contentHeight: ~~getPercentFromValue(height, 95),
     sidebarWidth: ~~getPercentFromValue(width, 25),
     fontSize: ~~getPercentFromValue(width, 70) / 70,
   };
@@ -24,6 +26,20 @@ export function phaseViewStylesheet(width: number, height: number) {
         flex-direction:'row';
         flex-wrap:'wrap';
         justify-content:'space-between';
+        min-height:${phaseViewSizes.contentHeight}px;
+        max-height:${phaseViewSizes.contentHeight}px;
+    }
+
+    #phase-view-tab-item-wrapper {
+        ${primaryLinearGradient};
+        min-height:${phaseViewSizes.contentHeight}px;
+        max-height:${phaseViewSizes.contentHeight}px;
+    }
+
+
+    #content-wrapper{
+        min-height:${phaseViewSizes.contentHeight}px;
+        max-height:${phaseViewSizes.contentHeight}px;
     }
 
     #phases-wrapper > QWidget {
