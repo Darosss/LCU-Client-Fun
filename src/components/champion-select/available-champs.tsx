@@ -1,9 +1,13 @@
 import React, { useContext, useState } from "react";
-import { Image, ScrollArea, View } from "@nodegui/react-nodegui";
+import { Image, View } from "@nodegui/react-nodegui";
 import { ChampionData, LCUContext } from "@lcu";
 import { SelectedChamp } from "./types";
 import { ChampionSelectContext } from "./champion-select-context";
-import { getPercentFromValue, isBannedOrPickedChamp } from "@helpers";
+import {
+  dataFileExists,
+  getPercentFromValue,
+  isBannedOrPickedChamp,
+} from "@helpers";
 import {
   DangerButton,
   InfoButton,
@@ -14,6 +18,7 @@ import {
 } from "@components";
 import path from "path";
 import { AspectRatioMode, WidgetEventTypes } from "@nodegui/nodegui";
+import nullChampion from "@assets/null-champion.png";
 
 //TODO: refactor AvailableChamps.tsx
 interface AvailableChampsProps {
@@ -210,7 +215,7 @@ function ChampionBtnBlock({
         <InfoText text={name} />
         <Image
           id="champ-image"
-          src={imgPath}
+          src={dataFileExists(squarePortraitPath) ? imgPath : nullChampion}
           aspectRatioMode={AspectRatioMode.KeepAspectRatio}
           minSize={{ width: widthAndHeightImg, height: widthAndHeightImg }}
           maxSize={{ width: widthAndHeightImg, height: widthAndHeightImg }}
