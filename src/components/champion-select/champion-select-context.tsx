@@ -78,6 +78,9 @@ export function ChampionSelectContextProvider({
       if (error || !data) return;
       setChampSelectSessionData(data);
     });
+    champSelectHandlerObj
+      .getChampionSelectPhaseData()
+      .then((data) => setChampSelectSessionData(data));
 
     setChampSelectLCUHandler(champSelectHandlerObj);
 
@@ -89,6 +92,17 @@ export function ChampionSelectContextProvider({
   React.useEffect(() => {
     if (champSelectSessionData.myTeam.length <= 0 || !champSelectLCUHandler)
       return;
+
+    const countOfSummoners =
+      champSelectSessionData.myTeam.length +
+      champSelectSessionData.theirTeam.length;
+
+    for (let i = 0; i < countOfSummoners; i++) {
+      champSelectLCUHandler
+        .getChampionSelectSummonerCellId(i)
+        .then((data) => updateSummonersDataByCellId(String(i), data));
+    }
+
     champSelectLCUHandler
       .getChampSelectSessionTimer()
       .then((timerSessionData) => {
