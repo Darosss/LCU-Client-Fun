@@ -1,6 +1,10 @@
 import { getPercentFromValue } from "@helpers";
 import { backgroundLinearGradient } from "./styles-helpers";
-import { infoLinearGradient, primaryLinearGradient } from "./colors";
+import {
+  infoLinearGradient,
+  primaryLinearGradient,
+  successLinearGradient,
+} from "./colors";
 
 export function champselectStyleSheet(width: number, height: number) {
   const minMaxSizes = {
@@ -24,6 +28,7 @@ export function champselectStyleSheet(width: number, height: number) {
     runesImagesWidth: ~~getPercentFromValue(width, 4),
     runesImagesHeight: ~~getPercentFromValue(width, 4),
     runesPageBtnWidth: ~~getPercentFromValue(width, 10),
+    recommendedRunesPageWidth: ~~getPercentFromValue(width, 18),
   };
   return `
 
@@ -263,7 +268,7 @@ export function champselectStyleSheet(width: number, height: number) {
         min-width:${minMaxSizes.runesWrapperWidth}px;
         max-width:${minMaxSizes.runesWrapperWidth}px;
         display:'flex';
-        justify-content:'space-between';
+        justify-content:'center';
     }
 
     #champion-select-rune-page-actions {
@@ -273,6 +278,7 @@ export function champselectStyleSheet(width: number, height: number) {
         min-height:${minMaxSizes.currentRunePageActionsWidth}px;
         max-height:${minMaxSizes.currentRunePageActionsWidth}px;
     }
+    
 
     #champion-select-rune-page-actions > QLabel {
         padding:2px;
@@ -311,13 +317,6 @@ export function champselectStyleSheet(width: number, height: number) {
         ${primaryLinearGradient}
     }
 
-    #rune-style-slot > QWidget {
-        max-width:${minMaxSizes.runesImagesWidth}px;
-        min-width:${minMaxSizes.runesImagesWidth}px;
-        max-height:${minMaxSizes.runesImagesHeight}px;
-        min-height:${minMaxSizes.runesImagesHeight}px;
-    }
-
     #rune-style-slot > QWidget:hover {
         ${infoLinearGradient}
     }
@@ -325,6 +324,43 @@ export function champselectStyleSheet(width: number, height: number) {
     #rune-image {
         flex: 1;
         qproperty-alignment: 'AlignCenter';
+    }
+
+    #rune-image-wrapper {
+        max-width:${minMaxSizes.runesImagesWidth}px;
+        min-width:${minMaxSizes.runesImagesWidth}px;
+        max-height:${minMaxSizes.runesImagesHeight}px;
+        min-height:${minMaxSizes.runesImagesHeight}px;
+    }
+
+    #recommended-runnes-for-champion-wrapper {
+        display:'flex'; 
+        flex-direction:'row'; 
+        justify-content:'space-between'; 
+    }
+
+    #recommended-runes-for-champion-actions{
+        display:'flex'; 
+    }
+
+    #recommended-runes-for-champion-list {
+        max-width:${minMaxSizes.recommendedRunesPageWidth}px;
+        min-width:${minMaxSizes.recommendedRunesPageWidth}px;
+        display:'flex';
+        flex-direction:'row';
+        flex-wrap:'wrap';
+        border-top:2px solid blue
+    }
+
+    #recommended-runes-for-champion-list:hover{
+        ${successLinearGradient}
+    }
+
+    #recommended-spells-for-champion-list {
+        display:'flex';
+        flex-direction:'row';
+        justify-content:'space-between';
+        align-items:'center';
     }
 `;
 }
