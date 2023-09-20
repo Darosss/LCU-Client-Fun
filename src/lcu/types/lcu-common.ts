@@ -36,6 +36,12 @@ export interface ClientOptions {
   };
   autoPickChamp: boolean;
   preventRiotClientToTurnOn: boolean;
+  runes: RunesOptions;
+}
+
+export interface RunesOptions {
+  swapSpells: boolean;
+  changeSpells: boolean;
 }
 
 export interface CurrentSummonerData {
