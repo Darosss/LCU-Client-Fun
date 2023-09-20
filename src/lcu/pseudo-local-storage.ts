@@ -17,6 +17,10 @@ if (!dataFileExists(dataFilePath)) {
     },
     autoPickChamp: false,
     preventRiotClientToTurnOn: false,
+    runes: {
+      swapSpells: false,
+      changeSpells: true,
+    },
   };
   writeData<ClientOptions>(dataFilePath, defaultData);
 }
