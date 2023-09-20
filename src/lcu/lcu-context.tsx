@@ -89,9 +89,10 @@ export function LCUContextProvider({
     headHandlerObj.getGameflowPhase().then(async (state) => {
       setCurrentPhase(state);
       if (
-        state !== "None" &&
-        state !== "TerminatedInError" &&
-        state !== "WaitingForStats"
+        state === "Lobby" ||
+        state === "Matchmaking" ||
+        state === "ReadyCheck" ||
+        state === "ChampSelect"
       )
         setLobbyData(await lobbyHandlerObj.getLobbyData());
     });
