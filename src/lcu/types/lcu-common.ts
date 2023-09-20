@@ -1,6 +1,13 @@
 import { Credentials, LeagueWebSocket } from "league-connect";
 import { DataDragonChampionsJsonFileData, AssignedPosition } from "./";
 
+export interface RPCLCUResponse {
+  errorCode: string;
+  httpStatus: number;
+  implementationDetails: any;
+  message: string;
+}
+
 export enum MouseButton {
   LEFT,
   RIGHT,
