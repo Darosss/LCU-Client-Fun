@@ -50,7 +50,10 @@ export function ChampionSelectRunes() {
         onClickRecommendedRunes={() =>
           setShowRecommendedRunes(!showRecommendedRunes)
         }
-        onChangeRecommendedRunePage={() => setRunePagesFetch()}
+        onChangeRecommendedRunePage={() => {
+          setShowRecommendedRunes(false);
+          setRunePagesFetch();
+        }}
       />
 
       <CurrentRunePageActions
