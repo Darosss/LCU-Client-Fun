@@ -3,9 +3,10 @@ const webpack = require("webpack");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
-
+var ForkTsCheckerNotifierWebpackPlugin = require("fork-ts-checker-notifier-webpack-plugin");
 module.exports = (env, argv) => {
   const config = {
+    context: __dirname,
     mode: "production",
     entry: ["./src/index.tsx"],
     target: "node",
@@ -20,7 +21,11 @@ module.exports = (env, argv) => {
           exclude: /node_modules/,
           use: {
             loader: "babel-loader",
-            options: { cacheDirectory: true, cacheCompression: false },
+            options: {
+              cacheDirectory: true,
+              cacheCompression: false,
+              presets: [["@babel/preset-env", { targets: "defaults" }]],
+            },
           },
         },
         {
@@ -44,6 +49,9 @@ module.exports = (env, argv) => {
       ],
     },
     plugins: [new CleanWebpackPlugin()],
+    watchOptions: {
+      ignored: /node_modules/,
+    },
     resolve: {
       extensions: [".tsx", ".ts", ".js", ".jsx", ".json"],
       alias: {
@@ -60,7 +68,8 @@ module.exports = (env, argv) => {
   if (argv.mode === "development") {
     config.mode = "development";
     config.plugins.push(new webpack.HotModuleReplacementPlugin());
-    config.plugins.push(new ForkTsCheckerWebpackPlugin());
+    // config.plugins.push(new ForkTsCheckerNotifierWebpackPlugin());
+    // config.plugins.push(new ForkTsCheckerWebpackPlugin());
     config.devtool = "source-map";
     config.watch = true;
     config.entry.unshift("webpack/hot/poll?100");
