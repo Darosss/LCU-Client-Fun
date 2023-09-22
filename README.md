@@ -1,5 +1,7 @@
 # Custom LCU Client LOL
 
+_note: Project probbably will no be maintable just because react-nodegui it's not recently updated that frequently.<br>In feature probably this project will be cloned as new one client in C#/C or something others.<br>Features described in roadmap probably will be added to client soon.<br>Rather nothing more will NOT be added fe. shop, skins, emotes etc._
+
 I'm making this just for fun.
 
 # Built with
@@ -39,23 +41,15 @@ if (options.body !== void 0) {
 # Roadmap
 
 - [] champ select
-  - [] choose ward skin (text only)
-  - [] choose champ skin (text only)
-  - [] choose emotes (text only)
   - [] chat
-  - [] quit button if custom match
-  - [] refactor champions to available endpoints / banned champions / available / disabled
 - [x] custom lobbys
 - [] friends list:
   - [x] invite friends
   - [] remove friends
   - [] message friends
-  - [] update info about friends (for now it's only with refresh button)
-  - [] detailed info about friends (maybe another tab or?)
-- [] add better styles
-- [] fix reloging
-- [] remove their ux / headless
-- [] choose runes
+- [x] add better styles
+- [x] remove their ux / headless
+- [x] choose runes
 - [] swaps in drafts
 - [] swaps cells in drafts
 - some automation functions:
@@ -65,19 +59,17 @@ if (options.body !== void 0) {
 
     - [x] pick when auto pick is on
     - [x] pick only available champs(not banned, not picked)
-      - [] check if lol did 'disable' champ and remove form available
+      - [x] check if lol did 'disable' champ and remove form available
     - [x] possible to add champs depends on role utility, bottom, middle, jungle, top, other(blind, arams etc.)
 
       - [x] pioritze champs by buttons
 
-    - [] add option to change auto pick on time fe. at 10 sec before your time finish(for now it's static 5sec)
+    - [x] add option to change auto pick on time fe. at 10 sec before your time finish(for now it's static 5sec)
     - [] add options to with 'clever' auto pick. (only auto pick when your mouse didn't move by last 10 secs. this in case when you had turned on auto pick but didn't know what to pick and prevent program to pick it for you)
-
-  - [] runes from opgg
 
 - [] global chat
 
 # Known bugs
 
 - [] actions in champ select are not shown corectly
-- [] sometimes change spells buttons duplicate and are hard to read
+- [x] sometimes change spells buttons duplicate and are hard to read
