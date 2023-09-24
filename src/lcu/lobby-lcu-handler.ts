@@ -223,42 +223,42 @@ export class LobbyLCUHandler extends BaseLCUHandler {
 
   //   Websocket subscriptions
 
-  public async wsOnReceiveInvitation(
+  public wsOnReceiveInvitation(
     cb: BaseLCUHandlerWsOnArgs<ReceivedInvitationData[]>["cb"]
-  ): Promise<void> {
+  ): void {
     this.wsOn<ReceivedInvitationData[]>({
       path: "/lol-lobby/v2/received-invitations",
       cb: cb,
     });
   }
 
-  public async wsOnMatchmakingSearch(
+  public wsOnMatchmakingSearch(
     cb: BaseLCUHandlerWsOnArgs<MatchmakingSearchData>["cb"]
-  ): Promise<void> {
+  ): void {
     this.wsOn<MatchmakingSearchData>({
       path: "/lol-matchmaking/v1/search",
       cb: cb,
     });
   }
 
-  public async wsOnLobbyGet(
+  public wsOnLobbyGet(
     cb: BaseLCUHandlerWsOnArgs<LobbyGameDataResponse>["cb"]
-  ): Promise<void> {
+  ): void {
     this.wsOn<LobbyGameDataResponse>({
       path: "/lol-lobby/v2/lobby",
       cb: cb,
     });
   }
 
-  public async unsubsribeOnMatchmakingSearch() {
+  public unsubsribeOnMatchmakingSearch(): void {
     this.wsUnsubsribe("/lol-matchmaking/v1/search");
   }
 
-  public async unsubsribeOnReceiveInvitation() {
+  public unsubsribeOnReceiveInvitation(): void {
     this.wsUnsubsribe("/lol-lobby/v2/received-invitations");
   }
 
-  public async unsubsribeOnLobbyGet() {
+  public unsubsribeOnLobbyGet(): void {
     this.wsUnsubsribe("/lol-lobby/v2/lobby");
   }
 }

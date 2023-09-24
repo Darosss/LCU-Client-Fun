@@ -5,7 +5,6 @@ import {
   writeDragonHeadRunesData,
   writeDragonRunesData,
 } from "@helpers";
-import { loggerWsEvents } from "../logger";
 import { BaseLCUHandler } from "./base-lcu-handler";
 import {
   BaseLCUHandlerOpts,
@@ -36,21 +35,6 @@ export class HeadLCUHandler extends BaseLCUHandler {
 
     this.initalizeHeadRunesData();
     this.initializeRunesData();
-    // this.leagueWS.on("message", (data) => {
-    //   try {
-    //     const parsedData = JSON.parse(data.toString())[2] as {
-    //       data: any;
-    //       eventType: string;
-    //       uri: string;
-    //     };
-    //     loggerWsEvents.info(parsedData.uri);
-    //     loggerWsEvents.info(parsedData.data);
-    //     loggerWsEvents.info(parsedData.eventType);
-    //     loggerWsEvents.info(
-    //       "----------------------------------------------------------------------------"
-    //     );
-    //   } catch (err) {}
-    // });
   }
 
   public async killUx(): Promise<void> {
@@ -163,7 +147,10 @@ export class HeadLCUHandler extends BaseLCUHandler {
     return response.json() as RunePageData;
   }
 
-  public async editRunePageById(pageId: number, updateData: RunePageData) {
+  public async editRunePageById(
+    pageId: number,
+    updateData: RunePageData
+  ): Promise<void> {
     await this.makeAHttp1Request({
       method: "PUT",
       url: `/lol-perks/v1/pages/${pageId}`,
@@ -171,7 +158,7 @@ export class HeadLCUHandler extends BaseLCUHandler {
     });
   }
 
-  public async deleteRunePageById(pageId: number) {
+  public async deleteRunePageById(pageId: number): Promise<void> {
     await this.makeAHttp1Request({
       method: "DELETE",
       url: `/lol-perks/v1/pages/${pageId}`,
@@ -188,22 +175,13 @@ export class HeadLCUHandler extends BaseLCUHandler {
     return response.json() as RunePageData;
   }
 
-  public async getOwnedRunePageCount() {
+  public async getOwnedRunePageCount(): Promise<OwnedRunePageCountData> {
     const response = await this.makeAHttp1Request({
       method: "GET",
       url: `/lol-perks/v1/inventory`,
     });
 
     return response.json() as OwnedRunePageCountData;
-  }
-
-  public async getRecommendedPagesPositionByChampionId(champId: number) {
-    const response = await this.makeAHttp1Request({
-      method: "GET",
-      url: `lol-perks/v1/recommended-pages-position/champion/${champId}`,
-    });
-    console.log(response.json(), "position!?");
-    // return response.json() as any;
   }
 
   public async getRecomenedPagesByChampIdPositionAndMapId(
@@ -229,7 +207,7 @@ export class HeadLCUHandler extends BaseLCUHandler {
   // Websocket subscriptions
 
   //FIXME: temporary way to prevent client ux to turn on
-  public preventClientUXToTurnOn() {
+  public preventClientUXToTurnOn(): void {
     this.wsOn({
       path: "/riotclient/ux-state/request",
       cb: async (error, data: any) => {
@@ -243,20 +221,20 @@ export class HeadLCUHandler extends BaseLCUHandler {
     });
   }
 
-  public async unsusbcribePreventClientUXToTurnOn() {
+  public unsusbcribePreventClientUXToTurnOn(): void {
     this.wsUnsubsribe("/riotclient/ux-state/request");
   }
 
-  public async wsOnGameflowPhaseChange(
+  public wsOnGameflowPhaseChange(
     cb: BaseLCUHandlerWsOnArgs<GameFlowPhaseData>["cb"]
-  ): Promise<void> {
+  ): void {
     this.wsOn<GameFlowPhaseData>({
       path: "/lol-gameflow/v1/gameflow-phase",
       cb: cb,
     });
   }
 
-  public async unsubscribeOnGameflowPhaseChange() {
+  public unsubscribeOnGameflowPhaseChange() {
     this.wsUnsubsribe("/lol-gameflow/v1/gameflow-phase");
   }
 }

@@ -9,7 +9,6 @@ import {
   ChampSelectSessionDataRequiredWithActionsFlat,
   ChampSelectSessionTimerResponse,
   ChampSelectSummonerData,
-  ChampionData,
   ChangeSummonersSpellsBody,
   GetChampionsIdsForChampSelectActions,
 } from "./types";
@@ -64,7 +63,7 @@ export class ChampSelectLCUHandler extends BaseLCUHandler {
   public async getChampionsIdsForChampSelect(
     action: GetChampionsIdsForChampSelectActions
   ): Promise<number[]> {
-    const response = await this.makeAHttp1Request({
+    const response = await this.makeAHttp1Request<number[]>({
       method: "GET",
       url: `/lol-champ-select/v1/${action}`,
     });
@@ -91,7 +90,9 @@ export class ChampSelectLCUHandler extends BaseLCUHandler {
     return requiredDataSession;
   }
 
-  public async getChampionSelectSummonerCellId(summonerCellId: number) {
+  public async getChampionSelectSummonerCellId(
+    summonerCellId: number
+  ): Promise<ChampSelectSummonerData> {
     const response = await this.makeAHttp1Request({
       method: "GET",
       url: `/lol-champ-select/v1/summoners/${summonerCellId}`,
@@ -101,23 +102,23 @@ export class ChampSelectLCUHandler extends BaseLCUHandler {
   }
 
   // Websocket subscriptions
-  public async wsOnChampionSelectSummoner(
+  public wsOnChampionSelectSummoner(
     summonerCellId: number,
     cb: BaseLCUHandlerWsOnArgs<ChampSelectSummonerData>["cb"]
-  ) {
+  ): void {
     this.wsOn<ChampSelectSummonerData>({
       path: `/lol-champ-select/v1/summoners/${summonerCellId}`,
       cb,
     });
   }
 
-  public unsubscribeOnChampionSelectSummoner(summonerCellId: number) {
+  public unsubscribeOnChampionSelectSummoner(summonerCellId: number): void {
     this.wsUnsubsribe(`/lol-champ-select/v1/summoners/${summonerCellId}`);
   }
 
-  public async wsOnChampionSelectPhase(
+  public wsOnChampionSelectPhase(
     cb: BaseLCUHandlerWsOnArgs<ChampSelectSessionDataRequiredWithActionsFlat>["cb"]
-  ): Promise<void> {
+  ): void {
     this.wsOn<ChampSelectSessionDataRequired>({
       path: "/lol-champ-select/v1/session",
       cb: (error, data) => {
@@ -139,12 +140,14 @@ export class ChampSelectLCUHandler extends BaseLCUHandler {
     });
   }
 
-  public unsubscribeOnChampionSelectPhase() {
+  public unsubscribeOnChampionSelectPhase(): void {
     this.wsUnsubsribe("/lol-champ-select/v1/session");
   }
 
   //   helpers
-  private filterActionsToBansPicks(actions: ActionsChampSelectSessionData[]) {
+  private filterActionsToBansPicks(
+    actions: ActionsChampSelectSessionData[]
+  ): ChampSelectSessionDataRequiredWithActionsFlat["actions"] {
     const separateActions: ChampSelectSessionDataRequiredWithActionsFlat["actions"] =
       {
         pickActions: [],

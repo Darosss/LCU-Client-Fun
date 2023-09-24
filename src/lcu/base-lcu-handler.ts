@@ -1,5 +1,6 @@
 import {
   Credentials,
+  Http1Response,
   LeagueWebSocket,
   createHttp1Request,
 } from "league-connect";
@@ -20,11 +21,11 @@ export class BaseLCUHandler {
     this.leagueWS = leagueWS;
   }
 
-  protected wsUnsubsribe(path: string) {
+  protected wsUnsubsribe(path: string): void {
     this.leagueWS.unsubscribe(path);
   }
 
-  protected wsOn<T = unknown>({ path, cb }: BaseLCUHandlerWsOnArgs<T>) {
+  protected wsOn<T = unknown>({ path, cb }: BaseLCUHandlerWsOnArgs<T>): void {
     try {
       this.leagueWS?.subscribe(path, async (data) => cb(null, data as T));
     } catch (err) {
@@ -36,7 +37,7 @@ export class BaseLCUHandler {
     method,
     url,
     body,
-  }: MakeAHttp1RequestArgs<T>) {
+  }: MakeAHttp1RequestArgs<T>): Promise<Http1Response> {
     const response = await createHttp1Request(
       {
         method: method,
