@@ -73,3 +73,4 @@ if (options.body !== void 0) {
 
 - [] actions in champ select are not shown corectly
 - [x] sometimes change spells buttons duplicate and are hard to read
+- [] champ select - pick champion sometimes does not allow to pick bug
