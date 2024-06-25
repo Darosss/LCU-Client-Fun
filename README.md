@@ -1,4 +1,5 @@
 # Custom LCU Client LOL
+_note: This project wit react-node-gui will no longer be maintained. Hovewer it will be done in simple react soon.
 
 _note: Project probbably will no be maintable just because react-nodegui it's not recently updated that frequently.<br>In feature probably this project will be cloned as new one client in C#/C or something others.<br>Features described in roadmap probably will be added to client soon.<br>Rather nothing more will NOT be added fe. shop, skins, emotes etc._
 
