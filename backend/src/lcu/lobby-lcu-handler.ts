@@ -25,6 +25,7 @@ export class LobbyLCUHandler extends BaseLCUHandler {
     super({ credentials, leagueWS });
     this.wsOnLobbyGet();
     this.wsOnReceiveInvitation();
+    this.wsOnMatchmakingSearch();
   }
 
   public async invitePlayerToLobby(
@@ -240,7 +241,7 @@ export class LobbyLCUHandler extends BaseLCUHandler {
       path: "/lol-matchmaking/v1/search",
       cb: (error, data) => {
         if (error || !data) return;
-        // SocketHandler.getInstance().getIO().emit("lobbyData", data);
+        SocketHandler.getInstance().getIO().emit("matchmakingSearch", data);
       }
     });
   }
