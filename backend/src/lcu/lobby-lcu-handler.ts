@@ -11,7 +11,7 @@ import {
   ReceivedInvitationData,
   SwitchTeamParam,
   ChangePositionPreferenceBody,
-  ManageInvitationArgs,
+  ManageInvitationParams,
   ManageReadyCheckMatchActions,
   MatchmakingSearchData
 } from "@/shared";
@@ -40,7 +40,7 @@ export class LobbyLCUHandler extends BaseLCUHandler {
   public async manageInvitation({
     action,
     invitationId
-  }: ManageInvitationArgs): Promise<void> {
+  }: ManageInvitationParams): Promise<void> {
     await this.makeAHttp1Request({
       url: `/lol-lobby/v2/received-invitations/${invitationId}/${action}`,
       method: "POST"

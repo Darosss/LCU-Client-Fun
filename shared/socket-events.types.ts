@@ -1,6 +1,6 @@
 import {
   AddBotToLobbyBody,
-  ChampSelectActionArgs,
+  ChampSelectActionParams,
   ChampSelectSessionDataRequiredWithActionsFlat,
   ChampSelectSessionTimerResponse,
   ChampSelectSummonerData,
@@ -23,7 +23,7 @@ import {
   InvitePlayerToLobbyBody,
   LobbyGameDataResponse,
   ManageBotInCustomLobbyOpts,
-  ManageInvitationArgs,
+  ManageInvitationParams,
   ManagePlayerInLobbyOpts,
   ManageReadyCheckMatchActions,
   MatchmakingSearchData,
@@ -158,7 +158,7 @@ export type ClientToServerEvents = {
   ) => void;
 
   champSelectAction: (
-    data: ChampSelectActionArgs,
+    data: ChampSelectActionParams,
     cb: CallbackType<boolean, string>
   ) => void;
 
@@ -209,7 +209,7 @@ export type ClientToServerEvents = {
 
   getCurrentFriendsList: (cb: CallbackType<FriendsListData[], string>) => void;
   manageInvitationToLobby: (
-    data: ManageInvitationArgs,
+    data: ManageInvitationParams,
     cb: CallbackType<boolean, string>
   ) => void;
 

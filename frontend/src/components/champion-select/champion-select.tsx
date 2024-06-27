@@ -10,7 +10,10 @@ import { PhaseBans } from "./phase-bans";
 import { Button, useHeadContext } from "@/components";
 import { ChampionSelectRunes } from "./runes";
 import { RunesContextProvider } from "./runes/runes-context";
-import { ActionsChampSelectSessionData, ChampSelectActionArgs } from "@/shared";
+import {
+  ActionsChampSelectSessionData,
+  ChampSelectActionParams,
+} from "@/shared";
 import { useSocketEventsContext } from "@/socket";
 import { toast } from "react-toastify";
 import { findAvailableChampionForAutoPick } from "@/helpers";
@@ -84,7 +87,7 @@ export function ChampSelect() {
   }
 
   const completeActionChampion = useCallback(
-    ({ championId, actionId, completed = false }: ChampSelectActionArgs) => {
+    ({ championId, actionId, completed = false }: ChampSelectActionParams) => {
       emits.champSelectAction(
         { championId, actionId, completed },
         (error, data) => {

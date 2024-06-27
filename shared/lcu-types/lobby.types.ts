@@ -2,7 +2,7 @@ import { PositionsPreferences } from "../lcu-enums/lobby.enums";
 
 export type ManageInvitationAction = "accept" | "decline";
 
-export interface ManageInvitationArgs {
+export interface ManageInvitationParams {
   action: ManageInvitationAction;
   invitationId: string;
 }

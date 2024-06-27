@@ -5,9 +5,9 @@ import {
   createHttp1Request
 } from "league-connect";
 import { BaseLCUHandlerOpts } from "./types";
-import { BaseLCUHandlerWsOnArgs } from "@/shared";
+import { BaseLCUHandlerWsOnParams } from "@/shared";
 
-interface MakeAHttp1RequestArgs<T = unknown> {
+interface MakeAHttp1RequestParams<T = unknown> {
   url: string;
   method: "POST" | "GET" | "PUT" | "PATCH" | "DELETE";
   body?: T;
@@ -26,7 +26,7 @@ export class BaseLCUHandler {
     this.leagueWS.unsubscribe(path);
   }
 
-  protected wsOn<T = unknown>({ path, cb }: BaseLCUHandlerWsOnArgs<T>): void {
+  protected wsOn<T = unknown>({ path, cb }: BaseLCUHandlerWsOnParams<T>): void {
     try {
       this.leagueWS?.subscribe(path, async (data) => cb(null, data as T));
     } catch (err) {
@@ -38,7 +38,7 @@ export class BaseLCUHandler {
     method,
     url,
     body
-  }: MakeAHttp1RequestArgs<T>): Promise<Http1Response> {
+  }: MakeAHttp1RequestParams<T>): Promise<Http1Response> {
     const response = await createHttp1Request(
       {
         method: method,

@@ -1,6 +1,6 @@
 import {
   ActionsChampSelectSessionData,
-  ChampSelectActionArgs,
+  ChampSelectActionParams,
   ChampSelectActionBody,
   ChampSelectSessionDataRequired,
   ChampSelectSessionDataRequiredWithActionsFlat,
@@ -27,7 +27,7 @@ export class ChampSelectLCUHandler extends BaseLCUHandler {
     championId,
     actionId,
     completed
-  }: ChampSelectActionArgs): Promise<void> {
+  }: ChampSelectActionParams): Promise<void> {
     const body: ChampSelectActionBody = { championId: championId };
     if (completed) body.completed = completed;
 

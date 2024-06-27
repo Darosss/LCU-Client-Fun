@@ -7,7 +7,7 @@ export interface RPCLCUResponse {
   message: string;
 }
 
-export interface BaseLCUHandlerWsOnArgs<T = unknown> {
+export interface BaseLCUHandlerWsOnParams<T = unknown> {
   path: string;
   cb: (error: unknown | null, data: T | null) => void;
 }

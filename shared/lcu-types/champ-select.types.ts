@@ -75,7 +75,7 @@ export type AssignedPosition =
   | "jungle"
   | "other";
 
-export interface ChampSelectActionArgs {
+export interface ChampSelectActionParams {
   championId: number;
   actionId: number;
   completed?: boolean;
