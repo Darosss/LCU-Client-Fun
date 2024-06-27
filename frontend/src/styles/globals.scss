@@ -1,7 +1,6 @@
 @import "@/styles/mixins";
 
 :root {
-  // TODO: add colors for light? (now they are the same like dark)
   /* **** COLORS **** */
   --primary-first-rgb: 3, 105, 161;
   --primary-second-rgb: 8, 47, 73;
@@ -20,9 +19,11 @@
 
   --foreground-rgb: 255, 255, 255;
 
-  --primary-first-gradient: #083344;
-  --primary-second-gradient: #082f49;
+  --primary-first-gradient: #0f172a;
+  --primary-second-gradient: #030712;
   /* **** COLORS **** */
+
+  --base-box-shadow: rgba(var(--success-first-rgb), 0.5) 2.4px 2.4px 10.2px;
 
   --navbar-height: 10dvh;
   --user-details-padding: 1dvh;
@@ -73,8 +74,8 @@
 
     --foreground-rgb: 255, 255, 255;
 
-    --primary-first-gradient: #083344;
-    --primary-second-gradient: #082f49;
+    --primary-first-gradient: #052e16;
+    --primary-second-gradient: #18181b;
 
     --primary-glow: radial-gradient(
         ellipse at top,

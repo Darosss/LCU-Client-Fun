@@ -5,6 +5,7 @@ import { LobbysList } from "./lobbys-list";
 import { CustomLobby } from "./custom-lobby";
 import { CustomLobbyContextProvider } from "./custom-lobby";
 import { useHeadContext } from "../lcu";
+import styles from "./lobbys.module.scss";
 
 export function LobbyActions() {
   const {
@@ -21,16 +22,18 @@ export function LobbyActions() {
     }`;
   }
   return (
-    <div id="lobby-actions">
-      <div id="lobby-actions-manage">
-        {currentLobbyNameText()}
-        <LeaveLobbyBtn />
+    <div className={styles.lobbyActions}>
+      <div className={styles.baseLobbyActions}>
+        <div className={styles.lobbyNameAndLeaveButton}>
+          {currentLobbyNameText()}
+          <LeaveLobbyBtn />
+        </div>
 
         {lobbyData.localMember.isLeader ? (
           <LobbysList textOnShow="Change mode" />
         ) : null}
       </div>
-      <div id="lobby-actions-members">
+      <div className={styles.lobbyActionsMembers}>
         {lobbyData.gameConfig.isCustom ? (
           <CustomLobbyContextProvider>
             <CustomLobby />

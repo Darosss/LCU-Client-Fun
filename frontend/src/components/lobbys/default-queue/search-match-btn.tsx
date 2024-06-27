@@ -2,7 +2,7 @@ import React from "react";
 import { Button, useHeadContext } from "@/components";
 import { useSocketEventsContext } from "@/socket";
 import { toast } from "react-toastify";
-
+import styles from "./search-match-btn.module.scss";
 export function SearchMatchBtn() {
   const {
     lobbyDataState: [lobbyData],
@@ -15,7 +15,7 @@ export function SearchMatchBtn() {
     });
   }
   return (
-    <div id="search-match-btn-wrapper">
+    <div className={styles.searchMatchBtnWrapper}>
       {lobbyData?.canStartActivity ? (
         <Button defaultButtonType="primary" onClick={searchMatch}>
           Search

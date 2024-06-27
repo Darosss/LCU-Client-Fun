@@ -5,6 +5,8 @@ import { Button, useHeadContext } from "@/components";
 import { useSocketEventsContext } from "@/socket";
 import { EligibileLobbyAndQueueData } from "@/shared";
 import { toast } from "react-toastify";
+import styles from "./lobbys.module.scss";
+import { ToggleLobbysButton } from "./toggle-lobbys-btn";
 
 interface ShowLobbysProps {
   textOnShow?: string;
@@ -48,56 +50,60 @@ export function LobbysList({ textOnShow = "Show lobbys" }: ShowLobbysProps) {
   }
 
   return (
-    <>
+    <div className={styles.lobbysListWrapper}>
       {showLobbys ? (
         <>
-          <Button
-            defaultButtonType="danger"
-            onClick={() => setShowLobbys(!showLobbys)}
-          >
-            Hide lobbys
-          </Button>
-          <div id="eligible-lobbys-filter-wrapper">
-            Filter modes
-            <input
-              onChange={(e) => setLobbysFilter(e.target.value.toLowerCase())}
-              value={lobbysFilter || ""}
-            />
-          </div>
-          <div id="lobbys-list">
-            <StaticCustomModeLobbys />
-            {lobbys
-              .filter(({ description, map }) => {
-                if (!lobbysFilter) return true;
-                return (
-                  description?.toLowerCase().includes(lobbysFilter) ||
-                  map?.toLowerCase().includes(lobbysFilter)
-                );
-              })
-              .map(({ queueId: eligibleQueueId, description }, idx) => {
-                return (
-                  <Button
-                    key={idx}
-                    onClick={() => {
-                      if (!eligibleQueueId) return;
-                      handleOnCreateLobby(eligibleQueueId);
-                    }}
-                  >
-                    {`${description || eligibleQueueId}`}
-                  </Button>
-                );
-              })}
+          <ToggleLobbysButton
+            showLobbys={showLobbys}
+            onClickButton={() => setShowLobbys(!showLobbys)}
+          />
+
+          <div className={styles.lobbysContentWrapper}>
+            <div className={styles.filterWrapper}>
+              <span>Filter modes </span>
+              <input
+                onChange={(e) => setLobbysFilter(e.target.value.toLowerCase())}
+                value={lobbysFilter || ""}
+              />
+            </div>
+            <div className={styles.lobbysContent}>
+              <StaticCustomModeLobbys />
+              {lobbys
+                .filter(({ description, map }) => {
+                  if (!lobbysFilter) return true;
+                  return (
+                    description?.toLowerCase().includes(lobbysFilter) ||
+                    map?.toLowerCase().includes(lobbysFilter)
+                  );
+                })
+                .map(({ queueId: eligibleQueueId, description }, idx) => {
+                  return (
+                    <Button
+                      key={idx}
+                      defaultButtonType={"primary"}
+                      onClick={() => {
+                        if (!eligibleQueueId) return;
+                        handleOnCreateLobby(eligibleQueueId);
+                      }}
+                    >
+                      {`${description || eligibleQueueId}`}
+                    </Button>
+                  );
+                })}
+            </div>
           </div>
         </>
       ) : (
-        <Button
-          defaultButtonType="info"
-          onClick={() => setShowLobbys(!showLobbys)}
-        >
-          {textOnShow}
-        </Button>
+        <div className={styles.toggleLobbysButtonWrapper}>
+          <Button
+            defaultButtonType="info"
+            onClick={() => setShowLobbys(!showLobbys)}
+          >
+            {textOnShow}
+          </Button>
+        </div>
       )}
-    </>
+    </div>
   );
 }
 

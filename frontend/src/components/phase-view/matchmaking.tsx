@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { secondsToHMS } from "@/helpers";
 import { useSocketEventsContext } from "@/socket";
-import { Button } from "@/components";
+import { CancelSearchBtn } from "@/components";
 import { toast } from "react-toastify";
 
 export function Matchmaking() {
@@ -32,7 +32,7 @@ export function Matchmaking() {
     <div id="matchmaking-wrapper">
       <div> {`Match making ${secondsToHMS(searchingMatchTime)}`} </div>
       <div>{`Estimated time: ${secondsToHMS(estimatedTime)}`} </div>
-      <Button onClick={handleOnStopMatchmaking}>Cancel Search</Button>
+      <CancelSearchBtn />
     </div>
   );
 }

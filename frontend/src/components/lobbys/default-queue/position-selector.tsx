@@ -3,6 +3,7 @@ import { Button, useHeadContext } from "@/components";
 import { useSocketEventsContext } from "@/socket";
 import { PositionsPreferences } from "@/shared";
 import { toast } from "react-toastify";
+import styles from "./position-selector.module.scss";
 
 type PossiblePreferences = "primary" | "secondary";
 
@@ -96,7 +97,7 @@ export function PositionSelector() {
   if (!lobbyData) return null;
 
   return (
-    <div id="position-selector">
+    <div className={styles.positionSelectorWrapper}>
       <div>
         <Button defaultButtonType="success">{`Primary: ${lobbyData.localMember.firstPositionPreference}`}</Button>
         {availablePositions("primary")}

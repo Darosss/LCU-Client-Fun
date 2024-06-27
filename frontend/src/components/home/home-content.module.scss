@@ -1,4 +1,5 @@
 $sidebarWidth: 20%;
+$clientWidth: 80%;
 
 .homeContentWrapper {
   width: 100%;
@@ -16,13 +17,15 @@ $sidebarWidth: 20%;
   }
 
   & > div {
-    border: 1px solid red;
+    box-shadow: var(--base-box-shadow);
   }
 
   .clientContent {
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: $clientWidth;
+    max-width: $clientWidth;
   }
 
   .sidebar {

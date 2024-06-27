@@ -1,7 +1,10 @@
+"use client";
+
 import React from "react";
 import { LobbyActions } from "./lobby-actions";
 import { LobbysList } from "./lobbys-list";
 import { useHeadContext } from "../lcu";
+import styles from "./lobbys.module.scss";
 
 export function Lobbys() {
   const {
@@ -9,7 +12,7 @@ export function Lobbys() {
   } = useHeadContext();
 
   return (
-    <div id="eligible-lobbys-wrapper">
+    <div className={styles.lobbysWrapper}>
       {lobbyData ? <LobbyActions /> : <LobbysList />}
     </div>
   );

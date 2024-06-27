@@ -28,7 +28,9 @@ export function CustomModeLobby({
 
   return (
     <>
-      <Button onClick={handleOnCreateCustomLobby}>{lobbyName}</Button>
+      <Button defaultButtonType="info" onClick={handleOnCreateCustomLobby}>
+        {lobbyName}
+      </Button>
     </>
   );
 }
