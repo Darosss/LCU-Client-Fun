@@ -1,0 +1,32 @@
+$sidebarWidth: 20%;
+
+.homeContentWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  height: 100%;
+
+  & > button {
+    font-size: 1.2em;
+  }
+
+  & > * {
+    flex-grow: 1;
+    margin: 0.1rem;
+  }
+
+  & > div {
+    border: 1px solid red;
+  }
+
+  .clientContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sidebar {
+    min-width: $sidebarWidth;
+    max-width: $sidebarWidth;
+  }
+}

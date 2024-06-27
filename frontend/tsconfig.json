@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "ES2022",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [{ "name": "next" }],
+    "paths": {
+      "@/components": ["./src/components"],
+      "@/styles/*": ["./src/styles/*"],
+      "@/helpers": ["./src/helpers"],
+      "@/api": ["./src/api"],
+      "@/socket": ["./src/socket-events"],
+      "@/globals": ["./src/globals"],
+      "@/shared": ["../shared"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/app/overview/user/[id].js",
+    "server/index.js"
+  ],
+  "exclude": ["node_modules"]
+}
