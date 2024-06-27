@@ -42,6 +42,8 @@ export function ReadyCheck() {
 
       case "Declined":
         return "Declined";
+      case "Auto Accepted":
+        return "Auto accepted";
       case "None":
         return (
           <>
