@@ -229,14 +229,6 @@ export class HeadLCUHandler extends BaseLCUHandler {
     this.wsUnsubsribe("/riotclient/ux-state/request");
   }
 
-  // public wsOnGameflowPhaseChange(
-  //   cb: BaseLCUHandlerWsOnArgs<GameFlowPhaseData>["cb"]
-  // ): void {
-  //   this.wsOn<GameFlowPhaseData>({
-  //     path: "/lol-gameflow/v1/gameflow-phase",
-  //     cb: cb
-  //   });
-  // }
   public wsOnGameflowPhaseChange(): void {
     this.wsOn<GameFlowPhaseData>({
       path: "/lol-gameflow/v1/gameflow-phase",

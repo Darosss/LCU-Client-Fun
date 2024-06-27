@@ -235,14 +235,6 @@ export class LobbyLCUHandler extends BaseLCUHandler {
     });
   }
 
-  // public wsOnMatchmakingSearch(
-  //   cb: BaseLCUHandlerWsOnArgs<MatchmakingSearchData>["cb"]
-  // ): void {
-  //   this.wsOn<MatchmakingSearchData>({
-  //     path: "/lol-matchmaking/v1/search",
-  //     cb: cb
-  //   });
-  // }
   public wsOnMatchmakingSearch(): void {
     this.wsOn<MatchmakingSearchData>({
       path: "/lol-matchmaking/v1/search",
@@ -253,14 +245,6 @@ export class LobbyLCUHandler extends BaseLCUHandler {
     });
   }
 
-  // public wsOnLobbyGet(
-  //   cb: BaseLCUHandlerWsOnArgs<LobbyGameDataResponse>["cb"]
-  // ): void {
-  //   this.wsOn<LobbyGameDataResponse>({
-  //     path: "/lol-lobby/v2/lobby",
-  //     cb: cb
-  //   });
-  // }
   public wsOnLobbyGet(): void {
     this.wsOn<LobbyGameDataResponse>({
       path: "/lol-lobby/v2/lobby",
