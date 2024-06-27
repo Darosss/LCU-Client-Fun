@@ -26,12 +26,12 @@ export function LobbysList({ textOnShow = "Show lobbys" }: ShowLobbysProps) {
         const queueData = queuesData.find(
           (queue) => queue.queueId === eligibleLobby.queueId
         );
-        return { ...queueData, ...eligibleLobby };
+        return { ...eligibleLobby, ...queueData };
       });
       setLobbys(lobbysWithQueueData);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [queuesData]);
 
   function handleOnCreateLobby(queueId: number) {
     emits.createLobby(
