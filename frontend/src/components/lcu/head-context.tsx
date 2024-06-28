@@ -22,6 +22,13 @@ import {
 import { useSocketEventsContext } from "@/socket";
 import { toast } from "react-toastify";
 
+export enum CurrentView {
+  LOBBY = "Lobby",
+  CURRENT_PHASE = "Current phase",
+  RUNES = "Runes",
+  OPTIONS = "Options",
+}
+
 type HeadContextProviderProps = { children: React.ReactNode };
 
 type HeadContextType = {
@@ -38,6 +45,7 @@ type HeadContextType = {
   ];
   queuesData: QueueData[];
   championsData: DataDragonChampionsJsonFileData[];
+  currentViewState: [CurrentView, Dispatch<SetStateAction<CurrentView>>];
 };
 
 export const HeadContext = createContext<HeadContextType | null>(null);
@@ -47,6 +55,9 @@ export const HeadContextProvider: FC<HeadContextProviderProps> = ({
 }) => {
   const [currentPhase, setCurrentPhase] =
     useState<HeadContextType["currentPhase"]>("None");
+  const [currentView, setCurrentView] = useState<CurrentView>(
+    CurrentView.LOBBY
+  );
   const [lobbyData, setLobbyData] =
     useState<HeadContextType["lobbyDataState"][0]>(null);
   const [currentSummoner, setCurrentSummoner] =
@@ -65,6 +76,15 @@ export const HeadContextProvider: FC<HeadContextProviderProps> = ({
   useEffect(() => {
     events.gameflowPhase.on((data) => {
       setCurrentPhase(data);
+      switch (data) {
+        case "ReadyCheck":
+        case "ChampSelect":
+        case "Reconnect":
+        case "WaitingForStats":
+        case "PreEndOfGame":
+        case "EndOfGame":
+          setCurrentView(CurrentView.CURRENT_PHASE);
+      }
     });
     events.lobbyData.on((data) => {
       setLobbyData(data);
@@ -120,6 +140,7 @@ export const HeadContextProvider: FC<HeadContextProviderProps> = ({
         changeClientOptions: emitChangeClientOptions,
         queuesData,
         championsData,
+        currentViewState: [currentView, setCurrentView],
       }}
     >
       {children}

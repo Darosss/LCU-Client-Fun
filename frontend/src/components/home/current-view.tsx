@@ -1,21 +1,16 @@
-import { CurrentPhaseTab, Lobbys } from "@/components";
+import {
+  CurrentPhaseTab,
+  CurrentView,
+  Lobbys,
+  useHeadContext,
+} from "@/components";
 import { Options } from "@/components";
 
-export enum CurrentView {
-  LOBBY = "Lobby",
-  CURRENT_PHASE = "Current phase",
-  RUNES = "Runes",
-  OPTIONS = "Options",
-}
-
-type CurrentViewComponentProps = {
-  currentView: CurrentView;
-};
-
-export function CurrentViewComponent({
-  currentView,
-}: CurrentViewComponentProps) {
-  switch (currentView) {
+export function CurrentViewComponent() {
+  const {
+    currentViewState: [curentView],
+  } = useHeadContext();
+  switch (curentView) {
     case CurrentView.CURRENT_PHASE:
       return <CurrentPhaseTab />;
     case CurrentView.RUNES:

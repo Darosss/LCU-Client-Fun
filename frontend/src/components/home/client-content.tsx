@@ -1,14 +1,13 @@
 import { useState } from "react";
-import { useHeadContext } from "../lcu";
-import { Button } from "../common";
-import { CurrentView, CurrentViewComponent } from "./current-view";
+import { Button, CurrentView, useHeadContext } from "@/components";
+import { CurrentViewComponent } from "./current-view";
 import styles from "./client-content.module.scss";
 
 export function ClientContent() {
-  const { currentPhase } = useHeadContext();
-  const [currentView, setCurrentView] = useState<CurrentView>(
-    currentPhase === "None" ? CurrentView.LOBBY : CurrentView.CURRENT_PHASE
-  );
+  const {
+    currentViewState: [currentView, setCurrentView],
+  } = useHeadContext();
+
   return (
     <div className={styles.clientContentWrapper}>
       <div className={styles.clientNavigationWrapper}>
@@ -28,7 +27,7 @@ export function ClientContent() {
         </ul>
       </div>
       <div className={styles.clientContent}>
-        <CurrentViewComponent currentView={currentView} />
+        <CurrentViewComponent />
       </div>
     </div>
   );
