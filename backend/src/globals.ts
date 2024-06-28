@@ -1,6 +1,6 @@
 import path from "path";
 
-export const CURRENT_LOL_VERSION = "13.18.1";
+export const CURRENT_LOL_VERSION = "14.13.1";
 //TODO: move to env later or sth
 export function ddragonLeagueOfLegendsBaseLink(
   suffixUrl: string,

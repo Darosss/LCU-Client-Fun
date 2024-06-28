@@ -3,6 +3,7 @@ import { LeaderPlayersActions } from "../leader-players-actions";
 import { LobbyMember } from "@/shared";
 import { useSocketEventsContext } from "@/socket";
 import { Button } from "@/components";
+import { toast } from "react-toastify";
 
 interface LeaderMemberManageActionsProps {
   member: LobbyMember;
@@ -11,25 +12,21 @@ interface LeaderMemberManageActionsProps {
 export function LeaderMemberManageActions({
   member: { summonerId, allowedInviteOthers },
 }: LeaderMemberManageActionsProps) {
-  const {} = useSocketEventsContext;
+  const { emits } = useSocketEventsContext();
   return (
     <div>
       <Button
         onClick={() => {
-          /**
-           * lobbyLCUHandler
-              ?.managePlayerInLobby({
-                managePlayerId: summonerId,
-                action: "promote",
-              })
-              .catch((err) =>
-                console.log(
-                  `Error occured while trying to make user a lobby leader`,
-                  err
-                )
-              ),
-           * 
-           */
+          emits.managePlayerInLobby(
+            {
+              managePlayerId: summonerId,
+              action: "promote",
+            },
+            (error, data) => {
+              if (error || !data)
+                return toast.error("Couldn't make user a leader");
+            }
+          );
         }}
       >
         Make party owner
