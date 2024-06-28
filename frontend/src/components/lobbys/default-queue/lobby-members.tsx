@@ -31,44 +31,6 @@ export function LobbyMembers() {
           </div>
         </div>
       ))}
-      {lobbyData.members.map((member, idx) => (
-        <div key={idx} className={styles.oneMemberWrapper}>
-          <Button defaultButtonType="primary">{member.summonerName}</Button>
-          {lobbyData.localMember.isLeader &&
-          member.summonerId !== lobbyData.localMember.summonerId ? (
-            <LeaderMemberManageActions member={member} />
-          ) : null}
-          <div id="lobby-one-member-position-preferences-wrapper">
-            <Button defaultButtonType="success">
-              {member.firstPositionPreference}
-            </Button>
-            {member.firstPositionPreference !== PositionsPreferences.FILL ? (
-              <Button defaultButtonType="secondary">
-                {member.secondPositionPreference}
-              </Button>
-            ) : null}
-          </div>
-        </div>
-      ))}
-      {lobbyData.members.map((member, idx) => (
-        <div key={idx} className={styles.oneMemberWrapper}>
-          <Button defaultButtonType="primary">{member.summonerName}</Button>
-          {lobbyData.localMember.isLeader &&
-          member.summonerId !== lobbyData.localMember.summonerId ? (
-            <LeaderMemberManageActions member={member} />
-          ) : null}
-          <div id="lobby-one-member-position-preferences-wrapper">
-            <Button defaultButtonType="success">
-              {member.firstPositionPreference}
-            </Button>
-            {member.firstPositionPreference !== PositionsPreferences.FILL ? (
-              <Button defaultButtonType="secondary">
-                {member.secondPositionPreference}
-              </Button>
-            ) : null}
-          </div>
-        </div>
-      ))}
     </div>
   );
 }
