@@ -1,0 +1,15 @@
+.customLobbyLeaderActionsWrapper {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  padding: 0.5rem;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    & > * {
+      flex-grow: 1;
+    }
+  }
+}

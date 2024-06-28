@@ -1,18 +1,21 @@
 "use client";
 
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { LobbyTeamsView } from "./lobby-teams-view";
-import { Button, useHeadContext } from "@/components";
+import { useHeadContext } from "@/components";
 import { useSocketEventsContext } from "@/socket";
 import { toast } from "react-toastify";
 import { useCustomLobbyContext } from "./custom-lobby-context";
+import styles from "./custom-lobby.module.scss";
+import { CustomLobbyLeaderActions } from "./custom-lobby-leader-actions";
 
 export function CustomLobby() {
   const {
     lobbyDataState: [lobbyData],
   } = useHeadContext();
   const { emits } = useSocketEventsContext();
-  const { setChampionBots } = useCustomLobbyContext();
+  const { setChampionBots, currentBotDifficulty, setCurrentBotDifficulty } =
+    useCustomLobbyContext();
 
   useEffect(() => {
     emits.getAvailableChampionsBots((error, data) => {
@@ -27,14 +30,13 @@ export function CustomLobby() {
       if (error) toast.error(error);
     });
   }
+
   return (
-    <div id="custom-lobby">
-      <div>
-        {lobbyData?.localMember.isLeader ? (
-          <Button onClick={handleOnStartCustomBtn}>Start custom</Button>
-        ) : null}
+    <div className={styles.customLobbyWrapper}>
+      <div className={styles.customLobbyActions}>
+        <CustomLobbyLeaderActions />
       </div>
-      <div>
+      <div className={styles.customLobbyTeams}>
         <LobbyTeamsView />
       </div>
     </div>

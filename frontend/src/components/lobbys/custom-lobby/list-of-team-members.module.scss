@@ -1,0 +1,22 @@
+.listOfTeamMembersWrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  height: 100%;
+
+  .teamMemberContent {
+    & > * {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: nowrap;
+      & > * {
+        flex-grow: 1;
+        max-width: 30%;
+        min-width: 30%;
+
+        margin: 0.5rem;
+      }
+    }
+  }
+}

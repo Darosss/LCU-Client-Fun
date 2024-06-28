@@ -4,24 +4,18 @@ import { FillLobbyByBotsBtn } from "./fill-bot-lobby";
 import { ListOfTeamMembers } from "./list-of-team-members";
 import { JoinTeamButton } from "./join-team-btn";
 import { Button, useHeadContext } from "@/components";
-import {
-  BotDifficulty,
-  CustomTeamIds,
-  TeamsIds,
-  randomElement,
-} from "@/shared";
+import { CustomTeamIds, TeamsIds, randomElement } from "@/shared";
 import { useSocketEventsContext } from "@/socket";
-
 import { toast } from "react-toastify";
+import styles from "./lobby-teams-view.module.scss";
 
 export function LobbyTeamsView() {
   const {
-    lobbyDataState: [lobbyData, setLobbyData],
+    lobbyDataState: [lobbyData],
   } = useHeadContext();
 
   const { emits } = useSocketEventsContext();
-  const { championBots, currentBotDifficulty, setCurrentBotDifficulty } =
-    useCustomLobbyContext();
+  const { championBots, currentBotDifficulty } = useCustomLobbyContext();
   function addBotButton(team: TeamsIds) {
     let canAddBot = true;
     if (customLobbyProperties) {
@@ -42,6 +36,7 @@ export function LobbyTeamsView() {
 
     return (
       <Button
+        defaultButtonType="info"
         onClick={() => {
           emits.addBotToCustomLobby(
             {
@@ -65,57 +60,49 @@ export function LobbyTeamsView() {
     return { customTeam100, customTeam200, maxTeamSize };
   }, [lobbyData]);
 
-  function changeNewBotsDifficulty() {
-    if (currentBotDifficulty === BotDifficulty.EASY)
-      return setCurrentBotDifficulty(BotDifficulty.MEDIUM);
-    return setCurrentBotDifficulty(BotDifficulty.EASY);
-  }
-
   return (
-    <div id="custom-lobby-teams-view">
-      {lobbyData?.localMember.isLeader ? (
-        <div id="custom-lobby-teams-options">
-          Difficulty
-          {currentBotDifficulty === BotDifficulty.EASY ? (
-            <Button onClick={changeNewBotsDifficulty}>
-              {currentBotDifficulty}
-            </Button>
-          ) : (
-            <Button onClick={changeNewBotsDifficulty}>
-              {currentBotDifficulty}
-            </Button>
-          )}
+    <div className={styles.customLobbyTeamsView}>
+      <div className={styles.teamsViewMembersWrapper}>
+        <div className={styles.teamsViewMemberContent}>
+          <div className={styles.teamActions}>
+            Team 1{addBotButton(TeamsIds.first)}
+            <FillLobbyByBotsBtn teamId={TeamsIds.first} />
+          </div>
+          <div className={styles.lobbyMembers}>
+            <ListOfTeamMembers
+              lobbyMembers={customLobbyProperties?.customTeam100}
+            />
+          </div>
+          {lobbyData?.localMember.teamId !== CustomTeamIds.one ? (
+            <JoinTeamButton
+              lengthLobbyMembers={
+                customLobbyProperties?.customTeam100.length || 0
+              }
+              maxTeamSize={customLobbyProperties?.maxTeamSize || 0}
+              changeToTeam="one"
+            />
+          ) : null}
         </div>
-      ) : null}
-      <div id="custom-lobby-teams-view-team">
-        <FillLobbyByBotsBtn teamId={TeamsIds.first} />
-        Team 1{addBotButton(TeamsIds.first)}
-        <ListOfTeamMembers
-          lobbyMembers={customLobbyProperties?.customTeam100}
-        />
-        {lobbyData?.localMember.teamId !== CustomTeamIds.one ? (
-          <JoinTeamButton
-            lengthLobbyMembers={
-              customLobbyProperties?.customTeam100.length || 0
-            }
-            maxTeamSize={customLobbyProperties?.maxTeamSize || 0}
-            changeToTeam="one"
-          />
-        ) : null}
-        <FillLobbyByBotsBtn teamId={TeamsIds.second} />
-        Team 2{addBotButton(TeamsIds.second)}
-        <ListOfTeamMembers
-          lobbyMembers={customLobbyProperties?.customTeam200}
-        />
-        {lobbyData?.localMember.teamId !== CustomTeamIds.two ? (
-          <JoinTeamButton
-            lengthLobbyMembers={
-              customLobbyProperties?.customTeam200.length || 0
-            }
-            maxTeamSize={customLobbyProperties?.maxTeamSize || 0}
-            changeToTeam="two"
-          />
-        ) : null}
+        <div className={styles.teamsViewMemberContent}>
+          <div className={styles.teamActions}>
+            Team 2{addBotButton(TeamsIds.second)}
+            <FillLobbyByBotsBtn teamId={TeamsIds.second} />
+          </div>
+          <div className={styles.lobbyMembers}>
+            <ListOfTeamMembers
+              lobbyMembers={customLobbyProperties?.customTeam200}
+            />
+          </div>
+          {lobbyData?.localMember.teamId !== CustomTeamIds.two ? (
+            <JoinTeamButton
+              lengthLobbyMembers={
+                customLobbyProperties?.customTeam200.length || 0
+              }
+              maxTeamSize={customLobbyProperties?.maxTeamSize || 0}
+              changeToTeam="two"
+            />
+          ) : null}
+        </div>
       </div>
     </div>
   );

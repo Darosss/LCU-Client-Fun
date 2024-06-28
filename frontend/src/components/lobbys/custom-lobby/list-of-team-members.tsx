@@ -4,6 +4,7 @@ import { LeaderBotsActions } from "./leader-bots-actions";
 import { SummonerInLobby } from "./summoner-in-lobby";
 import { Button, useHeadContext } from "@/components";
 import { LobbyMember } from "@/shared";
+import styles from "./list-of-team-members.module.scss";
 
 interface ListOfTeamMembersProps {
   lobbyMembers?: LobbyMember[];
@@ -15,14 +16,14 @@ export function ListOfTeamMembers({ lobbyMembers }: ListOfTeamMembersProps) {
     lobbyDataState: [lobbyData],
   } = useHeadContext();
   return (
-    <div id="list-of-team-members">
+    <div className={styles.listOfTeamMembersWrapper}>
       {lobbyMembers?.map((member, idx) => {
         const foundChampionData = championBots.find(
           ({ id }) => id === member.botChampionId
         );
 
         return (
-          <div key={idx}>
+          <div key={idx} className={styles.teamMemberContent}>
             {member.isBot && lobbyData?.localMember.isLeader ? (
               <LeaderBotsActions
                 championData={foundChampionData}

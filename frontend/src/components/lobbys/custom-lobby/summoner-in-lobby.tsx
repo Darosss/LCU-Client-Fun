@@ -16,7 +16,13 @@ export function SummonerInLobby({
   } = useHeadContext();
   return (
     <div id="summoner-in-lobby-wrapper">
-      <Button>{summonerName}</Button>
+      <Button
+        defaultButtonType={
+          currentSummoner?.summonerId === summonerId ? "primary" : "secondary"
+        }
+      >
+        {summonerName}
+      </Button>
       {currentSummoner?.summonerId !== summonerId &&
       lobbyData?.localMember.isLeader ? (
         <LeaderPlayersActions

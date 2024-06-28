@@ -10,6 +10,7 @@ import {
 import { useSocketEventsContext } from "@/socket";
 import { Button } from "@/components";
 import { toast } from "react-toastify";
+import styles from "./leader-bots-actions.module.scss";
 
 interface LeaderBotActionsProps {
   championData?: ChampionBotsData;
@@ -54,6 +55,7 @@ export function LeaderBotsActions({
 
     return (
       <Button
+        defaultButtonType="success"
         onClick={() => {
           if (foundChamp)
             onChangeExistingBotDifficulty(
@@ -81,20 +83,17 @@ export function LeaderBotsActions({
   }
 
   return (
-    <div id="leader-bot-actions-wrapper">
-      <Button onClick={() => setShowChampionsList(!showChampionsList)}>
+    <div className={styles.leaderBotsActionsWrapper}>
+      <Button
+        defaultButtonType="primary"
+        onClick={() => setShowChampionsList(!showChampionsList)}
+      >
         {championData?.name || `${member.botChampionId}`}
       </Button>
 
-      {member.botDifficulty === BotDifficulty.EASY ? (
-        <Button onClick={changeChoosenBotDifficulty}>
-          {member.botDifficulty}
-        </Button>
-      ) : (
-        <Button defaultButtonType="danger" onClick={changeChoosenBotDifficulty}>
-          {member.botDifficulty}
-        </Button>
-      )}
+      <Button defaultButtonType="info" onClick={changeChoosenBotDifficulty}>
+        {member.botDifficulty}
+      </Button>
 
       <Button
         defaultButtonType="danger"
@@ -114,12 +113,13 @@ export function LeaderBotsActions({
         x
       </Button>
       {showChampionsList ? (
-        <div id="leader-bot-actions-change-bot">
-          {showFilteredChampBot()}
+        <div className={styles.changeBotWrapper}>
+          Search
           <input
             onChange={(e) => setBotChampFilter(e.target.value.toLowerCase())}
             value={botChampFilter}
           />
+          <div>{showFilteredChampBot()}</div>
         </div>
       ) : null}
     </div>

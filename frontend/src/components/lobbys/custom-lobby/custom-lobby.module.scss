@@ -1,0 +1,22 @@
+.customLobbyWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  & > div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .customLobbyActions {
+    min-height: 10%;
+    max-height: 10%;
+
+    button {
+    }
+  }
+
+  .customLobbyTeams {
+    flex-grow: 1;
+  }
+}

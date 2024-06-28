@@ -18,6 +18,7 @@ export function JoinTeamButton({
   if (lengthLobbyMembers < maxTeamSize) {
     return (
       <Button
+        defaultButtonType="info"
         onClick={() => {
           //TODO: add join team
           // lobbyLCUHandler?.switchTeamsInLobby(changeToTeam);

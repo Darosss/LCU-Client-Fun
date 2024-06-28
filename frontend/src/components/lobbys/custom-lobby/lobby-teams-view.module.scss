@@ -1,0 +1,40 @@
+.customLobbyTeamsView {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  & > div {
+    width: 100%;
+  }
+
+  .teamsViewMembersWrapper {
+    display: flex;
+    height: 100%;
+
+    & > div.teamsViewMemberContent {
+      margin: 0.5rem;
+      padding: 0.5rem;
+      flex-grow: 1;
+      max-width: 50%;
+      box-shadow: var(--base-box-shadow);
+      display: flex;
+      flex-direction: column;
+
+      & > * {
+        margin: 0.2rem;
+      }
+
+      .teamActions {
+        display: flex;
+        justify-content: space-around;
+
+        & > * {
+          margin-left: 0.5rem;
+          flex-grow: 1;
+        }
+      }
+      .lobbyMembers {
+        flex-grow: 1;
+      }
+    }
+  }
+}

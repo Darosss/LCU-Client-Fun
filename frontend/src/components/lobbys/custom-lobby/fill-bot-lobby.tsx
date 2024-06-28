@@ -47,5 +47,9 @@ export function FillLobbyByBotsBtn({ teamId }: FillLobbyByBotsBtnProps) {
 
   if (!lobbyData?.localMember.isLeader) return null;
 
-  return <Button onClick={fillBots}>Fill bots</Button>;
+  return (
+    <Button defaultButtonType="info" onClick={fillBots}>
+      Fill bots
+    </Button>
+  );
 }
