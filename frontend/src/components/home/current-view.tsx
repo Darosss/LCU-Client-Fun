@@ -1,4 +1,5 @@
 import { CurrentPhaseTab, Lobbys } from "@/components";
+import { Options } from "../sidebar/options";
 
 export enum CurrentView {
   LOBBY = "Lobby",
@@ -20,7 +21,7 @@ export function CurrentViewComponent({
     case CurrentView.RUNES:
       return <>Runes</>;
     case CurrentView.OPTIONS:
-      return <>Options</>;
+      return <Options />;
     case CurrentView.LOBBY:
     default:
       return <Lobbys />;
