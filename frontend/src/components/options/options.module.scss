@@ -1,0 +1,30 @@
+.optionsWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+
+  & > div {
+    width: 100%;
+    box-shadow: var(--base-box-shadow);
+    display: flex;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  .generalOptions {
+    & > div {
+      display: flex;
+      justify-content: space-around;
+      margin: 0.5rem;
+      flex-grow: 1;
+      button {
+        width: 100%;
+      }
+    }
+  }
+  .autoChampionOptions {
+    box-shadow: var(--base-box-shadow);
+    justify-content: center;
+    flex-grow: 1;
+  }
+}

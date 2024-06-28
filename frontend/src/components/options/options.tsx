@@ -5,6 +5,7 @@ import { AutoChampionPick } from "./auto-champion-pick";
 import { Button, useHeadContext } from "@/components";
 import { useSocketEventsContext } from "@/socket";
 import { toast } from "react-toastify";
+import styles from "./options.module.scss";
 
 export function Options() {
   const {
@@ -13,22 +14,22 @@ export function Options() {
   } = useHeadContext();
 
   return (
-    <div>
-      <div title="general">
-        <div id="general-options-wrapper">
+    <div className={styles.optionsWrapper}>
+      <div className={styles.generalOptions}>
+        <div>
           <ClientUXActions />
+        </div>
+        <div>
           <Button
             defaultButtonType={autoAccept ? "success" : "secondary"}
             onClick={() => changeClientOptions({ autoAccept: !autoAccept })}
           >
-            {`Auto accept:  ${autoAccept}`}
+            {`Auto accept match:  ${autoAccept}`}
           </Button>
         </div>
       </div>
-      <div title="Auto champ">
-        <div id="auto-champion-pick-wrapper">
-          <AutoChampionPick />
-        </div>
+      <div className={styles.autoChampionOptions}>
+        <AutoChampionPick />
       </div>
     </div>
   );
@@ -50,7 +51,6 @@ function ClientUXActions() {
   }, [changeClientOptions, emits]);
 
   const handleOnLaunchUx = useCallback(() => {
-    console.log("gogo?");
     emits.launchUx((error, data) => {
       console.log(error, data, "xpp");
       if (error || !data) return toast.error(error || "Couldn't launch UX");

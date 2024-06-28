@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { AutoChampionChampionsList } from "./auto-champion-champions-list";
+import { AutoChampionsManage } from "./auto-champions-manage";
 import { Button, useHeadContext } from "@/components";
 import { AssignedPosition } from "@/shared";
+import styles from "./auto-champions.module.scss";
 
 const assignedPositions: AssignedPosition[] = [
   "utility",
@@ -15,7 +16,7 @@ const assignedPositions: AssignedPosition[] = [
 export function AutoChampionPick() {
   const {
     changeClientOptions,
-    options: { autoPickChamps, autoPickChamp },
+    options: { autoPickChamp },
   } = useHeadContext();
   const [showMoreAssignedChampions, setShowMoreAssignedChampions] =
     useState(false);
@@ -24,44 +25,9 @@ export function AutoChampionPick() {
 
   const [champFilter, setChampFilter] = useState<string | null>(null);
 
-  function showAssignedChampionsToPositions() {
-    return assignedPositions.map((position, idx) => (
-      <div id="assigned-champions-to-position" key={idx}>
-        <Button
-          defaultButtonType={
-            currentChoosenPosition === position ? "primary" : "secondary"
-          }
-          onClick={() => setCurrentPositionToAdd(position)}
-        >
-          {position}
-        </Button>
-
-        <div>
-          {autoPickChamps?.[position].map((champ, idx) => {
-            const isAlreadyAdded =
-              champFilter &&
-              champ.name.toLowerCase().includes(champFilter.toLowerCase());
-
-            return (
-              <Button
-                key={idx}
-                defaultButtonType={isAlreadyAdded ? "success" : "primary"}
-                onClick={() =>
-                  !isAlreadyAdded ? setChampFilter(champ.name) : null
-                }
-              >
-                {champ.name}
-              </Button>
-            );
-          })}
-        </div>
-      </div>
-    ));
-  }
-
   return (
-    <>
-      <div>
+    <div className={styles.autoChampionOptionsWrapper}>
+      <div className={styles.autoPickChampOptions}>
         <Button
           defaultButtonType={autoPickChamp ? "success" : "danger"}
           onClick={() => changeClientOptions({ autoPickChamp: !autoPickChamp })}
@@ -78,7 +44,7 @@ export function AutoChampionPick() {
           Show {showMoreAssignedChampions ? "less" : "more"}
         </Button>
       </div>
-      <div id="auto-champion-pick-search-wrapper">
+      <div className={styles.championsData}>
         <div> Search champion</div>
         <input
           value={champFilter || ""}
@@ -88,7 +54,8 @@ export function AutoChampionPick() {
         />
       </div>
       <div
-        id="auto-champion-roles-wrapper"
+        className={styles.championsRolesWrapper}
+
         // style={`${
         //   showMoreAssignedChampions
         //     ? `max-height:${getPercentFromValue(height, 80)}`
@@ -96,13 +63,86 @@ export function AutoChampionPick() {
         // }`}
         // TODO: show more? it can be in modal tbh or somewhere right now
       >
-        {showAssignedChampionsToPositions()}
+        <div className={styles.assignedPositionsButtonsWrapper}>
+          <AssignedPossitionsButtons
+            currentChoosenPosition={currentChoosenPosition}
+            setCurrentPositionToAdd={setCurrentPositionToAdd}
+          />
+        </div>
+        <div className={styles.championsForAssignedPositionsWrapper}>
+          <ChampionsForAssignedPossitions
+            champFilter={champFilter}
+            setChampFilter={setChampFilter}
+          />
+        </div>
       </div>
 
-      <AutoChampionChampionsList
-        currentChoosenPosition={currentChoosenPosition}
-        champFilter={champFilter}
-      />
-    </>
+      <div className={styles.autoChampionsManageWrapper}>
+        <AutoChampionsManage
+          currentChoosenPosition={currentChoosenPosition}
+          champFilter={champFilter}
+        />
+      </div>
+    </div>
   );
+}
+
+type AssignedPossitionsProps = {
+  currentChoosenPosition: AssignedPosition;
+  setCurrentPositionToAdd: React.Dispatch<
+    React.SetStateAction<AssignedPosition>
+  >;
+};
+
+function AssignedPossitionsButtons({
+  currentChoosenPosition,
+  setCurrentPositionToAdd,
+}: AssignedPossitionsProps) {
+  return assignedPositions.map((position, idx) => (
+    <React.Fragment key={idx}>
+      <Button
+        defaultButtonType={
+          currentChoosenPosition === position ? "primary" : "secondary"
+        }
+        onClick={() => setCurrentPositionToAdd(position)}
+      >
+        {position}
+      </Button>
+    </React.Fragment>
+  ));
+}
+
+type ChampionsForAssignedPossitionsProps = {
+  champFilter: string | null;
+  setChampFilter: React.Dispatch<React.SetStateAction<string | null>>;
+};
+
+function ChampionsForAssignedPossitions({
+  champFilter,
+  setChampFilter,
+}: ChampionsForAssignedPossitionsProps) {
+  const {
+    options: { autoPickChamps },
+  } = useHeadContext();
+  return assignedPositions.map((position, idx) => (
+    <div key={idx}>
+      {autoPickChamps?.[position].map((champ, idx) => {
+        const isAlreadyAdded =
+          champFilter &&
+          champ.name.toLowerCase().includes(champFilter.toLowerCase());
+
+        return (
+          <Button
+            key={idx}
+            defaultButtonType={isAlreadyAdded ? "success" : "primary"}
+            onClick={() =>
+              !isAlreadyAdded ? setChampFilter(champ.name) : null
+            }
+          >
+            {champ.name}
+          </Button>
+        );
+      })}
+    </div>
+  ));
 }

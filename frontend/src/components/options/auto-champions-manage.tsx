@@ -2,13 +2,14 @@ import React from "react";
 
 import { Button, useHeadContext } from "@/components";
 import { AssignedPosition, DataDragonChampionsJsonFileData } from "@/shared";
+import styles from "./auto-champions-manage.module.scss";
 
 interface AutoChampionChampionsListProps {
   currentChoosenPosition: AssignedPosition;
   champFilter: string | null;
 }
 
-export function AutoChampionChampionsList({
+export function AutoChampionsManage({
   currentChoosenPosition,
   champFilter,
 }: AutoChampionChampionsListProps) {
@@ -77,7 +78,7 @@ export function AutoChampionChampionsList({
   }
 
   return (
-    <div id="auto-champion-pick-all-champions">
+    <div className={styles.autoChampionsManageWrapper}>
       {championsData
         .filter(({ name }) => {
           if (champFilter)
@@ -89,12 +90,13 @@ export function AutoChampionChampionsList({
           );
 
           return (
-            <div key={idx} id="auto-champion-actions">
+            <div key={idx} className={styles.manageChampionWrapper}>
               <div>{champ.name}</div>
               <div>
                 {!isAssignedToRole ? (
                   <>
                     <Button
+                      defaultButtonType="primary"
                       onClick={() => {
                         addChampToRole(currentChoosenPosition, champ, "start");
                       }}
@@ -102,6 +104,7 @@ export function AutoChampionChampionsList({
                       Add
                     </Button>
                     <Button
+                      defaultButtonType="primary"
                       onClick={() => {
                         addChampToRole(currentChoosenPosition, champ, "end");
                       }}
@@ -112,6 +115,7 @@ export function AutoChampionChampionsList({
                 ) : (
                   <>
                     <Button
+                      defaultButtonType="primary"
                       onClick={() =>
                         moveChampInPlaces(currentChoosenPosition, champ, 1)
                       }
@@ -119,6 +123,7 @@ export function AutoChampionChampionsList({
                       {"\u25BC"}
                     </Button>
                     <Button
+                      defaultButtonType="primary"
                       onClick={() =>
                         moveChampInPlaces(currentChoosenPosition, champ, -1)
                       }
@@ -126,6 +131,7 @@ export function AutoChampionChampionsList({
                       {"\u25b2"}
                     </Button>
                     <Button
+                      defaultButtonType="danger"
                       onClick={() =>
                         removeChampFromPosition(currentChoosenPosition, champ)
                       }
