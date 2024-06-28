@@ -1,1 +1,1 @@
-export { CurrentPhaseStage } from "./current-stage-phase";
+export { CurrentPhaseTab } from "./current-phase-tab";

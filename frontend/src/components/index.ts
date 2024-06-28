@@ -1,5 +1,5 @@
 export { Lobbys } from "./lobbys";
-export { CurrentPhaseStage } from "./phase-view";
+export { CurrentPhaseTab } from "./phase-view";
 export { ChampSelect, ChampionSelectContextProvider } from "./champion-select";
 export * from "./common";
 export { HomeContent } from "./home";
