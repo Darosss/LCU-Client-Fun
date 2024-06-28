@@ -5,3 +5,4 @@ export * from "./common";
 export { HomeContent } from "./home";
 export * from "./lcu";
 export { Sidebar } from "./sidebar";
+export { Options } from "./options";

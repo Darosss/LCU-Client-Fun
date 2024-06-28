@@ -1,5 +1,5 @@
 import { CurrentPhaseTab, Lobbys } from "@/components";
-import { Options } from "../sidebar/options";
+import { Options } from "@/components";
 
 export enum CurrentView {
   LOBBY = "Lobby",
