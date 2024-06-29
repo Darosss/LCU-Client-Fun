@@ -1,16 +1,29 @@
 import React, { useState } from "react";
 import { AutoChampionsManage } from "./auto-champions-manage";
-import { Button, useHeadContext } from "@/components";
+import { Button, TooltipCustom, useHeadContext } from "@/components";
 import { AssignedPosition } from "@/shared";
 import styles from "./auto-champions.module.scss";
 
-const assignedPositions: AssignedPosition[] = [
-  "utility",
-  "middle",
-  "top",
-  "bottom",
-  "jungle",
-  "other",
+type AssignedPositionsDataType = {
+  name: AssignedPosition;
+  description: string;
+};
+const tooltipId = `position-tooltip`;
+
+const assignedPositions: AssignedPositionsDataType[] = [
+  {
+    name: "utility",
+    description: "Auto pick for utility(support) champions",
+  },
+  { name: "middle", description: "Auto pick for middle champions" },
+  { name: "top", description: "Auto pick for top champions" },
+  { name: "bottom", description: "Auto pick for bottom champions" },
+  { name: "jungle", description: "Auto pick for jungle champions" },
+  {
+    name: "other",
+    description:
+      "Auto pick for other (should work for custom matches / blind picks) champions ",
+  },
 ];
 
 export function AutoChampionPick() {
@@ -28,6 +41,7 @@ export function AutoChampionPick() {
   return (
     <div className={styles.autoChampionOptionsWrapper}>
       <div className={styles.autoPickChampOptions}>
+        <TooltipCustom defaultTooltipProps={{ id: tooltipId }} />
         <Button
           defaultButtonType={autoPickChamp ? "success" : "danger"}
           onClick={() => changeClientOptions({ autoPickChamp: !autoPickChamp })}
@@ -98,18 +112,25 @@ function AssignedPossitionsButtons({
   currentChoosenPosition,
   setCurrentPositionToAdd,
 }: AssignedPossitionsProps) {
-  return assignedPositions.map((position, idx) => (
-    <React.Fragment key={idx}>
-      <Button
-        defaultButtonType={
-          currentChoosenPosition === position ? "primary" : "secondary"
-        }
-        onClick={() => setCurrentPositionToAdd(position)}
+  return assignedPositions.map((position, idx) => {
+    return (
+      <div
+        key={idx}
+        data-tooltip-id={tooltipId}
+        data-tooltip-content={position.description}
+        className={styles.positionButtonWrapper}
       >
-        {position}
-      </Button>
-    </React.Fragment>
-  ));
+        <Button
+          defaultButtonType={
+            currentChoosenPosition === position.name ? "success" : "secondary"
+          }
+          onClick={() => setCurrentPositionToAdd(position.name)}
+        >
+          {position.name}
+        </Button>
+      </div>
+    );
+  });
 }
 
 type ChampionsForAssignedPossitionsProps = {
@@ -126,7 +147,7 @@ function ChampionsForAssignedPossitions({
   } = useHeadContext();
   return assignedPositions.map((position, idx) => (
     <div key={idx}>
-      {autoPickChamps?.[position].map((champ, idx) => {
+      {autoPickChamps?.[position.name].map((champ, idx) => {
         const isAlreadyAdded =
           champFilter &&
           champ.name.toLowerCase().includes(champFilter.toLowerCase());

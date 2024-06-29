@@ -67,6 +67,7 @@ export function FriendsList() {
             </div>
           </div>
         ))}
+
       <div className={styles.friendsListContentWrapper}>
         <div className={styles.friendsFilter}>
           <div>Search: </div>

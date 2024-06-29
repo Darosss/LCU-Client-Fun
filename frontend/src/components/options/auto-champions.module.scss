@@ -28,11 +28,14 @@ $minMaxWidthForChampionsPosition: 14%;
     & > div {
       flex-direction: row;
     }
-
-    button {
-      padding: 0.3rem;
+    .positionButtonWrapper {
       max-width: $minMaxWidthForChampionsPosition;
       min-width: $minMaxWidthForChampionsPosition;
+      padding: 0.3rem;
+
+      button {
+        width: 100%;
+      }
     }
   }
   .championsForAssignedPositionsWrapper {
