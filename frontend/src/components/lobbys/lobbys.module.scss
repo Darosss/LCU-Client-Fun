@@ -1,7 +1,9 @@
 .lobbysWrapper {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  min-height: 100%;
+  max-height: 100%;
+  position: relative;
 }
 
 .toggleLobbysButtonWrapper {
@@ -14,15 +16,23 @@
 }
 
 .lobbysListWrapper {
-  position: relative;
+  margin-bottom: 2dvh;
+
   box-shadow: var(--base-box-shadow);
   .lobbysContentWrapper {
+    z-index: 1000;
+
     position: absolute;
     display: flex;
     flex-wrap: wrap;
     padding: 0.5rem;
+    padding-top: 0;
+
     background-color: rgb(var(--primary-first-rgb));
     background-image: var(--primary-glow);
+    min-height: 90%;
+    max-height: 90%;
+    overflow-x: hidden;
 
     box-shadow: var(--base-box-shadow);
     & > * {
@@ -30,6 +40,10 @@
     }
 
     .lobbysContent {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      flex-grow: 1;
       & > button {
         min-width: 33%;
         max-width: 33%;
@@ -38,8 +52,18 @@
       }
     }
     .filterWrapper {
+      z-index: 1000;
+      background-color: rgb(var(--primary-first-rgb));
+      background-image: var(--primary-glow);
+      box-shadow: var(--base-box-shadow);
+      min-height: 6dvh;
+      max-height: 6dvh;
+      align-items: center;
       display: flex;
       justify-content: center;
+      position: sticky;
+      top: 0;
+
       width: 100%;
 
       span {
