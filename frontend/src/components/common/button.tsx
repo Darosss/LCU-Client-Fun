@@ -9,6 +9,7 @@ type ButtonProps = {
   defaultButtonType?: ButtonTypes;
   type?: "button" | "reset" | "submit";
   children: React.ReactNode;
+  disabledButton?: boolean;
 };
 
 export const Button: FC<ButtonProps> = ({
@@ -18,9 +19,11 @@ export const Button: FC<ButtonProps> = ({
   className,
   defaultButtonType,
   type,
+  disabledButton,
 }) => {
   return (
     <button
+      disabled={disabledButton}
       onClick={onClick}
       style={{
         ...(style ? style : undefined),
