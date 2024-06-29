@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { useChampionSelectContext } from "./champion-select-context";
 import { useSocketEventsContext } from "@/socket";
-import { toast } from "react-toastify";
-import { useHeadContext } from "../lcu";
+import { useHeadContext } from "@/components";
+import styles from "./phase-bans.module.scss";
 
 type BannedChampsType = {
   name: string;
@@ -83,12 +83,16 @@ export function PhaseBans() {
   }, [bannedChamps]);
 
   return (
-    <div id="bans-in-phase-wrapper">
+    <div className={styles.phaseBansWrapper}>
       <div>
         {allyBans.map((name, index) => (
           <div key={index}>{name} </div>
         ))}
       </div>
+      <div className={styles.bansHeader}>
+        <h3>Bans</h3>{" "}
+      </div>
+
       <div>
         {enemyBans.map((name, index) => (
           <div key={index}>{name} </div>

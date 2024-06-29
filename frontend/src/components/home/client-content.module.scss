@@ -1,5 +1,5 @@
 $maxHeightNavigation: 5%;
-$minHeightContent: 95%;
+$minMaxHeightContent: 95%;
 
 .clientContentWrapper {
   height: 100%;
@@ -8,7 +8,8 @@ $minHeightContent: 95%;
   display: flex;
   flex-direction: column;
   .clientContent {
-    min-height: $minHeightContent;
+    min-height: $minMaxHeightContent;
+    max-height: $minMaxHeightContent;
     padding: 0.5rem;
   }
   .clientNavigationWrapper {

@@ -17,6 +17,7 @@ import {
 import { useSocketEventsContext } from "@/socket";
 import { toast } from "react-toastify";
 import { findAvailableChampionForAutoPick } from "@/helpers";
+import styles from "./champion-select.module.scss";
 
 export function ChampSelect() {
   const { events, emits } = useSocketEventsContext();
@@ -118,54 +119,61 @@ export function ChampSelect() {
     });
   }
   return (
-    <div>
-      <div>
-        {/* champ select */}
-        <div id="champ-select-wrapper">
-          <div id="champ-select-title-wrapper">
-            <div>{`Champ select ${
-              userAction ? ` - Your time to ${userAction.type}!` : ""
-            }
-        `}</div>
+    <div className={styles.championSelectWrapper}>
+      <div className={styles.headerWrapper}>
+        <div className={styles.actionInfoWrapper}>
+          <h2>{`Champ select ${
+            userAction ? ` - Your time to ${userAction.type}!` : ""
+          }
+        `}</h2>
+          <h2>
             <TimeLeftInPhase onEndingTimeLeft={autoPickChampion} />
-            <div>Bans</div>
-            <PhaseBans />
-          </div>
-          {userAction ? (
-            <div id="summoner-action-btn-wrapper">
-              <Button
-                defaultButtonType={
-                  userAction.type === "pick" ? "primary" : "danger"
-                }
-                onClick={handleOnFinishAction}
-              >
-                {userAction.type}
-              </Button>
-            </div>
-          ) : null}
+          </h2>
+        </div>
+        <div className={styles.bansWrapper}>
+          <PhaseBans />
+        </div>
+      </div>
+      <div className={styles.userActionWrapper}>
+        {userAction ? (
+          <Button
+            defaultButtonType={
+              userAction.type === "pick" ? "primary" : "danger"
+            }
+            onClick={handleOnFinishAction}
+          >
+            {userAction.type}
+          </Button>
+        ) : (
+          <Button defaultButtonType="secondary"> - </Button>
+        )}
+      </div>
 
-          <div id="teams-champions-wrapper">
-            <TeamView team="ally" />
-            <AvailableChamps
-              banPhase={userAction?.type === "ban"}
-              currentActionId={userAction?.id}
-              onChangeChampion={(champ) => {
-                setSelectedChamp(champ);
-              }}
-            />
-            <TeamView team="enemy" />
-          </div>
+      <div className={styles.mainContentChampionSelectWrapper}>
+        <div className={styles.teamWrapper}>
+          <TeamView team="ally" />
+        </div>
+        <div className={styles.availableChampsWrapper}>
+          <AvailableChamps
+            banPhase={userAction?.type === "ban"}
+            currentActionId={userAction?.id}
+            onChangeChampion={(champ) => {
+              setSelectedChamp(champ);
+            }}
+          />
+        </div>
+
+        <div className={styles.teamWrapper}>
+          <TeamView team="enemy" />
         </div>
       </div>
 
-      <div>
-        {/* runes */}
-        <div id="champ-select-runes-wrapper">
-          <RunesContextProvider>
-            <ChampionSelectRunes />
-          </RunesContextProvider>
-        </div>
-      </div>
+      {/* runes */}
+      {/* <div id="champ-select-runes-wrapper">
+        <RunesContextProvider>
+          <ChampionSelectRunes />
+        </RunesContextProvider>
+      </div> */}
     </div>
   );
 }

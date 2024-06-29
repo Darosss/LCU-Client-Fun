@@ -11,6 +11,7 @@ import {
 import { useChampionSelectContext } from "./champion-select-context";
 import { useSocketEventsContext } from "@/socket";
 import { toast } from "react-toastify";
+import styles from "./availble-champs.module.scss";
 
 //TODO: refactor AvailableChamps.tsx
 interface AvailableChampsProps {
@@ -105,8 +106,8 @@ export function AvailableChamps({
   }
 
   return (
-    <div id="available-champs-wrapper">
-      <div id="available-champs-search">
+    <div className={styles.availableChampsWraper}>
+      <div className={styles.championsFilters}>
         <div>Search champion</div>
         <input
           onChange={(e) => setChampFilter(e.target.value.toLowerCase())}
@@ -119,7 +120,7 @@ export function AvailableChamps({
         )}
       </div>
 
-      <div id="available-champs">
+      <div className={styles.championsList}>
         {availableChamps
           .filter(({ id, name }) => {
             if (!banPhase && !pickableChamps.pickable.includes(id)) return;
@@ -188,8 +189,12 @@ function ChampionBtnBlock({
   }
 
   return disabled ? (
-    <Button>{name}</Button>
+    <Button defaultButtonType="secondary" disabledButton={true}>
+      {name}{" "}
+    </Button>
   ) : (
-    <Button onClick={() => onClickChampionBtn()}>{name}</Button>
+    <Button defaultButtonType="primary" onClick={() => onClickChampionBtn()}>
+      {name}
+    </Button>
   );
 }

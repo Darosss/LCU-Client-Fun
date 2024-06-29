@@ -74,7 +74,6 @@ export function ChangeSummonerSpellsButtons({
   return (
     <div>
       <div id="current-summoner-spells-btn-wrapper">
-        Change spells buttons here...
         <Button
           defaultButtonType={
             showSpellsChangeMenu === "spell1Id" ? "success" : "primary"

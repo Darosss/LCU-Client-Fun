@@ -1,0 +1,20 @@
+.phaseBansWrapper {
+  display: flex;
+  justify-content: space-between;
+
+  box-shadow: var(--base-box-shadow);
+
+  background-image: var(--primary-glow);
+
+  & > div {
+    min-width: 40%;
+    max-width: 40%;
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .bansHeader {
+    max-width: 15%;
+    min-width: 15%;
+  }
+}

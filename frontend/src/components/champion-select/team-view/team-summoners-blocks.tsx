@@ -4,6 +4,7 @@ import { useChampionSelectContext } from "../champion-select-context";
 import { ChangeSummonerSpellsButtons } from "./change-summoner-spells-btn";
 import { useHeadContext } from "@/components";
 import { ChampSelectSummonerData } from "@/shared";
+import styles from "./team-summoners-blocks.module.scss";
 
 interface TeamSummonersBlocksProps {
   summoner: ChampSelectSummonerData;
@@ -36,17 +37,15 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
 
   return (
     <div
-      id="team-summoners-blocks-wrapper"
-      style={
-        //TODO: change to styles.class
-        { border: currentSummonerData?.isSelf ? "1px solid white" : "" }
-      }
+      className={`${styles.teamSummonerBlockWrapper} ${
+        currentSummonerData?.isSelf ? styles.currentSummoner : "chuj ci  wr yj"
+      }`}
     >
-      <div id="summoner-role-champion-wrapper">
-        <div id="summoner-assigned-position">
+      <div className={styles.teamSummonerDetails}>
+        <div className={styles.assignedPosition}>
           {summoner.assignedPosition || ""}
         </div>
-        <div id="summoner-display-name">
+        <div className={styles.displayName}>
           {`${
             summoner.isSelf
               ? currentSummoner?.displayName
@@ -54,7 +53,7 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
           }`}
         </div>
       </div>
-      <div id="summoner-spells-wrapper">
+      <div className={styles.teamSummonerSpells}>
         {summoner.isSelf ? (
           <ChangeSummonerSpellsButtons
             spell1Id={spell1Id}
@@ -71,7 +70,7 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
           </>
         )}
       </div>
-      <div id="summoner-action">
+      <div className={styles.summonerActionWrapper}>
         {currentSummonerData?.areSummonerActionsComplete ? (
           <div>{currentSummonerData.championName}</div>
         ) : (
