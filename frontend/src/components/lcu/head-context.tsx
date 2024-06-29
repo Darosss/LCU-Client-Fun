@@ -84,6 +84,11 @@ export const HeadContextProvider: FC<HeadContextProviderProps> = ({
         case "PreEndOfGame":
         case "EndOfGame":
           setCurrentView(CurrentView.CURRENT_PHASE);
+          break;
+        case "None":
+        case "Lobby":
+          setCurrentView(CurrentView.LOBBY);
+          break;
       }
     });
     events.lobbyData.on((data) => {
