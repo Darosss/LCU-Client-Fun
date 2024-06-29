@@ -39,15 +39,27 @@ export class BaseLCUHandler {
     url,
     body
   }: MakeAHttp1RequestParams<T>): Promise<Http1Response> {
-    const response = await createHttp1Request(
-      {
-        method: method,
-        url: url,
-        body: body
-      },
-      this.credentials
-    );
+    try {
+      const response = await createHttp1Request(
+        {
+          method: method,
+          url: url,
+          body: body
+        },
+        this.credentials
+      );
 
-    return response;
+      return response;
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message.includes("ECONNREFUSED")) {
+          throw new Error(
+            "Couldn't connect to the LOL client. Please refresh user details and/or restart the LOL client. Note: The LOL client must be running for this to work."
+          );
+        }
+        throw Error(error.message);
+      }
+      throw Error("An unknown error occured");
+    }
   }
 }
