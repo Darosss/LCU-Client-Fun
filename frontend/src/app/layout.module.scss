@@ -7,7 +7,12 @@
   bottom: 0;
   right: 0;
   background-image: var(--primary-glow);
-  filter: brightness(60%);
+  filter: brightness(80%);
+
+  img {
+    filter: brightness(50%);
+    filter: opacity(20%);
+  }
 }
 
 main.mainWrapper {
@@ -23,11 +28,23 @@ main.mainWrapper {
   }
 }
 
-.userDetailsWrapper {
+.baseDetailsWrapper {
   background-image: var(--primary-glow);
-  padding: var(--user-details-padding);
-  filter: brightness(120%);
-  border-bottom: 1px solid #083344;
+  background-color: rgb(var(--primary-first-rgb));
+  padding: var(--base-details-padding);
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  .logoWrapper {
+    display: flex;
+    min-height: 5dvw;
+    max-height: 5dvw;
+    min-width: 5dvw;
+    max-width: 5dvw;
+    position: relative;
+    margin-right: 1dvw;
+  }
 }
 
 .contentWrapper {

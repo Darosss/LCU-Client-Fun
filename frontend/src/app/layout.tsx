@@ -5,6 +5,7 @@ import "@/styles/globals.scss";
 import "react-toastify/dist/ReactToastify.css";
 import "react-tooltip/dist/react-tooltip.css";
 import { LayoutContent } from "./layout-content";
+import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className={styles.contentBackground}></div>
+        <div className={styles.contentBackground}>
+          <Image src="/images/logo.png" alt="lcu-client-logo" fill />
+        </div>
+
         <main className={styles.mainWrapper}>
           <LayoutContent>{children}</LayoutContent>
         </main>
