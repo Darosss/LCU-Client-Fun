@@ -1,0 +1,6 @@
+.baseTooltipStyles {
+  box-shadow: var(--base-box-shadow);
+  background-color: rgb(var(--info-first-rgb)) !important;
+  background-image: var(--info-glow) !important;
+  z-index: 1001;
+}
