@@ -6,6 +6,7 @@ import { useFriendsListContext } from "./friends-list-context";
 import { ManageInvitationAction, ReceivedInvitationData } from "@/shared";
 import { useSocketEventsContext } from "@/socket";
 import { toast } from "react-toastify";
+import styles from "./friends.module.scss";
 
 export function FriendsList() {
   const { events, emits } = useSocketEventsContext();
@@ -40,35 +41,34 @@ export function FriendsList() {
   }
 
   return (
-    <div id="friends-list-wrapper">
-      <div id="friends-list">
-        <div>
-          {currentInvitations
-            .filter(({ state }) => state === "Pending")
-            .map(({ fromSummonerName, gameConfig, invitationId }, idx) => (
-              <div key={idx} id="invitation-wrapper">
-                <div>{fromSummonerName}</div>
-                <div>
-                  {queuesData.find(
-                    ({ queueId }) => queueId === gameConfig.queueId
-                  )?.description || gameConfig.gameMode}
-                </div>
-                <div>
-                  <Button
-                    defaultButtonType="success"
-                    onClick={() => manageInvitation("accept", invitationId)}
-                  >
-                    +
-                  </Button>
-                  <Button
-                    defaultButtonType="success"
-                    onClick={() => manageInvitation("decline", invitationId)}
-                  >
-                    x
-                  </Button>
-                </div>
-              </div>
-            ))}
+    <div className={styles.friendsListWrapper}>
+      {currentInvitations
+        .filter(({ state }) => state === "Pending")
+        .map(({ fromSummonerName, gameConfig, invitationId }, idx) => (
+          <div key={idx} className={styles.invitationWrapper}>
+            <div>{fromSummonerName}</div>
+            <div>
+              {queuesData.find(({ queueId }) => queueId === gameConfig.queueId)
+                ?.description || gameConfig.gameMode}
+            </div>
+            <div>
+              <Button
+                defaultButtonType="success"
+                onClick={() => manageInvitation("accept", invitationId)}
+              >
+                +
+              </Button>
+              <Button
+                defaultButtonType="danger"
+                onClick={() => manageInvitation("decline", invitationId)}
+              >
+                x
+              </Button>
+            </div>
+          </div>
+        ))}
+      <div className={styles.friendsListContentWrapper}>
+        <div className={styles.friendsFilter}>
           <div>Search: </div>
           <input
             onChange={(e) => {
@@ -76,24 +76,26 @@ export function FriendsList() {
             }}
             value={friendsFilter}
           />
-          <Button defaultButtonType="info" onClick={updateFriendsList}>
-            Refresh friends
+        </div>
+        <Button defaultButtonType="info" onClick={updateFriendsList}>
+          Refresh friends
+        </Button>
+        {!showOfflineFriends ? (
+          <Button
+            defaultButtonType="primary"
+            onClick={() => setShowOfflineFriends(true)}
+          >
+            Online
           </Button>
-          {!showOfflineFriends ? (
-            <Button
-              defaultButtonType="primary"
-              onClick={() => setShowOfflineFriends(true)}
-            >
-              Online
-            </Button>
-          ) : (
-            <Button
-              defaultButtonType="danger"
-              onClick={() => setShowOfflineFriends(false)}
-            >
-              Offline
-            </Button>
-          )}
+        ) : (
+          <Button
+            defaultButtonType="danger"
+            onClick={() => setShowOfflineFriends(false)}
+          >
+            Offline
+          </Button>
+        )}
+        <div className={styles.friendsDataList}>
           {friendsList
             .filter(({ availability, name }) =>
               friendsFilter
@@ -107,9 +109,13 @@ export function FriendsList() {
             ))}
         </div>
       </div>
-      <div id="friends-list-chat-wrapper">
-        <MessagesWindow />
-      </div>
     </div>
   );
+
+  /**
+   *     <div id="friends-list-chat-wrapper">
+        <MessagesWindow />
+      </div>
+      TODO: this should be in absolute position etc
+   */
 }

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@/components";
 import { FriendMenuActions } from "./friend-menu-actions";
 import { FriendsListData } from "@/shared";
+import styles from "./friend-block.module.scss";
 
 interface FriendBlockProps {
   friend: FriendsListData;
@@ -9,7 +10,7 @@ interface FriendBlockProps {
 export function FriendBlock({ friend }: FriendBlockProps) {
   const [showFriendMenu, setShowFriendMenu] = useState(false);
   return (
-    <div id="friend-block-wrapper">
+    <div className={styles.friendBlockWrapper}>
       <div>
         <Button
           defaultButtonType="secondary"

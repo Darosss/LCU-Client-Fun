@@ -31,5 +31,7 @@ $clientWidth: 80%;
   .sidebar {
     min-width: $sidebarWidth;
     max-width: $sidebarWidth;
+    display: flex;
+    flex-grow: 1;
   }
 }

@@ -1,0 +1,10 @@
+.socialWindowWrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .friendsContentWrapper {
+    flex-grow: 1;
+    height: 100%;
+  }
+}
