@@ -77,24 +77,26 @@ export function FriendsList() {
             value={friendsFilter}
           />
         </div>
-        <Button defaultButtonType="info" onClick={updateFriendsList}>
-          Refresh friends
-        </Button>
-        {!showOfflineFriends ? (
-          <Button
-            defaultButtonType="primary"
-            onClick={() => setShowOfflineFriends(true)}
-          >
-            Online
+        <div className={styles.friendsListActions}>
+          <Button defaultButtonType="info" onClick={updateFriendsList}>
+            Refresh friends
           </Button>
-        ) : (
-          <Button
-            defaultButtonType="danger"
-            onClick={() => setShowOfflineFriends(false)}
-          >
-            Offline
-          </Button>
-        )}
+          {!showOfflineFriends ? (
+            <Button
+              defaultButtonType="primary"
+              onClick={() => setShowOfflineFriends(true)}
+            >
+              Online
+            </Button>
+          ) : (
+            <Button
+              defaultButtonType="danger"
+              onClick={() => setShowOfflineFriends(false)}
+            >
+              Offline
+            </Button>
+          )}
+        </div>
         <div className={styles.friendsDataList}>
           {friendsList
             .filter(({ availability, name }) =>
