@@ -4,6 +4,7 @@ import { useRunesContext } from "./runes-context";
 import { Button } from "@/components";
 import { useSocketEventsContext } from "@/socket";
 import { toast } from "react-toastify";
+import styles from "./current-rune-page-actions.module.scss";
 
 export function CurrentRunePageActions() {
   const { emits } = useSocketEventsContext();
@@ -11,8 +12,8 @@ export function CurrentRunePageActions() {
     currentPage,
     changeCurrentPage,
     runePages,
-    changeRunePages,
     fetchCurrentPageAndSet,
+    emitUpdateRunePages,
   } = useRunesContext();
 
   async function handleOnClickSaveBtn() {
@@ -32,13 +33,16 @@ export function CurrentRunePageActions() {
     emits.deleteRunePageById(currentPage.id, (error, data) => {
       if (error || !data)
         return toast.error(error || "Couldn't delete rune page");
+
       fetchCurrentPageAndSet();
+
+      emitUpdateRunePages();
     });
   }
 
   return currentPage ? (
-    <div id="champion-select-current-rune-page">
-      <div id="champion-select-rune-page-actions">
+    <div className={styles.currentRunePageActionsWrapper}>
+      <div className={styles.selectRunePageWrapper}>
         <input
           value={currentPage.name}
           onChange={(e) =>
@@ -46,15 +50,22 @@ export function CurrentRunePageActions() {
           }
         />
         {currentPage.isEditable ? (
-          <Button onClick={() => handleOnClickSaveBtn()}>Save</Button>
+          <Button defaultButtonType="success" onClick={handleOnClickSaveBtn}>
+            Save
+          </Button>
         ) : null}
 
         {currentPage.isDeletable && runePages.length > 1 ? (
-          <Button onClick={() => handleOnClickDeleteBtn()}>Delete</Button>
+          <Button defaultButtonType="danger" onClick={handleOnClickDeleteBtn}>
+            Delete
+          </Button>
         ) : null}
         {!currentPage.isValid ? <div>Rune page is not valid</div> : null}
       </div>
-      <RuneStyleSlots />
+
+      <div className={styles.runesContent}>
+        <RuneStyleSlots />
+      </div>
     </div>
   ) : null;
 }

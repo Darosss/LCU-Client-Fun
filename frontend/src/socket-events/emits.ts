@@ -133,6 +133,10 @@ export const getSocketEmitsFunctions = (
       socketConnection.emit("getChampionsData", (error, data) =>
         callback(error, data)
       ),
+    getRunePages: (callback) =>
+      socketConnection.emit("getRunePages", (error, data) =>
+        callback(error, data)
+      ),
     createRunePage: (data, callback) =>
       socketConnection.emit("createRunePage", data, (error, data) =>
         callback(error, data)

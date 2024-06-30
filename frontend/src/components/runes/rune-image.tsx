@@ -3,18 +3,16 @@ import path from "path";
 
 import Image from "next/image";
 import { MouseButton } from "@/shared";
-
+import styles from "./rune-image.module.scss";
 /**
  * - choosenCondition - add style to View if condition === true
  * - imgSrc - simple not absolute src image
- * - choosenConditionBgColor - color for choosenCondition. default=green
  * - minMaxSize - sets min and max size of image. default = 40, 40
  */
 
 interface RuneImageProps {
   choosenCondition: boolean;
   imgSrc: string;
-  choosenConditionStyle?: string;
   minMaxSize?: { width: number; height: number };
   onClickImg?: (btn: MouseButton) => void;
 }
@@ -22,27 +20,24 @@ interface RuneImageProps {
 export function RuneImage({
   choosenCondition,
   imgSrc,
-  choosenConditionStyle,
   minMaxSize,
   onClickImg,
 }: RuneImageProps) {
-  console.log(
-    process.env.NEXT_PUBLIC_BACKEND_URL,
-    process.env.NEXT_PUBLIC_BACKEND_PUBLIC
-  );
   return (
     <div
       id="rune-image-wrapper"
-      // style={{}} ${choosenCondition ? choosenConditionStyle : ""} //TODO: add choosenConditionColor
-      onClick={(e) => {
+      className={choosenCondition ? styles.choosen : ""}
+      onMouseDown={(e) => {
         if (!onClickImg) return;
         const mouseBtn = e.nativeEvent.button;
         const mouseBtnString =
-          mouseBtn === 1
+          mouseBtn === 0
             ? MouseButton.LEFT
             : mouseBtn === 2
             ? MouseButton.RIGHT
-            : MouseButton.SCROLL;
+            : mouseBtn === 1
+            ? MouseButton.SCROLL
+            : MouseButton.OTHER;
 
         onClickImg(mouseBtnString);
       }}

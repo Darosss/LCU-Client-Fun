@@ -38,11 +38,7 @@ export function SwitchSubRunes({
         })
         .map((slot, idx) => {
           return (
-            <div
-              key={idx}
-              id="rune-style-slot"
-              style={{ display: "flex", border: "1px solid red" }}
-            >
+            <div key={idx} id="rune-style-slot">
               {slot.perks.map((perk, perkIdx) => {
                 const foundRune = runesData.find((rune) => rune.id === perk);
                 if (!foundRune) return;
@@ -141,7 +137,7 @@ function ChangeSecondarySubRune({ foundRune }: ChangeSecondarySubRune) {
           case MouseButton.LEFT:
             handleOnMouseBtnClick(4);
             break;
-          case MouseButton.RIGHT:
+          case MouseButton.SCROLL:
             handleOnMouseBtnClick(5);
 
             break;

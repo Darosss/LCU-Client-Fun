@@ -7,9 +7,7 @@ import { useChampionSelectContext } from "./champion-select-context";
 import { TeamView } from "./team-view";
 import { TimeLeftInPhase } from "./time-left-in-phase";
 import { PhaseBans } from "./phase-bans";
-import { Button, useHeadContext } from "@/components";
-import { ChampionSelectRunes } from "./runes";
-import { RunesContextProvider } from "./runes/runes-context";
+import { Button, RunesContextProvider, useHeadContext } from "@/components";
 import {
   ActionsChampSelectSessionData,
   ChampSelectActionParams,
@@ -18,6 +16,7 @@ import { useSocketEventsContext } from "@/socket";
 import { toast } from "react-toastify";
 import { findAvailableChampionForAutoPick } from "@/helpers";
 import styles from "./champion-select.module.scss";
+import { ChampionSelectRunes } from "./runes/champion-select-runes";
 
 export function ChampSelect() {
   const { events, emits } = useSocketEventsContext();
@@ -120,6 +119,7 @@ export function ChampSelect() {
   }
   return (
     <div className={styles.championSelectWrapper}>
+      <RunesView />
       <div className={styles.headerWrapper}>
         <div className={styles.actionInfoWrapper}>
           <h2>{`Champ select ${
@@ -167,13 +167,33 @@ export function ChampSelect() {
           <TeamView team="enemy" />
         </div>
       </div>
+    </div>
+  );
+}
 
-      {/* runes */}
-      {/* <div id="champ-select-runes-wrapper">
-        <RunesContextProvider>
-          <ChampionSelectRunes />
-        </RunesContextProvider>
-      </div> */}
+function RunesView() {
+  const [showRunesView, setShowRunesView] = useState(true);
+  return (
+    <div
+      className={`${styles.runesContentWrapper} ${
+        showRunesView ? styles.open : ""
+      }`}
+    >
+      <div>
+        <Button
+          defaultButtonType="info"
+          onClick={() => setShowRunesView(!showRunesView)}
+        >
+          {showRunesView ? "Close runes" : "Runes"}
+        </Button>
+      </div>
+      {showRunesView ? (
+        <div className={styles.runesContentViewWrapper}>
+          <RunesContextProvider>
+            <ChampionSelectRunes />
+          </RunesContextProvider>
+        </div>
+      ) : null}
     </div>
   );
 }

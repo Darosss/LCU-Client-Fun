@@ -1,13 +1,20 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import { useRunesContext } from "./runes-context";
 import { Button } from "@/components";
 import { useSocketEventsContext } from "@/socket";
 import { toast } from "react-toastify";
 import { RunePageData } from "@/shared";
+import styles from "./rune-pages.list.module.scss";
 
 export function RunePagesList() {
-  const { currentPage, changeCurrentPage, runePages, emitSetCurrentRunePage } =
-    useRunesContext();
+  const {
+    currentPage,
+    changeCurrentPage,
+    runePages,
+    emitSetCurrentRunePage,
+    emitUpdateRunePages,
+  } = useRunesContext();
   const { emits } = useSocketEventsContext();
   const [ownedRunePagesCount, setOwnedRunePagesCount] = useState(1);
 
@@ -36,14 +43,14 @@ export function RunePagesList() {
       async (error, data) => {
         if (error || !data)
           return toast.error(error || "Couldn't create rune page");
-
         emitSetCurrentRunePage(data);
+        emitUpdateRunePages();
       }
     );
   }
 
   return (
-    <div id="champion-select-runes-pages-list">
+    <div className={styles.runePagesListWrapper}>
       {ownedRunePagesCount > runePages.length ? (
         <Button
           defaultButtonType="primary"
@@ -53,7 +60,13 @@ export function RunePagesList() {
         </Button>
       ) : null}
       {runePages.map((page, idx) => (
-        <Button key={idx} onClick={() => handleOnClickChangePage(page)}>
+        <Button
+          key={idx}
+          defaultButtonType={
+            page.id === currentPage?.id ? "primary" : "secondary"
+          }
+          onClick={() => handleOnClickChangePage(page)}
+        >
           {page.name}
         </Button>
       ))}
