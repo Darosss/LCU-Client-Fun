@@ -14,6 +14,7 @@ export function RunePagesList() {
     runePages,
     emitSetCurrentRunePage,
     emitUpdateRunePages,
+    fetchCurrentPageAndSet,
   } = useRunesContext();
   const { emits } = useSocketEventsContext();
   const [ownedRunePagesCount, setOwnedRunePagesCount] = useState(1);
@@ -26,6 +27,10 @@ export function RunePagesList() {
       setOwnedRunePagesCount(data.ownedPageCount);
     });
   }, [emits]);
+
+  useEffect(() => {
+    fetchCurrentPageAndSet();
+  }, [fetchCurrentPageAndSet]);
 
   async function handleOnClickChangePage(page: RunePageData) {
     changeCurrentPage(null);
