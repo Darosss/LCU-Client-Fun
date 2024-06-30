@@ -167,7 +167,7 @@ export type ClientToServerEvents = {
   ) => void;
 
   getQueuesData: (cb: CallbackType<QueueData[], string>) => void;
-
+  getRunePages: (cb: CallbackType<RunePageData[], string>) => void;
   createRunePage: (
     data: CreateRunePageBody,
     cb: CallbackType<RunePageData, string>
