@@ -6,8 +6,4 @@ export { HomeContent } from "./home";
 export * from "./lcu";
 export { Sidebar } from "./sidebar";
 export { Options } from "./options";
-export {
-  RunesContextProvider,
-  CurrentRunePageActions,
-  RunePagesList,
-} from "./runes";
+export * from "./runes";

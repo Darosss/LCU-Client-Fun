@@ -1,28 +1,21 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
-import { Button, useHeadContext } from "@/components";
+import {
+  Button,
+  useHeadContext,
+  RuneImage,
+  useRunesContext,
+} from "@/components";
 import { useChampionSelectContext } from "../champion-select-context";
-import { RuneImage } from "../../runes/rune-image";
 import { useSocketEventsContext } from "@/socket";
 import {
-  AssignedPosition,
   RecommendedRunesData,
   RuneSlotType,
   RunesData,
   SelectedPerkIds,
 } from "@/shared";
 import { toast } from "react-toastify";
-import { useRunesContext } from "../../runes/runes-context";
 import styles from "./recommended-runes-for-champion.module.scss";
-
-const possiblePossitions: Set<AssignedPosition> = new Set([
-  "bottom",
-  "jungle",
-  "middle",
-  "other",
-  "top",
-  "utility",
-]);
 
 interface RecomenedRunesForChampionProps {}
 export function RecommenedRunesForChampion({}: RecomenedRunesForChampionProps) {
@@ -44,28 +37,16 @@ export function RecommenedRunesForChampion({}: RecomenedRunesForChampionProps) {
     RecommendedRunesData[]
   >([]);
 
-  const [overrodePositionForRunes, setOverrodePositionForRunes] =
-    useState<AssignedPosition | null>(null);
-
   function handleOnClickRecommendedRunes() {
-    console.log("ee");
-    if (!lobbyData || !summonersData || !show) return;
-    console.log("aa");
+    if (!lobbyData || !summonersData) return;
     //99% it will be defined. <- assertion!
     const localSummonerData = summonersData.get(String(localPlayerCellId))!;
-    console.log(
-      overrodePositionForRunes?.toUpperCase() ||
-        localSummonerData.assignedPosition.toUpperCase() ||
-        "NONE"
-    );
+
     emits.getRecommendedPagesByChampIdPositionAndMapId(
       {
         champId: localSummonerData.championId,
         mapId: lobbyData.gameConfig.mapId,
-        position:
-          overrodePositionForRunes?.toUpperCase() ||
-          localSummonerData.assignedPosition.toUpperCase() ||
-          "NONE",
+        position: localSummonerData.assignedPosition.toUpperCase() || "NONE",
       },
       (error, data) => {
         if (error || !data)
@@ -110,6 +91,7 @@ export function RecommenedRunesForChampion({}: RecomenedRunesForChampionProps) {
           return toast.error(error || "Couldn't set recommended rune page");
 
         emitSetCurrentRunePage(data);
+        setShow(false);
       }
     );
 
@@ -124,12 +106,6 @@ export function RecommenedRunesForChampion({}: RecomenedRunesForChampionProps) {
     }
   }
 
-  useEffect(() => {
-    if (!show || overrodePositionForRunes === null) return;
-
-    handleOnClickRecommendedRunes();
-  }, [overrodePositionForRunes, show]);
-
   const chosenChampionName = useMemo(
     () => summonersData.get(String(localPlayerCellId))?.championName,
     [localPlayerCellId, summonersData]
@@ -142,32 +118,15 @@ export function RecommenedRunesForChampion({}: RecomenedRunesForChampionProps) {
     >
       <div className={styles.actions}>
         {chosenChampionName ? (
-          <>
-            <Button
-              defaultButtonType={show ? "danger" : "primary"}
-              onClick={() => {
-                setShow(!show);
-                handleOnClickRecommendedRunes();
-              }}
-            >
-              {show ? "X" : `Recommended runes for ${chosenChampionName}`}
-            </Button>
-            <div className={styles.changeRunesPositionWrapper}>
-              {[...possiblePossitions].map((position, idx) => (
-                <Button
-                  key={idx}
-                  defaultButtonType={
-                    overrodePositionForRunes === position
-                      ? "primary"
-                      : "secondary"
-                  }
-                  onClick={() => setOverrodePositionForRunes(position)}
-                >
-                  {position.toUpperCase()}
-                </Button>
-              ))}
-            </div>
-          </>
+          <Button
+            defaultButtonType={show ? "danger" : "primary"}
+            onClick={() => {
+              setShow(!show);
+              handleOnClickRecommendedRunes();
+            }}
+          >
+            {show ? "X" : `Recommended runes for ${chosenChampionName}`}
+          </Button>
         ) : null}
         {show ? (
           <Button

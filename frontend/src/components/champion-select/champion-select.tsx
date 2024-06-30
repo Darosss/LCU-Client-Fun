@@ -21,7 +21,6 @@ import { ChampionSelectRunes } from "./runes/champion-select-runes";
 export function ChampSelect() {
   const { events, emits } = useSocketEventsContext();
   const {
-    lobbyDataState: [lobbyData],
     options: { autoPickChamp, autoPickChamps },
   } = useHeadContext();
   const {
@@ -172,7 +171,7 @@ export function ChampSelect() {
 }
 
 function RunesView() {
-  const [showRunesView, setShowRunesView] = useState(true);
+  const [showRunesView, setShowRunesView] = useState(false);
   return (
     <div
       className={`${styles.runesContentWrapper} ${
