@@ -515,6 +515,19 @@ export function addSocketOnEvents(
           else callback("An error occured while trying to get champions data");
         }
       });
+      socket.on("getRunePages", async (callback) => {
+        try {
+          const runePages = await lcuHandlerFactory
+            .getHeadHandler()
+            ?.getRunePages();
+          callback(null, runePages);
+        } catch (error) {
+          console.error("Error occured in getChampionsData event.", error);
+          if (error instanceof Error) callback(error.message);
+          else callback("An error occured while trying to get champions data");
+        }
+      });
+
       socket.on("createRunePage", async (data, callback) => {
         try {
           const createdRune = await lcuHandlerFactory
