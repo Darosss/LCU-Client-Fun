@@ -1,0 +1,68 @@
+$minMaxWidthForChampionsPosition: 14%;
+
+.autoChampionOptionsWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  & > div {
+    display: flex;
+    align-items: center;
+  }
+
+  .championsRolesWrapper {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+
+    width: 100%;
+
+    & > div {
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      width: 100%;
+    }
+  }
+  .assignedPositionsButtonsWrapper {
+    & > div {
+      flex-direction: row;
+    }
+    .positionButtonWrapper {
+      max-width: $minMaxWidthForChampionsPosition;
+      min-width: $minMaxWidthForChampionsPosition;
+      padding: 0.3rem;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+  .championsForAssignedPositionsWrapper {
+    flex-grow: 1;
+    & > div {
+      padding: 0.3rem;
+      display: flex;
+      flex-direction: column;
+
+      max-width: $minMaxWidthForChampionsPosition;
+      min-width: $minMaxWidthForChampionsPosition;
+
+      box-shadow: 2px 0px 8px -2px rgb(var(--primary-first-rgb));
+      -webkit-box-shadow: 2px 0px 8px -2px rgb(var(--primary-first-rgb));
+      -moz-box-shadow: 2px 0px 8px -2px rgb(var(--primary-first-rgb));
+      padding-top: 0.5rem;
+      height: 100%;
+
+      & > * {
+        margin-top: 0.1rem;
+      }
+    }
+  }
+
+  .autoChampionsManageWrapper {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+}

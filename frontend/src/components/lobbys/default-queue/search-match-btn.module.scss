@@ -1,0 +1,9 @@
+.searchMatchBtnWrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  box-shadow: var(--base-box-shadow);
+  button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,23 @@
+.availableChampsWraper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  max-height: 100%;
+  .championsFilters {
+    display: flex;
+    justify-content: center;
+  }
+  .championsList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    overflow-x: hidden;
+    min-height: 100%;
+    max-height: 100%;
+    & > * {
+      margin-top: 0.2rem;
+      max-width: 24%;
+      min-width: 24%;
+    }
+  }
+}

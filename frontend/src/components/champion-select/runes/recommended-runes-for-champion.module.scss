@@ -1,0 +1,56 @@
+.recommendedRunesForChampiionWrapper {
+  padding: 1rem;
+
+  &.show {
+    z-index: 1000;
+    margin: 0.5rem;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    border-radius: 1rem;
+    box-shadow: var(--base-box-shadow);
+    background: var(--primary-glow);
+    background-color: rgb(var(--primary-first-rgb));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .actions {
+    display: flex;
+
+    justify-content: space-evenly;
+    & > * {
+      flex-grow: 1;
+      margin: 0 2rem;
+    }
+  }
+  .runesChoiceWrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-grow: 1;
+
+    .runesRecommenedWrapper {
+      display: flex;
+      flex-direction: column;
+      padding: 0.5rem;
+
+      .recommendedName {
+        box-shadow: var(--base-box-shadow);
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      &:hover {
+        box-shadow: var(--base-box-shadow);
+        filter: brightness(150%);
+      }
+      .runesKeystonesWrapper {
+        display: flex;
+        justify-content: space-around;
+      }
+    }
+  }
+}

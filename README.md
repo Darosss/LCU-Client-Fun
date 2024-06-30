@@ -1,13 +1,14 @@
 # Custom LCU Client LOL
-_note: This project wit react-node-gui will no longer be maintained. Hovewer it will be done in simple react soon.
 
-_note: Project probbably will no be maintable just because react-nodegui it's not recently updated that frequently.<br>In feature probably this project will be cloned as new one client in C#/C or something others.<br>Features described in roadmap probably will be added to client soon.<br>Rather nothing more will NOT be added fe. shop, skins, emotes etc._
+_note: features described in roadmap probably will be added to client soon.<br>Rather nothing more will NOT be added fe. shop, skins, emotes etc._
 
 I'm making this just for fun.
 
 # Built with
 
-- react-node-gui
+- React (next.js)
+- express
+- socketIO
 - league-connect(later change)
 
 # Usage
@@ -16,27 +17,11 @@ It's working only on localhost as riot api says
 
 # Instalation
 
-To run this properly you need to read https://github.com/nodegui/react-nodegui#getting-started
-
-You need some things like CMake, C++ build tools and so on. It's all in their docs
-
 ```
 npm install
 npm run dev             //- compile
 
 npm run start           //- app
-```
-
-There is something else to work right now ( later i'll write my own http helper as replacement of league-connect dependecy https://github.com/matsjla/league-connect) after npm install you need to navigate to node_modules\league-connect\dist\index.js and change 250 line(I believe it wont change because no updates).
-
-I dont know why but without react-node-gui it works perfectly but with it I needed to comment TextEncoder and pass just stringified data.
-
-```js
-if (options.body !== void 0) {
-  const data = JSON.stringify(options.body);
-  //const body = new TextEncoder().encode(data);
-  request.write(data, "utf8");
-}
 ```
 
 # Roadmap
@@ -72,6 +57,4 @@ if (options.body !== void 0) {
 
 # Known bugs
 
-- [] actions in champ select are not shown corectly
-- [x] sometimes change spells buttons duplicate and are hard to read
-- [] champ select - pick champion sometimes does not allow to pick bug
+- i will find out if there any (of course they will occur)

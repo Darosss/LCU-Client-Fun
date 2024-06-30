@@ -1,0 +1,20 @@
+.currentRunePageActionsWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 100%;
+  min-height: 100%;
+
+  .selectRunePageWrapper {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  .runesContent {
+    overflow-x: hidden;
+    display: flex;
+
+    width: 100%;
+    max-height: 100%;
+    min-height: 100%;
+  }
+}

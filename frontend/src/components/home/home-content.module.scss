@@ -1,0 +1,38 @@
+$sidebarWidth: 20%;
+$clientWidth: 80%;
+
+.homeContentWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  min-height: 100%;
+  max-height: 100%;
+
+  & > button {
+    font-size: 1.2em;
+  }
+
+  & > * {
+    flex-grow: 1;
+    margin: 0.1rem;
+  }
+
+  & > div {
+    box-shadow: var(--base-box-shadow);
+  }
+
+  .clientContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: $clientWidth;
+    max-width: $clientWidth;
+  }
+
+  .sidebar {
+    min-width: $sidebarWidth;
+    max-width: $sidebarWidth;
+    display: flex;
+    flex-grow: 1;
+  }
+}

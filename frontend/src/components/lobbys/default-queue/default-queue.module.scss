@@ -1,0 +1,22 @@
+.defaultQueueWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  & > div {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+  .positionSelectorWrapper {
+    max-height: 30%;
+    min-height: 30%;
+  }
+  .searchMatchButtonWrapper {
+    max-height: 10%;
+    min-height: 10%;
+  }
+  .lobbyMembersWrapper {
+    flex-grow: 1;
+  }
+}

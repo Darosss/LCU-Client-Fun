@@ -1,0 +1,77 @@
+@import "@/styles/mixins";
+
+.contentBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-image: var(--primary-glow);
+  filter: brightness(80%);
+
+  img {
+    filter: brightness(50%);
+    filter: opacity(20%);
+  }
+}
+
+main.mainWrapper {
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+
+  & > div {
+    width: 100%;
+  }
+}
+
+.baseDetailsWrapper {
+  background-image: var(--primary-glow);
+  background-color: rgb(var(--primary-first-rgb));
+  padding: var(--base-details-padding);
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  .logoWrapper {
+    display: flex;
+    min-height: 5dvw;
+    max-height: 5dvw;
+    min-width: 5dvw;
+    max-width: 5dvw;
+    position: relative;
+    margin-right: 1dvw;
+  }
+}
+
+.contentWrapper {
+  border-radius: 0.5rem;
+  display: flex;
+  position: relative;
+  min-width: 70%;
+  max-width: 70%;
+  max-height: var(--content-height);
+  min-height: var(--content-height);
+  justify-content: center;
+  & > div {
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    & > h1 {
+      text-align: center;
+    }
+    & > div {
+      flex: 0 1 90%;
+      max-height: 100%;
+    }
+  }
+  @include respond(large) {
+    min-width: 98%;
+    max-width: 98%;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,11 @@
+.runePagesListWrapper {
+  display: flex;
+  flex-wrap: wrap;
+
+  width: 100%;
+  justify-content: center;
+  button {
+    min-width: 10%;
+    margin: 0 0.5rem;
+  }
+}
