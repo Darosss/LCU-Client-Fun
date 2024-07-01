@@ -86,7 +86,7 @@ export interface ChampSelectSummonerData {
     | "not-acting-background"
     | "is-acting-background"
     | "";
-  activeActionType: string;
+  activeActionType: "pick" | "ban" | "";
   areSummonerActionsComplete: false;
   assignedPosition: AssignedPosition;
   banIntentSquarePortratPath: string;
