@@ -32,7 +32,7 @@ export function CustomLobbyLeaderActions() {
           Start custom
         </Button>
       </div>
-      <div>
+      <div className={styles.customBotDificultyWrapper}>
         <div>Default bot difficulty</div>
         <Button defaultButtonType={"info"} onClick={changeNewBotsDifficulty}>
           {currentBotDifficulty}
