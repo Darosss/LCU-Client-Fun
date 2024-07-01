@@ -120,9 +120,9 @@ export function addSocketOnEvents(
 
       socket.on("showEligibleLobbys", async (callback) => {
         try {
-          const lobbysData = await lcuHandlerFactory
-            .getLobbyHandler()!
-            .showEligibleLobbys();
+          const lobbysData =
+            (await lcuHandlerFactory.getLobbyHandler()?.showEligibleLobbys()) ||
+            [];
 
           callback(null, lobbysData);
         } catch (error) {
