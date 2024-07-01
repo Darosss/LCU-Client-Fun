@@ -16,6 +16,7 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
     useChampionSelectContext();
   const {
     currentSummonerState: [currentSummoner],
+    championsData,
   } = useHeadContext();
 
   const { spell1Id, spell2Id } = useMemo(() => {
@@ -29,12 +30,48 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
       return { spell1Id: spell1 || -1, spell2Id: spell2 || -1 };
     }
     return { spell1Id: -1, spell2Id: -1 };
-  }, [summoner]);
+  }, [
+    champSelectSessionData.myTeam,
+    summoner.cellId,
+    summoner.isOnPlayersTeam,
+  ]);
 
   const currentSummonerData = useMemo(() => {
     return summonersData.get(summoner.cellId.toString());
-  }, [summonersData.get(summoner.cellId.toString())]);
+  }, [summoner.cellId, summonersData]);
 
+  const currentActionText = useMemo(() => {
+    const currentAction = currentSummonerData?.activeActionType;
+    let actionText = currentSummonerData?.isActingNow ? "Now " : "";
+
+    currentAction ? (actionText += `${currentAction} `) : "";
+
+    switch (currentAction) {
+      case "ban":
+        //Example for path "/lol-game-data/assets/v1/champion-icons/63.png"
+        const banIntentImagePath =
+          currentSummonerData?.banIntentSquarePortratPath;
+        const banIntentChampId = banIntentImagePath
+          ?.split("/")
+          .at(-1)
+          ?.split(".")
+          .at(0);
+        const championName = banIntentChampId
+          ? championsData.find(
+              (champData) => champData.id === Number(banIntentChampId)
+            )?.name
+          : "";
+        actionText += championName || "";
+        break;
+
+      case "pick":
+        actionText += currentSummonerData?.championName;
+        break;
+      default:
+        break;
+    }
+    return actionText;
+  }, [currentSummonerData, championsData]);
   return (
     <div
       className={`${styles.teamSummonerBlockWrapper} ${
@@ -74,11 +111,7 @@ export function TeamSummonersBlocks({ summoner }: TeamSummonersBlocksProps) {
         {currentSummonerData?.areSummonerActionsComplete ? (
           <div>{currentSummonerData.championName}</div>
         ) : (
-          <div>
-            {`${currentSummonerData?.isActingNow ? `Now ` : ""}${
-              currentSummonerData?.activeActionType
-            } ${currentSummonerData?.championName} `}
-          </div>
+          <div>{currentActionText}</div>
         )}
       </div>
     </div>
