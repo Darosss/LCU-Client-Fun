@@ -31,7 +31,7 @@ export function RecommenedRunesForChampion({}: RecomenedRunesForChampionProps) {
     champSelectSessionData: { localPlayerCellId },
   } = useChampionSelectContext();
 
-  const { emitSetCurrentRunePage } = useRunesContext();
+  const { emitSetCurrentRunePage, emitUpdateRunePages } = useRunesContext();
 
   const [recommendedRunesData, setRecommendedRunesData] = useState<
     RecommendedRunesData[]
@@ -91,6 +91,7 @@ export function RecommenedRunesForChampion({}: RecomenedRunesForChampionProps) {
           return toast.error(error || "Couldn't set recommended rune page");
 
         emitSetCurrentRunePage(data);
+        emitUpdateRunePages();
         setShow(false);
       }
     );
