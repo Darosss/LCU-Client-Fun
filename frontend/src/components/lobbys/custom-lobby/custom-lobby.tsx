@@ -20,16 +20,9 @@ export function CustomLobby() {
   useEffect(() => {
     emits.getAvailableChampionsBots((error, data) => {
       if (error) toast.error(error);
-
       setChampionBots(data!);
     });
   }, [emits]);
-
-  function handleOnStartCustomBtn() {
-    emits.startCustomChampSelect((error) => {
-      if (error) toast.error(error);
-    });
-  }
 
   return (
     <div className={styles.customLobbyWrapper}>

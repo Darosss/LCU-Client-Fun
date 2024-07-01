@@ -2,7 +2,11 @@ import { BotDifficulty, TeamsIds } from "../lcu-enums/custom-mode.enums";
 
 export interface ChampionBotsData {
   active: boolean;
-  botDifficulties: [BotDifficulty.EASY, BotDifficulty.MEDIUM];
+  botDifficulties: [
+    BotDifficulty.RSINTRO,
+    BotDifficulty.RSBEGINNER,
+    BotDifficulty.RSINTERMEDIATE
+  ];
   id: number;
   name: string;
 }

@@ -3,8 +3,9 @@ export enum CustomTeamIds {
   two = 200,
 }
 export enum BotDifficulty {
-  EASY = "EASY",
-  MEDIUM = "MEDIUM",
+  RSBEGINNER = "RSBEGINNER",
+  RSINTRO = "RSINTRO",
+  RSINTERMEDIATE = "RSINTERMEDIATE",
 }
 
 export enum TeamsIds {

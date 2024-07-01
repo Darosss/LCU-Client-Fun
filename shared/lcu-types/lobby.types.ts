@@ -1,3 +1,4 @@
+import { BotDifficulty } from "../lcu-enums";
 import { PositionsPreferences } from "../lcu-enums/lobby.enums";
 
 export type ManageInvitationAction = "accept" | "decline";
@@ -69,7 +70,7 @@ export interface LobbyMember {
   autoFillProtectedForSoloing: boolean;
   autoFillProtectedForStreaking: boolean;
   botChampionId: number;
-  botDifficulty: string;
+  botDifficulty: BotDifficulty;
   botId: string;
   firstPositionPreference: PositionsPreferences;
   isBot: boolean;

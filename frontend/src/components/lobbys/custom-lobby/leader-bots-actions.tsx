@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import { useCustomLobbyContext } from "./custom-lobby-context";
 import {
@@ -11,6 +11,7 @@ import { useSocketEventsContext } from "@/socket";
 import { Button } from "@/components";
 import { toast } from "react-toastify";
 import styles from "./leader-bots-actions.module.scss";
+import { changeBotDifficulty, getBotDifficultyBtnColor } from "./helpers";
 
 interface LeaderBotActionsProps {
   championData?: ChampionBotsData;
@@ -61,7 +62,7 @@ export function LeaderBotsActions({
             onChangeExistingBotDifficulty(
               teamIdAsEnum,
               foundChamp.id,
-              member.botDifficulty as BotDifficulty
+              member.botDifficulty
             );
         }}
       >{`${
@@ -69,18 +70,18 @@ export function LeaderBotsActions({
       }`}</Button>
     );
   }
-
   function changeChoosenBotDifficulty() {
-    const changedBotDifficulty =
-      member.botDifficulty === BotDifficulty.EASY
-        ? BotDifficulty.MEDIUM
-        : BotDifficulty.EASY;
+    const changedBotDifficulty = changeBotDifficulty(member.botDifficulty);
     onChangeExistingBotDifficulty(
       teamIdAsEnum,
       member.botChampionId,
       changedBotDifficulty
     );
   }
+  const botDifficultyBtnColor = useMemo(
+    () => getBotDifficultyBtnColor(member.botDifficulty as BotDifficulty),
+    [member.botDifficulty]
+  );
 
   return (
     <div className={styles.leaderBotsActionsWrapper}>
@@ -91,7 +92,10 @@ export function LeaderBotsActions({
         {championData?.name || `${member.botChampionId}`}
       </Button>
 
-      <Button defaultButtonType="info" onClick={changeChoosenBotDifficulty}>
+      <Button
+        defaultButtonType={botDifficultyBtnColor}
+        onClick={changeChoosenBotDifficulty}
+      >
         {member.botDifficulty}
       </Button>
 

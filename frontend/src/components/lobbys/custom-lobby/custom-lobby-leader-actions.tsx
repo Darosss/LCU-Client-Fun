@@ -1,12 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { Button, useHeadContext } from "@/components";
 import { useSocketEventsContext } from "@/socket";
 import { useCustomLobbyContext } from "./custom-lobby-context";
-import { BotDifficulty } from "@/shared";
 import { toast } from "react-toastify";
 import styles from "./custom-lobby-leader-actions.module.scss";
+import { changeBotDifficulty, getBotDifficultyBtnColor } from "./helpers";
 
 export function CustomLobbyLeaderActions() {
   const {
@@ -15,16 +15,21 @@ export function CustomLobbyLeaderActions() {
   const { emits } = useSocketEventsContext();
   const { currentBotDifficulty, setCurrentBotDifficulty } =
     useCustomLobbyContext();
+
   function changeNewBotsDifficulty() {
-    if (currentBotDifficulty === BotDifficulty.EASY)
-      return setCurrentBotDifficulty(BotDifficulty.MEDIUM);
-    return setCurrentBotDifficulty(BotDifficulty.EASY);
+    setCurrentBotDifficulty(changeBotDifficulty(currentBotDifficulty));
   }
+
   function handleOnStartCustomBtn() {
     emits.startCustomChampSelect((error) => {
       if (error) toast.error(error);
     });
   }
+
+  const botDifficultyBtnColor = useMemo(
+    () => getBotDifficultyBtnColor(currentBotDifficulty),
+    [currentBotDifficulty]
+  );
   return lobbyData?.localMember.isLeader ? (
     <div className={styles.customLobbyLeaderActionsWrapper}>
       <div>
@@ -34,7 +39,10 @@ export function CustomLobbyLeaderActions() {
       </div>
       <div className={styles.customBotDificultyWrapper}>
         <div>Default bot difficulty</div>
-        <Button defaultButtonType={"info"} onClick={changeNewBotsDifficulty}>
+        <Button
+          defaultButtonType={botDifficultyBtnColor}
+          onClick={changeNewBotsDifficulty}
+        >
           {currentBotDifficulty}
         </Button>
       </div>

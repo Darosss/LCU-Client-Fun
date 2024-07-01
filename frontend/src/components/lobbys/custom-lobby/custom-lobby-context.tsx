@@ -13,7 +13,7 @@ interface CustomLobbyContextType {
 export const initialCustomLobbyContextValue: CustomLobbyContextType = {
   championBots: [],
   setChampionBots: () => {},
-  currentBotDifficulty: BotDifficulty.EASY,
+  currentBotDifficulty: BotDifficulty.RSBEGINNER,
   setCurrentBotDifficulty: () => {},
 };
 
