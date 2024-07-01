@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { CustomModeLobby } from "./custom-mode-lobby";
 import { Button, useHeadContext } from "@/components";
 import { useSocketEventsContext } from "@/socket";
@@ -21,7 +21,8 @@ export function LobbysList({ textOnShow = "Show lobbys" }: ShowLobbysProps) {
     lobbyDataState: [, setLobbyData],
     queuesData,
   } = useHeadContext();
-  React.useEffect(() => {
+
+  const emitAndSetShowEligibleLobbys = useCallback(() => {
     emits.showEligibleLobbys((error, data) => {
       if (error) return toast.error(error);
       const lobbysWithQueueData = data!.map((eligibleLobby) => {
@@ -32,22 +33,22 @@ export function LobbysList({ textOnShow = "Show lobbys" }: ShowLobbysProps) {
       });
       setLobbys(lobbysWithQueueData);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queuesData]);
+  }, [emits, queuesData]);
 
   function handleOnCreateLobby(queueId: number) {
-    emits.createLobby(
-      {
-        queueId,
-      },
-      (error, data) => {
-        if (error) return toast.error(error);
+    emits.createLobby({ queueId }, (error, data) => {
+      if (error) return toast.error(error);
 
-        setLobbyData(data!);
-        setShowLobbys(false);
-      }
-    );
+      setLobbyData(data!);
+      setShowLobbys(false);
+    });
   }
+
+  useEffect(() => {
+    if (!showLobbys) return;
+
+    emitAndSetShowEligibleLobbys();
+  }, [emitAndSetShowEligibleLobbys, showLobbys]);
 
   return (
     <div className={styles.lobbysListWrapper}>
