@@ -77,6 +77,63 @@ export function addSocketOnEvents(
         }
       });
 
+      socket.on("getChampionsData", async (callback) => {
+        try {
+          callback(null, dragonChampionsData);
+        } catch (error) {
+          console.error("Error occured in getChampionsData event.", error);
+          if (error instanceof Error) callback(error.message);
+          else callback("An error occured while trying to get champions data");
+        }
+      });
+
+      socket.on("getQueuesData", async (callback) => {
+        try {
+          //TODO: change to download folder <-
+          callback(null, queues);
+        } catch (error) {
+          console.error("Error occured in getQueuesData event.", error);
+          if (error instanceof Error) callback(error.message);
+          else callback("An error occured while trying to get friend list");
+        }
+      });
+
+      socket.on("getSummonerSpellsData", async (callback) => {
+        try {
+          callback(null, dragonSpellsData);
+        } catch (error) {
+          console.error("Error occured in getSummonerSpellsData event.", error);
+          if (error instanceof Error) callback(error.message);
+          else
+            callback(
+              "An error occured while trying to get summoners spells data"
+            );
+        }
+      });
+
+      socket.on("getHeadRunesData", async (callback) => {
+        try {
+          const headRunesData = getDragonHeadRunesData();
+
+          callback(null, headRunesData);
+        } catch (error) {
+          console.error("Error occured in getHeadRunesData event.", error);
+          if (error instanceof Error) callback(error.message);
+          else callback("An error occured while trying to get head runes data");
+        }
+      });
+      socket.on("getRunesData", async (callback) => {
+        try {
+          const headRunesData = getDragonRunesData();
+
+          callback(null, headRunesData);
+        } catch (error) {
+          console.error("Error occured in getRunesData event.", error);
+          if (error instanceof Error) callback(error.message);
+          else callback("An error occured while trying to get runes data");
+        }
+      });
+
       if (!lcuHandlerFactory.getFullInitialized()) return;
 
       socket.on("killUx", async (callback) => {
@@ -506,15 +563,7 @@ export function addSocketOnEvents(
             );
         }
       });
-      socket.on("getChampionsData", async (callback) => {
-        try {
-          callback(null, dragonChampionsData);
-        } catch (error) {
-          console.error("Error occured in getChampionsData event.", error);
-          if (error instanceof Error) callback(error.message);
-          else callback("An error occured while trying to get champions data");
-        }
-      });
+
       socket.on("getRunePages", async (callback) => {
         try {
           const runePages = await lcuHandlerFactory
@@ -640,40 +689,7 @@ export function addSocketOnEvents(
           }
         }
       );
-      socket.on("getHeadRunesData", async (callback) => {
-        try {
-          const headRunesData = getDragonHeadRunesData();
 
-          callback(null, headRunesData);
-        } catch (error) {
-          console.error("Error occured in getHeadRunesData event.", error);
-          if (error instanceof Error) callback(error.message);
-          else callback("An error occured while trying to get head runes data");
-        }
-      });
-      socket.on("getRunesData", async (callback) => {
-        try {
-          const headRunesData = getDragonRunesData();
-
-          callback(null, headRunesData);
-        } catch (error) {
-          console.error("Error occured in getRunesData event.", error);
-          if (error instanceof Error) callback(error.message);
-          else callback("An error occured while trying to get runes data");
-        }
-      });
-      socket.on("getSummonerSpellsData", async (callback) => {
-        try {
-          callback(null, dragonSpellsData);
-        } catch (error) {
-          console.error("Error occured in getSummonerSpellsData event.", error);
-          if (error instanceof Error) callback(error.message);
-          else
-            callback(
-              "An error occured while trying to get summoners spells data"
-            );
-        }
-      });
       socket.on("changeSummonerSpells", async (data, callback) => {
         try {
           await lcuHandlerFactory
@@ -723,16 +739,7 @@ export function addSocketOnEvents(
             );
         }
       });
-      socket.on("getQueuesData", async (callback) => {
-        try {
-          //TODO: change to download folder <-
-          callback(null, queues);
-        } catch (error) {
-          console.error("Error occured in getQueuesData event.", error);
-          if (error instanceof Error) callback(error.message);
-          else callback("An error occured while trying to get friend list");
-        }
-      });
+
       socket.on("invitePlayerToLobby", async (data, callback) => {
         try {
           await lcuHandlerFactory.getLobbyHandler()?.invitePlayerToLobby(data);
