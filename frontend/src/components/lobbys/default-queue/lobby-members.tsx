@@ -14,21 +14,25 @@ export function LobbyMembers() {
     <div className={styles.lobbyMembersWrapper}>
       {lobbyData.members.map((member, idx) => (
         <div key={idx} className={styles.oneMemberWrapper}>
-          <Button defaultButtonType="primary">{member.summonerName}</Button>
+          <div>
+            <Button defaultButtonType="primary">{member.summonerName}</Button>
+          </div>
           {lobbyData.localMember.isLeader &&
           member.summonerId !== lobbyData.localMember.summonerId ? (
             <LeaderMemberManageActions member={member} />
           ) : null}
-          <div>
-            <Button defaultButtonType="success">
-              {member.firstPositionPreference}
-            </Button>
-            {member.firstPositionPreference !== PositionsPreferences.FILL ? (
-              <Button defaultButtonType="secondary">
-                {member.secondPositionPreference}
+          {member.firstPositionPreference || member.secondPositionPreference ? (
+            <div>
+              <Button defaultButtonType="success">
+                {member.firstPositionPreference}
               </Button>
-            ) : null}
-          </div>
+              {member.firstPositionPreference !== PositionsPreferences.FILL ? (
+                <Button defaultButtonType="secondary">
+                  {member.secondPositionPreference}
+                </Button>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       ))}
     </div>

@@ -5,13 +5,21 @@
   justify-content: space-around;
   box-shadow: var(--base-box-shadow);
   padding: 0.5rem;
+  min-width: 100%;
 
   .oneMemberWrapper {
     display: flex;
     flex-direction: column;
     height: 100%;
-    max-width: 20%;
+    min-width: 18%;
+    max-width: 18%;
     justify-content: space-between;
+
+    button {
+      margin-top: 0.2rem;
+      min-width: 100%;
+      max-width: 100%;
+    }
 
     & > div {
       display: flex;
