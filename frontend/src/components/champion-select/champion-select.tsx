@@ -106,6 +106,10 @@ export function ChampSelect() {
 
       updateSummonersDataByCellId(String(summonerCellId), data);
     });
+
+    return () => {
+      events.championSelectSummonerData.off();
+    };
   }, [events]);
 
   function handleOnFinishAction() {
