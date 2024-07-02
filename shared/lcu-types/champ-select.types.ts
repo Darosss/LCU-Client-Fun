@@ -4,6 +4,7 @@ export interface ChampSelectSessionDataRequired {
   actions: ActionsChampSelectSessionData[][];
   bans: ChampSelectSessionDataBans;
   localPlayerCellId: number;
+  timer?: ChampSelectSessionTimerResponse;
 }
 
 export interface ChampSelectSessionDataBans {

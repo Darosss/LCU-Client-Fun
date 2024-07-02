@@ -127,6 +127,20 @@ export function ChampionSelectContextProvider({
     });
   }, [emits]);
 
+  React.useEffect(() => {
+    if (!champSelectSessionData.timer) return;
+
+    if (
+      champSelectSessionTimer?.internalNowInEpochMs !==
+      champSelectSessionData.timer?.internalNowInEpochMs
+    ) {
+      setChampSelectSessionTimer(champSelectSessionData.timer);
+    }
+  }, [
+    champSelectSessionData.timer,
+    champSelectSessionTimer?.internalNowInEpochMs,
+  ]);
+
   return (
     <ChampionSelectContext.Provider
       value={{

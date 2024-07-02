@@ -132,17 +132,13 @@ export class ChampSelectLCUHandler extends BaseLCUHandler {
       path: "/lol-champ-select/v1/session",
       cb: (error, data) => {
         if (error || !data) return;
-        const requiredData = data as ChampSelectSessionDataRequired;
+        const { actions, ...restData } = data as ChampSelectSessionDataRequired;
 
         const requiredDataSession: ChampSelectSessionDataRequiredWithActionsFlat =
           {
-            myTeam: requiredData.myTeam,
-            actions: this.filterActionsToBansPicks(requiredData.actions.flat()),
-            theirTeam: requiredData.theirTeam,
-            bans: requiredData.bans,
-            localPlayerCellId: requiredData.localPlayerCellId
+            ...restData,
+            actions: this.filterActionsToBansPicks(actions.flat())
           };
-
         SocketHandler.getInstance()
           .getIO()
           .emit("championSelectPhase", requiredDataSession);
