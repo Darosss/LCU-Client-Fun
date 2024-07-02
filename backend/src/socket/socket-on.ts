@@ -190,8 +190,6 @@ export function addSocketOnEvents(
       });
       socket.on("createLobby", async ({ queueId }, callback) => {
         try {
-          await lcuHandlerFactory.refresh();
-
           const lobbysData = await lcuHandlerFactory
             .getLobbyHandler()!
             .createLobby(queueId);
