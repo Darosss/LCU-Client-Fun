@@ -7,7 +7,7 @@ import {
   ChampionData,
   DataDragonSpellsJsonFileData,
 } from "@/shared";
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { useSocketEventsContext } from "@/socket";
 import { toast } from "react-toastify";
 
@@ -79,6 +79,16 @@ export function ChampionSelectContextProvider({
     };
   }, [events]);
 
+  const updateSummonersDataByCellId = useCallback(
+    (cellId: string, data: ChampSelectSummonerData) => {
+      setSummonersData((prevData) => {
+        prevData.set(cellId, data);
+        return new Map(prevData);
+      });
+    },
+    []
+  );
+
   React.useEffect(() => {
     emits.getChampionSelectPhaseData((error, data) => {
       if (error || !data)
@@ -98,7 +108,7 @@ export function ChampionSelectContextProvider({
         updateSummonersDataByCellId(String(i), data);
       });
     }
-  }, [emits, myTeam.length, theirTeam.length]);
+  }, [emits, myTeam.length, theirTeam.length, updateSummonersDataByCellId]);
 
   React.useEffect(() => {
     emits.getChampionSelectSessionTimer((error, data) => {
@@ -116,16 +126,6 @@ export function ChampionSelectContextProvider({
       setSummonersSpellsData(data);
     });
   }, [emits]);
-
-  function updateSummonersDataByCellId(
-    cellId: string,
-    data: ChampSelectSummonerData
-  ) {
-    setSummonersData((prevData) => {
-      prevData.set(cellId, data);
-      return new Map(prevData);
-    });
-  }
 
   return (
     <ChampionSelectContext.Provider

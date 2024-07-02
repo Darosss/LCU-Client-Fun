@@ -9,8 +9,7 @@ import styles from "./current-rune-page-actions.module.scss";
 export function CurrentRunePageActions() {
   const { emits } = useSocketEventsContext();
   const {
-    currentPage,
-    changeCurrentPage,
+    currentPageState: [currentPage, setCurrentPage],
     runePages,
     fetchCurrentPageAndSet,
     emitUpdateRunePages,
@@ -46,7 +45,7 @@ export function CurrentRunePageActions() {
         <input
           value={currentPage.name}
           onChange={(e) =>
-            changeCurrentPage({ ...currentPage, name: e.target.value })
+            setCurrentPage({ ...currentPage, name: e.target.value })
           }
         />
         {currentPage.isEditable ? (

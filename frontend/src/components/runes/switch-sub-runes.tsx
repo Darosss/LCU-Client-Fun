@@ -20,7 +20,10 @@ export function SwitchSubRunes({
   headRuneSlot,
   whichChange,
 }: SwitchSubRunesProps) {
-  const { currentPage, runesData } = useRunesContext();
+  const {
+    currentPageState: [currentPage],
+    runesData,
+  } = useRunesContext();
 
   if (!currentPage) return null;
   return (
@@ -65,7 +68,9 @@ interface ChangePrimarySubRuneProps {
 }
 
 function ChangePrimarySubRune({ foundRune, idx }: ChangePrimarySubRuneProps) {
-  const { currentPage, changeCurrentPage } = useRunesContext();
+  const {
+    currentPageState: [currentPage, setCurrentPage],
+  } = useRunesContext();
 
   if (!currentPage) return null;
 
@@ -88,7 +93,7 @@ function ChangePrimarySubRune({ foundRune, idx }: ChangePrimarySubRuneProps) {
           styleId: foundRune.styleId,
         };
         modifiedSelectedPerkIds[currentUiPerkIdx] = foundRune.id;
-        changeCurrentPage({
+        setCurrentPage({
           ...currentPage,
           selectedPerkIds: modifiedSelectedPerkIds,
           uiPerks: modifiedUiPerk,
@@ -103,7 +108,9 @@ interface ChangeSecondarySubRune {
 }
 
 function ChangeSecondarySubRune({ foundRune }: ChangeSecondarySubRune) {
-  const { currentPage, changeCurrentPage } = useRunesContext();
+  const {
+    currentPageState: [currentPage, setCurrentPage],
+  } = useRunesContext();
 
   const handleOnMouseBtnClick = useCallback(
     (idxToModify: number) => {
@@ -115,13 +122,14 @@ function ChangeSecondarySubRune({ foundRune }: ChangeSecondarySubRune) {
         foundRune
       );
       modifiedSelectedPerkIds[idxToModify] = foundRune.id;
-      changeCurrentPage({
+      setCurrentPage({
         ...currentPage,
         selectedPerkIds: modifiedSelectedPerkIds,
         uiPerks: modifiedUiPerk,
       });
     },
-    [currentPage]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [currentPage, foundRune]
   );
 
   if (!currentPage) return null;

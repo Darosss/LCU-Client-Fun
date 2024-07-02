@@ -13,6 +13,53 @@ export function PositionSelector() {
   } = useHeadContext();
   const { emits } = useSocketEventsContext();
 
+  const changePositionPreference = useCallback(
+    (preference: PositionsPreferences, whichToChange: PossiblePreferences) => {
+      if (!lobbyData) return;
+
+      //TODO: refactor later this function
+      let newFirstPreference = lobbyData.localMember.firstPositionPreference;
+      let newSecondPreference = lobbyData.localMember.secondPositionPreference;
+      switch (whichToChange) {
+        case "primary":
+          if (preference === PositionsPreferences.FILL) {
+            newFirstPreference = preference;
+            newSecondPreference = PositionsPreferences.UNSELECTED;
+          } else if (preference !== newSecondPreference) {
+            newFirstPreference = preference;
+          } else {
+            const tempFirstPreference = newFirstPreference;
+            newFirstPreference = newSecondPreference;
+            newSecondPreference = tempFirstPreference;
+          }
+          break;
+        case "secondary":
+          if (preference !== newFirstPreference) {
+            newSecondPreference = preference;
+          } else {
+            const tempSecondPreference = newSecondPreference;
+            newSecondPreference = newFirstPreference;
+            newFirstPreference = tempSecondPreference;
+          }
+          break;
+      }
+
+      emits.changeRolePositionPreference(
+        {
+          firstPreference: newFirstPreference,
+          secondPreference: newSecondPreference,
+        },
+        (error, data) => {
+          if (error) return toast.error(error);
+
+          setLobbyData((prevState) => prevState && { ...prevState, ...data! });
+        }
+      );
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [emits, lobbyData]
+  );
+
   const availablePositions = useCallback(
     (whichToChange: PossiblePreferences) => (
       <div id="possible-positions-selection">
@@ -45,54 +92,8 @@ export function PositionSelector() {
         })}
       </div>
     ),
-    [lobbyData]
+    [changePositionPreference, lobbyData]
   );
-
-  function changePositionPreference(
-    preference: PositionsPreferences,
-    whichToChange: PossiblePreferences
-  ) {
-    if (!lobbyData) return;
-
-    //TODO: refactor later this function
-    let newFirstPreference = lobbyData.localMember.firstPositionPreference;
-    let newSecondPreference = lobbyData.localMember.secondPositionPreference;
-    switch (whichToChange) {
-      case "primary":
-        if (preference === PositionsPreferences.FILL) {
-          newFirstPreference = preference;
-          newSecondPreference = PositionsPreferences.UNSELECTED;
-        } else if (preference !== newSecondPreference) {
-          newFirstPreference = preference;
-        } else {
-          const tempFirstPreference = newFirstPreference;
-          newFirstPreference = newSecondPreference;
-          newSecondPreference = tempFirstPreference;
-        }
-        break;
-      case "secondary":
-        if (preference !== newFirstPreference) {
-          newSecondPreference = preference;
-        } else {
-          const tempSecondPreference = newSecondPreference;
-          newSecondPreference = newFirstPreference;
-          newFirstPreference = tempSecondPreference;
-        }
-        break;
-    }
-
-    emits.changeRolePositionPreference(
-      {
-        firstPreference: newFirstPreference,
-        secondPreference: newSecondPreference,
-      },
-      (error, data) => {
-        if (error) return toast.error(error);
-
-        setLobbyData((prevState) => prevState && { ...prevState, ...data! });
-      }
-    );
-  }
 
   if (!lobbyData) return null;
 

@@ -110,7 +110,7 @@ export function ChampSelect() {
     return () => {
       events.championSelectSummonerData.off();
     };
-  }, [events]);
+  }, [events, updateSummonersDataByCellId]);
 
   function handleOnFinishAction() {
     if (!selectedChamp || !userAction) return;

@@ -6,8 +6,10 @@ import { useSocketEventsContext } from "@/socket";
 import { toast } from "react-toastify";
 
 interface RunesContextType {
-  currentPage: RunePageData | null;
-  changeCurrentPage: (value: RunePageData | null) => void;
+  currentPageState: [
+    RunePageData | null,
+    React.Dispatch<React.SetStateAction<RunePageData | null>>
+  ];
   fetchCurrentPageAndSet: () => void;
   emitSetCurrentRunePage: (page: RunePageData) => void;
   emitUpdateRunePages: () => void;
@@ -17,8 +19,7 @@ interface RunesContextType {
 }
 
 export const initialRunesContextValue: RunesContextType = {
-  currentPage: null,
-  changeCurrentPage: () => {},
+  currentPageState: [null, () => {}],
   fetchCurrentPageAndSet: () => {},
   emitSetCurrentRunePage: () => {},
   runePages: [],
@@ -38,16 +39,12 @@ export function RunesContextProvider({
 }) {
   const { emits } = useSocketEventsContext();
   const [currentPage, setCurrentPage] = useState<RunePageData | null>(
-    initialRunesContextValue.currentPage
+    initialRunesContextValue.currentPageState[0]
   );
   const [headRunesData, setHeadRunesData] = useState<HeadRuneData[]>([]);
   const [runesData, setRunesData] = useState<RunesData[]>([]);
 
   const [runePages, setRunePages] = useState<RunePageData[]>([]);
-
-  function changeCurrentPage(value: RunePageData | null) {
-    setCurrentPage(value);
-  }
 
   const emitSetCurrentRunePage = useCallback(
     (page: RunePageData) => {
@@ -101,8 +98,7 @@ export function RunesContextProvider({
   return (
     <RunesContext.Provider
       value={{
-        currentPage,
-        changeCurrentPage,
+        currentPageState: [currentPage, setCurrentPage],
         runePages,
         emitUpdateRunePages,
         fetchCurrentPageAndSet,

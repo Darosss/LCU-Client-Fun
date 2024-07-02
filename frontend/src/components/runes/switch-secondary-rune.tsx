@@ -8,7 +8,10 @@ interface SwitchSecondaryRuneProps {
 export function SwitchSecondaryRune({
   primaryStyleRuneSubstyles,
 }: SwitchSecondaryRuneProps) {
-  const { currentPage, changeCurrentPage, headRunesData } = useRunesContext();
+  const {
+    currentPageState: [currentPage, setCurrentPage],
+    headRunesData,
+  } = useRunesContext();
 
   if (!currentPage) return null;
   return (
@@ -24,7 +27,7 @@ export function SwitchSecondaryRune({
             choosenCondition={currentPage.subStyleId === foundHeadRune.id}
             imgSrc={foundHeadRune.iconPath.toLowerCase()}
             onClickImg={() =>
-              changeCurrentPage({
+              setCurrentPage({
                 ...currentPage,
                 subStyleId: foundHeadRune.id,
               })

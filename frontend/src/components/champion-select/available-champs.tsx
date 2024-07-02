@@ -59,6 +59,7 @@ export function AvailableChamps({
         setAvailableChamps(data);
       }
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSummoner?.summonerId, emits]);
 
   React.useEffect(() => {

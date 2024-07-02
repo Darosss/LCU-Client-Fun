@@ -9,8 +9,7 @@ import styles from "./rune-pages.list.module.scss";
 
 export function RunePagesList() {
   const {
-    currentPage,
-    changeCurrentPage,
+    currentPageState: [currentPage, setCurrentPage],
     runePages,
     emitSetCurrentRunePage,
     emitUpdateRunePages,
@@ -33,7 +32,7 @@ export function RunePagesList() {
   }, [fetchCurrentPageAndSet]);
 
   async function handleOnClickChangePage(page: RunePageData) {
-    changeCurrentPage(null);
+    setCurrentPage(null);
 
     emitSetCurrentRunePage(page);
   }

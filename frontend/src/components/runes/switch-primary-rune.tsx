@@ -3,7 +3,10 @@ import { RuneImage } from "./rune-image";
 import { useRunesContext } from "./runes-context";
 
 export function SwitchPrimaryRune() {
-  const { currentPage, changeCurrentPage, headRunesData } = useRunesContext();
+  const {
+    currentPageState: [currentPage, setCurrentPage],
+    headRunesData,
+  } = useRunesContext();
 
   if (!currentPage) return null;
   return (
@@ -15,7 +18,7 @@ export function SwitchPrimaryRune() {
             choosenCondition={currentPage.primaryStyleId === headRune.id}
             imgSrc={headRune.iconPath.toLowerCase()}
             onClickImg={() =>
-              changeCurrentPage({ ...currentPage, primaryStyleId: headRune.id })
+              setCurrentPage({ ...currentPage, primaryStyleId: headRune.id })
             }
           />
         );

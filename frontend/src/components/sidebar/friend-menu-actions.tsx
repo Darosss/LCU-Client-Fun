@@ -46,7 +46,7 @@ export function FriendMenuActions({ friend }: FriendMenuActionsProps) {
           (invitation.state === "Pending" || invitation.state === "Accepted")
       )
     );
-  }, [lobbyData]);
+  }, [lobbyData, friend]);
 
   return (
     <div id="friend-menu-wrapper">

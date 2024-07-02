@@ -64,7 +64,12 @@ export function PhaseBans() {
         });
       }
     });
-  }, [champSelectSessionData.actions.banActions, emits]);
+  }, [
+    bannedChamps,
+    champSelectSessionData.actions.banActions,
+    championsData,
+    emits,
+  ]);
 
   const { allyBans, enemyBans } = useMemo(() => {
     const allyBans: string[] = [];

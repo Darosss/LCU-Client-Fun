@@ -22,6 +22,7 @@ export function CustomLobby() {
       if (error) toast.error(error);
       setChampionBots(data!);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [emits]);
 
   return (
