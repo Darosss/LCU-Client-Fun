@@ -1,0 +1,12 @@
+.currentActionWrapper {
+  display: flex;
+  background-image: var(--primary-glow);
+  font-weight: 800;
+  padding: 0.2rem 1rem;
+  &.ban {
+    color: rgb(var(--danger-first-rgb));
+  }
+  &.pick {
+    color: rgb(var(--primary-first-rgb));
+  }
+}

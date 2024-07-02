@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import { findAvailableChampionForAutoPick } from "@/helpers";
 import styles from "./champion-select.module.scss";
 import { ChampionSelectRunes } from "./runes/champion-select-runes";
+import { CurrentAction } from "./current-action";
 
 export function ChampSelect() {
   const { events, emits } = useSocketEventsContext();
@@ -125,10 +126,11 @@ export function ChampSelect() {
       <RunesView />
       <div className={styles.headerWrapper}>
         <div className={styles.actionInfoWrapper}>
-          <h2>{`Champ select ${
-            userAction ? ` - Your time to ${userAction.type}!` : ""
-          }
-        `}</h2>
+          {userAction ? (
+            <div>
+              <CurrentAction userAction={userAction} />
+            </div>
+          ) : null}
           <h2>
             <TimeLeftInPhase onEndingTimeLeft={autoPickChampion} />
           </h2>
