@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { AutoChampionsManage } from "./auto-champions-manage";
 import { Button, TooltipCustom, useHeadContext } from "@/components";
 import { AssignedPosition } from "@/shared";
@@ -9,7 +9,7 @@ type AssignedPositionsDataType = {
   description: string;
 };
 const tooltipId = `position-tooltip`;
-
+const DOULE_CLICK_REMOVE_INFO = " ||| *Double click - remove prompt*";
 const assignedPositions: AssignedPositionsDataType[] = [
   {
     name: "utility",
@@ -112,13 +112,36 @@ function AssignedPossitionsButtons({
   currentChoosenPosition,
   setCurrentPositionToAdd,
 }: AssignedPossitionsProps) {
+  const {
+    changeClientOptions,
+    options: { autoPickChamps },
+  } = useHeadContext();
+  const handleOnDoubleClick = useCallback(
+    (position: AssignedPosition) => {
+      if (
+        !confirm(`This action will clear whole ${position} list. Are you sure?`)
+      ) {
+        return;
+      }
+
+      changeClientOptions({
+        autoPickChamps: {
+          ...autoPickChamps,
+          [position]: [],
+        },
+      });
+    },
+    [autoPickChamps, changeClientOptions]
+  );
+
   return assignedPositions.map((position, idx) => {
     return (
       <div
         key={idx}
         data-tooltip-id={tooltipId}
-        data-tooltip-content={position.description}
+        data-tooltip-content={position.description + DOULE_CLICK_REMOVE_INFO}
         className={styles.positionButtonWrapper}
+        onDoubleClick={() => handleOnDoubleClick(position.name)}
       >
         <Button
           defaultButtonType={

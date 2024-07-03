@@ -3,7 +3,6 @@
   flex-direction: column;
   align-items: center;
   height: 100%;
-
   & > div {
     width: 100%;
     box-shadow: var(--base-box-shadow);
@@ -26,5 +25,7 @@
     box-shadow: var(--base-box-shadow);
     justify-content: center;
     flex-grow: 1;
+    max-height: 100%;
+    overflow: hidden;
   }
 }
