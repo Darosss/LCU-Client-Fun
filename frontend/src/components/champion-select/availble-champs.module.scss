@@ -12,12 +12,77 @@
     flex-wrap: wrap;
     justify-content: space-between;
     overflow-x: hidden;
+
     min-height: 100%;
     max-height: 100%;
-    & > * {
-      margin-top: 0.2rem;
-      max-width: 24%;
-      min-width: 24%;
+  }
+
+  .championBtnTextWrapper {
+    max-width: 8dvw;
+    min-width: 8dvw;
+
+    & > button {
+      margin-top: 0.5rem;
+      max-width: 100%;
+      min-width: 100%;
+      max-height: 5vmin;
+      min-height: 5vmin;
+      font-weight: 800;
     }
+
+    &.disabled {
+      filter: grayscale(100%);
+    }
+
+    &:hover {
+      &:not(.disabled) {
+        filter: brightness(200%);
+        cursor: pointer;
+        transform: scale(0.9);
+      }
+    }
+  }
+
+  .championBtnImageWrapper {
+    max-width: 10vmin;
+    min-width: 10vmin;
+    max-height: 10vmin;
+    min-height: 10vmin;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &.disabled {
+      filter: grayscale(100%);
+    }
+
+    &:hover {
+      &:not(.disabled) {
+        filter: brightness(200%);
+        cursor: pointer;
+
+        .imageHolder {
+          transform: scale(0.9);
+        }
+      }
+    }
+    .imageHolder {
+      position: relative;
+      max-width: 70%;
+      min-width: 70%;
+      max-height: 70%;
+      min-height: 70%;
+      box-shadow: var(--base-box-shadow);
+    }
+
+    .nameHolder {
+      margin-top: 0.2rem;
+      font-size: 0.8em;
+      border-bottom: 1px solid rgb(var(--primary-first-rgb));
+    }
+  }
+  & > * {
+    margin-top: 0.2rem;
   }
 }

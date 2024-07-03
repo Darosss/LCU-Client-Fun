@@ -31,6 +31,7 @@ export function AvailableChamps({
     options: {
       championSelect: { showImages },
     },
+    changeClientOptions,
   } = useHeadContext();
 
   const {
@@ -102,8 +103,7 @@ export function AvailableChamps({
   }
 
   function handleOnClickShowImages(show: boolean) {
-    // opts
-    // changeOptions({ championSelect: { showImages: show } });
+    changeClientOptions({ championSelect: { showImages: show } });
   }
 
   return (
@@ -167,35 +167,46 @@ function ChampionBtnBlock({
   onClickChampionBtn,
 }: ChampionBtnProps): JSX.Element {
   if (image) {
-    const imgPath = path.join(__dirname, squarePortraitPath);
+    const imgPath = path.join(
+      process.env.NEXT_PUBLIC_BACKEND_URL,
+      process.env.NEXT_PUBLIC_BACKEND_PUBLIC,
+      squarePortraitPath
+    );
     return (
       <div
-        id="available-champs-images-wrapper"
-        style={{ background: disabled ? "red" : "" }}
+        className={`${styles.championBtnImageWrapper} ${
+          disabled ? styles.disabled : ""
+        }`}
       >
-        <div>{name}</div>
-
-        <Image
-          id="champ-image"
-          src={imgPath}
-          alt={name}
-          // aspectRatioMode={AspectRatioMode.KeepAspectRatio}
-          // width={widthAndHeightImg}
-          // height={widthAndHeightImg}
-          fill
-          onClick={() => (!disabled ? onClickChampionBtn() : null)}
-        />
+        <div className={styles.imageHolder}>
+          <Image
+            id="champ-image"
+            src={imgPath}
+            alt={name}
+            sizes="9vmin"
+            fill
+            onClick={() => (!disabled ? onClickChampionBtn() : null)}
+          />
+        </div>
+        <div className={styles.nameHolder}>{name}</div>
       </div>
     );
   }
 
-  return disabled ? (
-    <Button defaultButtonType="secondary" disabledButton={true}>
-      {name}{" "}
-    </Button>
-  ) : (
-    <Button defaultButtonType="primary" onClick={() => onClickChampionBtn()}>
-      {name}
-    </Button>
+  return (
+    <div className={styles.championBtnTextWrapper}>
+      {disabled ? (
+        <Button defaultButtonType="secondary" disabledButton={true}>
+          {name}
+        </Button>
+      ) : (
+        <Button
+          defaultButtonType="primary"
+          onClick={() => onClickChampionBtn()}
+        >
+          {name}
+        </Button>
+      )}
+    </div>
   );
 }
