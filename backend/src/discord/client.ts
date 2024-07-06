@@ -31,6 +31,10 @@ class DiscordManager {
     return DiscordManager.instance;
   }
 
+  public updateMessageChannel() {
+    this.setMessageChannel();
+  }
+
   private setMessageChannel() {
     this.messageChannel = this.getMessageChannelById() || null;
   }

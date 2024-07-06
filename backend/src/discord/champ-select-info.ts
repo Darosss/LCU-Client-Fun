@@ -26,6 +26,7 @@ class ChampSelectInfoHandler {
     localPlayerCellId: number,
     data: ChampSelectSessionDataRequiredWithActionsFlat
   ) {
+    if (localPlayerCellId === -1) return;
     //TODO: refactor to smaller.. Not readable at all
     if (!this.canSendInfo) return console.log("Cant' sent info - return ");
     const localPlayerActionInProgress = [
@@ -66,11 +67,7 @@ class ChampSelectInfoHandler {
         !enemyTeamEmbed &&
         this.infoMessageInstance?.deletable
       ) {
-        try {
-          return await this.infoMessageInstance.delete();
-        } catch (err) {
-          console.log("Couldn't delete infoMessageInstance message");
-        }
+        await this.removeInfoMessage();
       }
 
       if (this.infoMessageInstance?.editable) {
@@ -144,11 +141,18 @@ class ChampSelectInfoHandler {
     message: string | MessagePayload | BaseMessageOptions,
     discordManager: DiscordManager
   ) {
-    if (this.championsModalInstance?.editable)
-      return await this.championsModalInstance.edit(message);
-
-    this.championsModalInstance =
-      (await discordManager.sendMessage(message)) || null;
+    try {
+      if (this.championsModalInstance?.editable)
+        await this.championsModalInstance.edit(message);
+      else {
+        this.championsModalInstance =
+          (await discordManager.sendMessage(message)) || null;
+      }
+    } catch (err) {
+      console.log(err, " aha");
+      this.championsModalInstance =
+        (await discordManager.sendMessage(message)) || null;
+    }
   }
 
   public async sendAsChooseChampionButtons(
@@ -160,6 +164,23 @@ class ChampSelectInfoHandler {
     const discordManager = await DiscordManager.getInstance();
     this.chooseChampionButtonsInstance =
       (await discordManager.sendMessage(message)) || null;
+  }
+
+  public async clearMessagesInstances() {
+    await Promise.all([
+      this.removeChampionsModalIfDeletable(),
+      this.removeChooseChampionButtons(),
+      this.removeInfoMessage
+    ]);
+  }
+
+  private async removeInfoMessage() {
+    try {
+      return await this.infoMessageInstance?.delete();
+      this.infoMessageInstance = null;
+    } catch (err) {
+      console.log("Couldn't delete infoMessageInstance message");
+    }
   }
 
   private async removeChampionsModalIfDeletable() {

@@ -13,13 +13,14 @@ import {
   queues
 } from "@/lcu";
 import { SocketHandler } from "./socket";
+import { DiscordManager } from "../discord";
 
 export const onHeadEvents = (
   socket: Socket<ClientToServerEvents, ServerToClientEvents>
 ) => {
   socket.emit("clientOptions", readLocalStorageData());
 
-  socket.on("changeClientOptions", (data, callback) => {
+  socket.on("changeClientOptions", async (data, callback) => {
     try {
       updateLocalStorageData(data);
 
@@ -29,6 +30,10 @@ export const onHeadEvents = (
       if (readLocalStorageData().preventRiotClientToTurnOn)
         headHandler?.preventClientUXToTurnOn();
       else headHandler?.unsusbcribePreventClientUXToTurnOn();
+
+      if (currentConfig.discord.enabled) {
+        (await DiscordManager.getInstance()).updateMessageChannel();
+      }
 
       SocketHandler.getInstance().getIO().emit("clientOptions", currentConfig);
 

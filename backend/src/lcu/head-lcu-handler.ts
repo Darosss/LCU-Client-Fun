@@ -26,7 +26,7 @@ import {
   findEventByEventName,
   liveGameDataBaseEventObserver
 } from "./live-client-data";
-import { DiscordManager } from "../discord";
+import { champSelectInfoHandler, DiscordManager } from "../discord";
 import { readLocalStorageData } from "./pseudo-local-storage";
 import { readyCheckInfoHandler } from "../discord/ready-check-info";
 
@@ -262,6 +262,13 @@ export class HeadLCUHandler extends BaseLCUHandler {
 
         await this.discordInfromationLogicOnPhaseChange(data);
 
+        if (data !== "ChampSelect") {
+          champSelectInfoHandler
+            .clearMessagesInstances()
+            .catch((err) =>
+              console.error("Error occured in: wsOnGameflowPhaseChange", err)
+            );
+        }
         if (data === "None") socketIOInstance.emit("lobbyData", null);
       }
     });
