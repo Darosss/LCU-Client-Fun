@@ -26,6 +26,7 @@ npm run start           //- app
 
 # Roadmap
 
+- [x] base manage by discord (champ select, ready check)
 - [] champ select
   - [] chat
 - [x] custom lobbys
@@ -57,4 +58,5 @@ npm run start           //- app
 
 # Known bugs
 
-- i will find out if there any (of course they will occur)
+- _i will find out if there any (of course they will occur)_
+- [] discord managing session is buggy with champ select (removing, edit messages sometimes will throw unexpected errors) - fix later
