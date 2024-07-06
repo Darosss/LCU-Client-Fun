@@ -1,5 +1,6 @@
 import {
   ActionsChampSelectSessionData,
+  ManageReadyCheckMatchActions,
   shuffleArrayRandomly,
   TeamChampSelectSessionData
 } from "@/shared";
@@ -102,4 +103,26 @@ export const messageChooseChampionSelectAction = (
     content: `Choose champion to ${currentAction} `,
     actionRow
   };
+};
+
+export const createReadyCheckActionsButtons = () => {
+  const [accept, decline]: [
+    ManageReadyCheckMatchActions,
+    ManageReadyCheckMatchActions
+  ] = ["accept", "decline"];
+
+  return new ActionRowBuilder<ButtonBuilder>().addComponents(
+    new ButtonBuilder()
+      .setCustomId(
+        `${ButtonInterractionsList.READY_CHECK}${SEPARATOR_CUSTOM_ID_BUTTON}${accept}`
+      )
+      .setLabel("Accept")
+      .setStyle(ButtonStyle.Primary),
+    new ButtonBuilder()
+      .setCustomId(
+        `${ButtonInterractionsList.READY_CHECK}${SEPARATOR_CUSTOM_ID_BUTTON}${decline}`
+      )
+      .setLabel("Decline")
+      .setStyle(ButtonStyle.Danger)
+  );
 };

@@ -28,6 +28,7 @@ import {
 } from "./live-client-data";
 import { DiscordManager } from "../discord";
 import { readLocalStorageData } from "./pseudo-local-storage";
+import { readyCheckInfoHandler } from "../discord/ready-check-info";
 
 type CheckEventsCurrentStage = {
   eventName: EventName | null;
@@ -280,7 +281,7 @@ export class HeadLCUHandler extends BaseLCUHandler {
 
     switch (currentPhase) {
       case "ReadyCheck":
-        return discordManager.sendMessage("Ready check embed here");
+        return readyCheckInfoHandler.sendReadyCheckMessage();
       case "InProgress":
         await discordManager.sendMessage(
           "Game in progress. It will start soon."
