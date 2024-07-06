@@ -20,7 +20,6 @@ export function ClientUXActions() {
 
   const handleOnLaunchUx = useCallback(() => {
     emits.launchUx((error, data) => {
-      console.log(error, data, "xpp");
       if (error || !data) return toast.error(error || "Couldn't launch UX");
       changeClientOptions({ preventRiotClientToTurnOn: false });
     });

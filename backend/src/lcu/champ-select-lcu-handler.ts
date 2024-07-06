@@ -12,6 +12,7 @@ import {
 import { BaseLCUHandler } from "./base-lcu-handler";
 import { BaseLCUHandlerOpts } from "./types";
 import { SocketHandler } from "../socket";
+import { champSelectInfoHandler } from "../discord";
 
 interface ChampSelectLCUHandlerOpts extends BaseLCUHandlerOpts {}
 
@@ -132,6 +133,7 @@ export class ChampSelectLCUHandler extends BaseLCUHandler {
       path: "/lol-champ-select/v1/session",
       cb: (error, data) => {
         if (error || !data) return;
+
         const { actions, ...restData } = data as ChampSelectSessionDataRequired;
 
         const requiredDataSession: ChampSelectSessionDataRequiredWithActionsFlat =
@@ -139,6 +141,12 @@ export class ChampSelectLCUHandler extends BaseLCUHandler {
             ...restData,
             actions: this.filterActionsToBansPicks(actions.flat())
           };
+
+        champSelectInfoHandler.doInfoLogic(
+          requiredDataSession.localPlayerCellId,
+          requiredDataSession
+        );
+
         SocketHandler.getInstance()
           .getIO()
           .emit("championSelectPhase", requiredDataSession);

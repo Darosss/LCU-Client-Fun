@@ -19,4 +19,8 @@ export const configsDefaults: ClientOptions = {
   championSelect: {
     showImages: false,
   },
+  discord: {
+    enabled: false,
+    channelIDForMessages: "",
+  },
 };

@@ -1,7 +1,8 @@
 import { CustomEnvTypes } from "../types";
 const customEnvKeys: (keyof CustomEnvTypes)[] = ["NODE_ENV"];
 const expectedTypes: { [K in keyof CustomEnvTypes]: string[] } = {
-  NODE_ENV: ["string"]
+  NODE_ENV: ["string"],
+  BOT_TOKEN: ["string"]
 };
 class EnvChecker {
   private errors: string[] = [];

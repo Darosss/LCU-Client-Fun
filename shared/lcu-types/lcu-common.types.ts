@@ -12,6 +12,11 @@ export interface BaseLCUHandlerWsOnParams<T = unknown> {
   cb: (error: unknown | null, data: T | null) => void;
 }
 
+export interface DiscordClientOptions {
+  enabled: boolean;
+  channelIDForMessages: string;
+}
+
 export interface ClientOptions {
   autoAccept: boolean;
   autoPickChamps: {
@@ -21,6 +26,7 @@ export interface ClientOptions {
   preventRiotClientToTurnOn: boolean;
   runes: RunesOptions;
   championSelect: ChampionSelectOptions;
+  discord: DiscordClientOptions;
 }
 
 export interface RunesOptions {

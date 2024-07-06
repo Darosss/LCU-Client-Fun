@@ -19,8 +19,21 @@ import {
   RunePageData,
   RunesData
 } from "@/shared";
-import { BaseLCUHandlerOpts } from "./types";
+import { BaseLCUHandlerOpts, EventName, LiveGameDataBaseEvent } from "./types";
 import { SocketHandler } from "../socket";
+import {
+  fetchLiveClientDataEventData,
+  findEventByEventName,
+  liveGameDataBaseEventObserver
+} from "./live-client-data";
+import { DiscordManager } from "../discord";
+import { readLocalStorageData } from "./pseudo-local-storage";
+
+type CheckEventsCurrentStage = {
+  eventName: EventName | null;
+  interval: NodeJS.Timeout | null;
+  lookingFor: EventName | null;
+};
 
 interface HeadLCUHandlerOpts extends BaseLCUHandlerOpts {}
 
@@ -32,6 +45,13 @@ interface HeadLCUHandlerOpts extends BaseLCUHandlerOpts {}
  */
 export class HeadLCUHandler extends BaseLCUHandler {
   private preventingToCloseUX: boolean = false;
+  private readonly discordInfoTimeS = 5;
+  private checkEventsTimeout: CheckEventsCurrentStage = {
+    eventName: null,
+    interval: null,
+    lookingFor: "GameStart"
+  };
+  private currentEventData: LiveGameDataBaseEvent[] = [];
   constructor({ credentials, leagueWS }: HeadLCUHandlerOpts) {
     super({ credentials, leagueWS });
 
@@ -232,20 +252,96 @@ export class HeadLCUHandler extends BaseLCUHandler {
   public wsOnGameflowPhaseChange(): void {
     this.wsOn<GameFlowPhaseData>({
       path: "/lol-gameflow/v1/gameflow-phase",
-      cb: (error, data) => {
+      cb: async (error, data) => {
         if (error || !data) return;
         const socketIOInstance = SocketHandler.getInstance().getIO();
-        socketIOInstance.emit("gameflowPhase", data);
-        if (data !== "None") {
-          return;
-        }
 
-        socketIOInstance.emit("lobbyData", null);
+        socketIOInstance.emit("gameflowPhase", data);
+        if (!data) return;
+
+        await this.discordInfromationLogicOnPhaseChange(data);
+
+        if (data === "None") socketIOInstance.emit("lobbyData", null);
       }
     });
   }
 
   public unsubscribeOnGameflowPhaseChange() {
     this.wsUnsubsribe("/lol-gameflow/v1/gameflow-phase");
+  }
+
+  private async discordInfromationLogicOnPhaseChange(
+    currentPhase: GameFlowPhaseData
+  ) {
+    if (!readLocalStorageData().discord.enabled)
+      return console.log("Discord is not enabled. Return.");
+
+    const discordManager = await DiscordManager.getInstance();
+
+    switch (currentPhase) {
+      case "ReadyCheck":
+        return discordManager.sendMessage("Ready check embed here");
+      case "InProgress":
+        await discordManager.sendMessage(
+          "Game in progress. It will start soon."
+        );
+        return this.discordInformationIntervalInProgress();
+    }
+  }
+
+  private discordInformationIntervalInProgress() {
+    this.checkEventsTimeout.interval = setInterval(async () => {
+      if (
+        this.checkEventsTimeout.interval &&
+        this.checkEventsTimeout.lookingFor === null
+      ) {
+        clearInterval(this.checkEventsTimeout.interval);
+        console.log("Timeout discordInformationGameStartLogic cleared");
+        return;
+      }
+      const data = await fetchLiveClientDataEventData();
+      if (!data || data.Events.length === 0) return;
+
+      const newEvents = liveGameDataBaseEventObserver(
+        this.currentEventData,
+        data.Events
+      );
+      this.currentEventData = data.Events;
+
+      if (!newEvents) return;
+
+      if (!this.checkEventsTimeout.lookingFor) {
+        this.checkEventsTimeout.interval
+          ? clearInterval(this.checkEventsTimeout.interval)
+          : null;
+        return console.log("No event looking for. Remove checking.");
+      }
+
+      const lookingForEvent = findEventByEventName(
+        newEvents,
+        this.checkEventsTimeout.lookingFor
+      );
+
+      console.log(lookingForEvent?.EventName, "got it?");
+      if (lookingForEvent) {
+        this.checkEventsTimeout.eventName = lookingForEvent.EventName;
+        const discordManager = await DiscordManager.getInstance();
+
+        switch (lookingForEvent.EventName) {
+          case "GameStart":
+            this.checkEventsTimeout.lookingFor = "MinionsSpawning";
+            return await discordManager.sendMessage(
+              `Game started ~${lookingForEvent.EventTime.toPrecision(2)}s`
+            );
+          case "MinionsSpawning":
+            this.checkEventsTimeout.lookingFor = null;
+            return await discordManager.sendMessage(
+              `Minions spawning ~${lookingForEvent.EventTime.toPrecision(2)}s`
+            );
+          default:
+            break;
+        }
+      }
+    }, this.discordInfoTimeS * 1000);
   }
 }

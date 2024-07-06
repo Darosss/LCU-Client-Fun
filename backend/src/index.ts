@@ -8,6 +8,8 @@ import { createServer } from "http";
 import { EnvChecker } from "@/helpers";
 import { SocketHandler } from "./socket";
 import { FOLDER_NAME_DOWNLODED_CONENT } from "@/globals";
+import { readLocalStorageData } from "./lcu/pseudo-local-storage";
+import { DiscordManager } from "./discord";
 
 dotenv.config();
 new EnvChecker().init();
@@ -37,6 +39,7 @@ app.get("/", function (req, res) {
 
 SocketHandler.getInstance(httpServer);
 
+readLocalStorageData().discord.enabled ? DiscordManager.getInstance() : null;
 httpServer.listen(process.env.SERVER_PORT, () => {
   console.log(`Server ready on port ${process.env.SERVER_PORT}.`);
 });

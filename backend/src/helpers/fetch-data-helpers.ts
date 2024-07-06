@@ -21,6 +21,8 @@ export function downloadPng(url: string, outputPath: string) {
         const fileStream = fs.createWriteStream(
           path.join(FOLDER_PATH_DOWNLOADED_CONTENT, outputPath)
         );
+        //@ts-expect-error When importing discord.js package ts error occurs like
+        // createWriteStream does not return writeable stream somehow
         response.pipe(fileStream);
         response.on("end", () => {
           fileStream.close();
