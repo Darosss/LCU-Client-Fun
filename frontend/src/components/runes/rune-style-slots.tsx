@@ -7,7 +7,7 @@ import { RuneStyle } from "@/shared";
 import styles from "./rune-style-slots.module.scss";
 
 export function RuneStyleSlots() {
-  const { currentPage, headRunesData } = useRunesContext();
+  const { currentPageState:[currentPage], headRunesData } = useRunesContext();
   const [primaryStyleRune, secondaryStyleRune] = useMemo(() => {
     if (!currentPage) return [];
     const primaryStyleRune = headRunesData.find(
