@@ -2,11 +2,11 @@
 $powershellPath = (Get-Command powershell).Source
 
 # Command to run the frontend project in a new PowerShell window
-$frontendCommand = "cd ./backend; npm run dev"
+$frontendCommand = "cd ./backend; npm start"
 Start-Process -FilePath $powershellPath -ArgumentList "-NoExit", "-Command", $frontendCommand
 
 # Command to run the backend project in a new PowerShell window
-$backendCommand = "cd ./frontend; npm run dev"
+$backendCommand = "cd ./frontend; npm start"
 Start-Process -FilePath $powershellPath -ArgumentList "-NoExit", "-Command", $backendCommand
 
 Start-Sleep -Seconds 5
