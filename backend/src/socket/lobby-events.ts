@@ -42,6 +42,17 @@ export const onLobbyEvents = (
       else callback("An error occured while trying to get leave the lobby");
     }
   });
+  socket.on("switchTeamsInLobby", async (data, callback) => {
+    try {
+      await lcuHandlerFactory.getLobbyHandler()!.switchTeamsInLobby(data);
+
+      callback(null, true);
+    } catch (error) {
+      console.error("Error occured in switchTeamsInLobby event.", error);
+      if (error instanceof Error) callback(error.message);
+      else callback("An error occured while trying to get join the team");
+    }
+  });
 
   socket.on("changeRolePositionPreference", async (data, callback) => {
     try {

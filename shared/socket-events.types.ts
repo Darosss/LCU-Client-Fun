@@ -33,6 +33,7 @@ import {
   RecommendedRunesData,
   RunePageData,
   RunesData,
+  SwitchTeamParam,
 } from ".";
 
 type CallbackType<CBData, Error = unknown> = (
@@ -106,6 +107,11 @@ export type ClientToServerEvents = {
 
   managePlayerInLobby: (
     data: ManagePlayerInLobbyOpts,
+    cb: CallbackType<boolean, string>
+  ) => void;
+
+  switchTeamsInLobby: (
+    data: SwitchTeamParam,
     cb: CallbackType<boolean, string>
   ) => void;
 

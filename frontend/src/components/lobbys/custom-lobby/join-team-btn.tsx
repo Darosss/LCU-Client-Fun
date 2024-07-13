@@ -2,6 +2,7 @@ import React from "react";
 import { useSocketEventsContext } from "@/socket";
 import { SwitchTeamParam } from "@/shared";
 import { Button } from "@/components";
+import { toast } from "react-toastify";
 
 interface JoinTeamButtonProps {
   lengthLobbyMembers: number;
@@ -14,17 +15,20 @@ export function JoinTeamButton({
   maxTeamSize,
   changeToTeam,
 }: JoinTeamButtonProps) {
-  const {} = useSocketEventsContext;
+  const {emits} = useSocketEventsContext();
+
+
   if (lengthLobbyMembers < maxTeamSize) {
     return (
       <Button
         defaultButtonType="info"
         onClick={() => {
-          //TODO: add join team
-          // lobbyLCUHandler?.switchTeamsInLobby(changeToTeam);
+          emits.switchTeamsInLobby(changeToTeam, (error,data)=>{
+            if(error ||!data) return toast.error(error || "Couldn't join teams")
+          })
         }}
       >
-        Join
+        Joinxd
       </Button>
     );
   }

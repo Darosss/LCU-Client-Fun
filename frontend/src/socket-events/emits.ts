@@ -75,6 +75,10 @@ export const getSocketEmitsFunctions = (
       socketConnection.emit("managePlayerInLobby", manageData, (error, data) =>
         callback(error, data)
       ),
+    switchTeamsInLobby: (teamData, callback) =>
+      socketConnection.emit("switchTeamsInLobby", teamData, (error, data) =>
+        callback(error, data)
+      ),
     editExistingBotInCustomLobby: (manageData, callback) =>
       socketConnection.emit(
         "editExistingBotInCustomLobby",
