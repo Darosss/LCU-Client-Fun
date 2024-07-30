@@ -1,5 +1,31 @@
 # Custom LCU Client LOL
 
+### --
+
+#### Use at Your Own Risk
+
+This project may violate Riot Games' terms of service. By using this project, you acknowledge that you do so at your own risk. The creators and contributors of this project are not responsible for any consequences that may arise from using this software, including but not limited to:
+
+#### Account bans / Restrictions
+
+Legal action from Riot Games
+Riot Games' Terms of Service
+Please refer to Riot Games' Terms of Service to understand the rules and regulations governing the use of their services and software. It is important to ensure that you are not violating their terms by using this project.
+
+#### No Warranty
+
+This project is provided "as is" without any warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the software or the use or other dealings in the software.
+
+#### Contribution
+
+By contributing to this project, you agree that your contributions do not violate any terms of service of Riot Games or any other third party.
+
+#### Acknowledgment
+
+By using this project, you acknowledge that you have read and understand this disclaimer and agree to use this project at your own risk.
+
+### ---
+
 _note: features described in roadmap probably will be added to client soon.<br>Rather nothing more will NOT be added fe. shop, skins, emotes etc._
 
 I'm making this just for fun.
